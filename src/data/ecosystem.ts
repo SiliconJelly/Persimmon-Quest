@@ -1,3 +1,10 @@
+/** Prefix for static assets on GitHub Pages (`basePath` in next.config). Empty in dev if unset. */
+const publicBase = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+function publicPath(path: string) {
+  return `${publicBase}${path}`;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -22,7 +29,7 @@ export const products: Product[] = [
     subName: "The Infrastructure Of Care.",
     description:
       "A facility-grade hardware node that transforms intake, biometrics, and communication into one intelligent eldercare surface.",
-    folderPath: "/images/kiosk_sequence",
+    folderPath: publicPath("/images/kiosk_sequence"),
     frameCount: 275,
     frameExtension: "webp",
     themeColor: "#F4522D",
@@ -61,7 +68,7 @@ export const products: Product[] = [
     subName: "Ruggedized Companion.",
     description:
       "Bedside durability meets high-performance computing for real-time care coordination and resident-friendly interaction.",
-    folderPath: "/images/tablet_sequence",
+    folderPath: publicPath("/images/tablet_sequence"),
     frameCount: 184,
     frameExtension: "webp",
     themeColor: "#E5E7EB",
@@ -100,7 +107,7 @@ export const products: Product[] = [
     subName: "Therapy-Style Video Chat.",
     description:
       "A senior-first software layer that keeps families, caregivers, and therapists emotionally present inside every room.",
-    folderPath: "/images/yunomi_sequence",
+    folderPath: publicPath("/images/yunomi_sequence"),
     frameCount: 223,
     frameExtension: "webp",
     themeColor: "#F4522D",
