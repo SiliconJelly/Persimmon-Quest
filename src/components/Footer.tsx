@@ -1,20 +1,27 @@
+"use client";
+
+import { useLanguage } from "@/lib/LanguageContext";
+import { nav, footer } from "@/data/content";
+
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="border-t border-white/10 bg-black/70">
-      <div className="mx-auto flex max-w-7xl flex-col gap-5 px-6 py-10 md:flex-row md:items-center md:justify-between md:px-10">
+      <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-10 sm:px-6 md:flex-row md:items-center md:justify-between md:px-10">
         <div>
-          <p className="text-sm font-semibold tracking-[0.2em] text-white">PERSIMMON QUEST</p>
-          <p className="mt-2 text-xs text-zinc-400">Deeptech infrastructure for future-ready nursing homes.</p>
+          <p className="text-sm font-semibold tracking-[0.2em] text-white">{t(nav.brand)}</p>
+          <p className="mt-2 text-xs text-zinc-400">{t(footer.tagline)}</p>
         </div>
-        <div className="flex items-center gap-5 text-xs text-zinc-300">
+        <div className="flex flex-wrap items-center gap-5 text-xs text-zinc-300">
           <a href="#" className="transition hover:text-persimmon">
-            Technical Whitepapers
+            {t(footer.links.whitepapers)}
           </a>
           <a href="#" className="transition hover:text-persimmon">
-            Compliance Documentation
+            {t(footer.links.compliance)}
           </a>
           <a href="mailto:founder@persimmon.quest" className="transition hover:text-persimmon">
-            Contact
+            {t(footer.links.contact)}
           </a>
         </div>
       </div>

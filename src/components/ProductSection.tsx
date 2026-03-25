@@ -6,12 +6,15 @@ import { useReducedMotion } from "framer-motion";
 import CanvasScrubber from "@/components/CanvasScrubber";
 import NarrativeOverlay from "@/components/NarrativeOverlay";
 import { Product } from "@/data/ecosystem";
+import { useLanguage } from "@/lib/LanguageContext";
+import { productLabels } from "@/data/content";
 
 interface ProductSectionProps {
   product: Product;
 }
 
 export default function ProductSection({ product }: ProductSectionProps) {
+  const { t } = useLanguage();
   const sections = [product.section1, product.section2, product.section3];
   const scrollVh = Math.max(400, Math.min(620, Math.round(product.frameCount * 2)));
   const reduceMotion = useReducedMotion();
@@ -71,17 +74,17 @@ export default function ProductSection({ product }: ProductSectionProps) {
         />
       </div>
 
-      <div className="mx-auto -mt-24 mb-16 max-w-7xl px-6 md:px-10">
-        <div className="rounded-2xl border border-white/10 bg-black/45 p-6 backdrop-blur-xl md:flex md:items-end md:justify-between">
+      <div className="mx-auto -mt-24 mb-12 max-w-7xl px-4 sm:px-6 md:px-10">
+        <div className="rounded-2xl border border-white/10 bg-black/45 p-5 sm:p-6 backdrop-blur-xl flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-persimmon">Commercial Model</p>
-            <h3 className="mt-3 text-2xl font-semibold text-white">{product.buyNowSection.price}</h3>
-            <p className="mt-1 text-sm text-zinc-300">{product.buyNowSection.unit}</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-persimmon">{t(productLabels.commercialModel)}</p>
+            <h3 className="mt-3 text-2xl font-semibold text-white">{t(product.buyNowSection.price)}</h3>
+            <p className="mt-1 text-sm text-zinc-300">{t(product.buyNowSection.unit)}</p>
             <p className="mt-2 text-xs uppercase tracking-[0.18em] text-zinc-400">
-              Sequence warmup {preloadProgress}%
+              {t(productLabels.sequenceWarmup)} {preloadProgress}%
             </p>
           </div>
-          <p className="mt-4 max-w-xl text-sm text-zinc-300 md:mt-0">{product.buyNowSection.compliance}</p>
+          <p className="max-w-xl text-sm text-zinc-300">{t(product.buyNowSection.compliance)}</p>
         </div>
       </div>
     </section>

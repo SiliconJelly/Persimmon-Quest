@@ -31,3 +31,31 @@ body {
   background: #f4522d;
   color: #ffffff;
 }
+
+@keyframes logo-shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.logo-shine:hover {
+  filter: drop-shadow(0 0 12px rgba(244, 82, 45, 0.7)) drop-shadow(0 0 24px rgba(255, 140, 90, 0.4));
+}
+
+.logo-shine:hover + .brand-text {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #f4522d 40%,
+    #ff8c5a 60%,
+    #ffffff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logo-shine 1.5s ease-in-out infinite;
+}

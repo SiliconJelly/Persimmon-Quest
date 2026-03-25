@@ -1,3 +1,4 @@
+import Chatbot from "@/components/Chatbot";
 import CTASection from "@/components/CTASection";
 import EcosystemSection from "@/components/EcosystemSection";
 import Footer from "@/components/Footer";
@@ -23,6 +24,7 @@ export default function HomePage() {
       <CTASection />
       <Footer />
       <MouseSpotlight />
+      <Chatbot />
     </main>
   );
 }

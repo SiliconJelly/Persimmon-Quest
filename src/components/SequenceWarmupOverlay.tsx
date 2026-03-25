@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
+import { warmupOverlay } from "@/data/content";
 
 interface WarmupSequence {
   id: string;
@@ -23,6 +25,7 @@ export default function SequenceWarmupOverlay({
   enabled = false,
   sequences
 }: SequenceWarmupOverlayProps) {
+  const { t } = useLanguage();
   const [progress, setProgress] = useState(0);
   const [ready, setReady] = useState(false);
 
@@ -87,7 +90,6 @@ export default function SequenceWarmupOverlay({
             .catch(() => {});
         };
 
-        // Use idle slots to reduce UI contention while warming assets.
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const ric = (window as any).requestIdleCallback as
           | undefined
@@ -109,9 +111,9 @@ export default function SequenceWarmupOverlay({
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/85 backdrop-blur-sm">
       <div className="w-[min(90vw,30rem)] rounded-2xl border border-white/15 bg-zinc-950/80 p-6 text-center">
-        <p className="text-xs uppercase tracking-[0.24em] text-persimmon">Warming visual sequences</p>
-        <h2 className="mt-2 text-2xl font-semibold text-white">Preparing smooth scrollytelling</h2>
-        <p className="mt-3 text-sm text-zinc-300">Optimizing assets before interaction.</p>
+        <p className="text-xs uppercase tracking-[0.24em] text-persimmon">{t(warmupOverlay.eyebrow)}</p>
+        <h2 className="mt-2 text-2xl font-semibold text-white">{t(warmupOverlay.heading)}</h2>
+        <p className="mt-3 text-sm text-zinc-300">{t(warmupOverlay.body)}</p>
 
         <div className="mt-6 h-2 w-full overflow-hidden rounded-full bg-zinc-800">
           <div
