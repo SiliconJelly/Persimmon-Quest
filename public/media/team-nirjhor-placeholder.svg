@@ -1,0 +1,22 @@
+<svg width="640" height="640" viewBox="0 0 640 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="640" rx="320" fill="#111827"/>
+  <circle cx="248" cy="152" r="154" fill="url(#halo)" opacity=".72"/>
+  <path d="M188 618c14-151 81-240 134-240s120 89 134 240H188Z" fill="#202932"/>
+  <path d="M246 368c26 23 72 23 98 0v72c0 27-22 49-49 49s-49-22-49-49v-72Z" fill="#C99A73"/>
+  <path d="M181 268c0-77 48-139 115-139s115 62 115 139c0 90-52 145-115 145s-115-55-115-145Z" fill="#D8AD87"/>
+  <path d="M174 250c5-84 54-142 124-142 62 0 108 44 121 114-53-18-103-39-145-73-23 49-56 82-100 101Z" fill="#0B1017"/>
+  <path d="M180 288c-19 2-34-12-34-33 0-20 14-34 32-31l14 58-12 6Z" fill="#D8AD87"/>
+  <path d="M412 288c19 2 34-12 34-33 0-20-14-34-32-31l-14 58 12 6Z" fill="#D8AD87"/>
+  <path d="M236 295c18 17 51 26 85 23 30-2 58-12 74-28-12 74-51 123-99 123-48 0-88-47-100-121 12 1 26 2 40 3Z" fill="#E4BD9A" opacity=".34"/>
+  <path d="M126 620c17-98 91-170 180-170h28c89 0 163 72 180 170H126Z" fill="#0D1117"/>
+  <path d="M228 472 320 620l92-148c54 32 91 86 102 148H126c11-62 48-116 102-148Z" fill="#171E27"/>
+  <path d="M320 620 228 472c20-12 43-19 68-20l24 41 24-41c25 1 48 8 68 20L320 620Z" fill="#E88736" opacity=".88"/>
+  <path d="M147 619c11-64 50-119 105-151" stroke="#E0E5EC" stroke-opacity=".14" stroke-width="10" stroke-linecap="round"/>
+  <defs>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(248 152) rotate(90) scale(154)">
+      <stop stop-color="#FFFFFF" stop-opacity=".42"/>
+      <stop offset=".52" stop-color="#E88736" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#111827" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
