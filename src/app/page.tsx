@@ -16,9 +16,9 @@ import {
   Radio,
   Sparkles,
   TabletSmartphone,
-  UsersRound,
-  Zap
+  UsersRound
 } from "lucide-react";
+import SiteNav from "./SiteNav";
 
 const products = [
   {
@@ -141,6 +141,33 @@ const faqs = [
   ]
 ];
 
+const roadmapSteps = [
+  {
+    number: "01",
+    title: "MVP System",
+    icon: Gauge,
+    copy: "Ship the focused care-room prototype: neuroadaptive gameplay kiosk, qBand EEG/headband integration, and a lightweight analytics dashboard for facility teams."
+  },
+  {
+    number: "02",
+    title: "Nursing Home Pilots",
+    icon: Building2,
+    copy: "Deploy with Japanese elderly care facilities, validate daily engagement workflows, and tune the experience around seniors, caregivers, and operators."
+  },
+  {
+    number: "03",
+    title: "Longitudinal Research Layer",
+    icon: Radio,
+    copy: "Collect privacy-preserving engagement and brain-health signals that support clinical validation and computational neuroscience research over time."
+  },
+  {
+    number: "04",
+    title: "Persimmon OS Scale",
+    icon: Layers3,
+    copy: "Expand into a broader neuroadaptive care OS for caregivers, researchers, and partner facilities across Japan's aging society."
+  }
+];
+
 function ProductVisual({ type }: { type: string }) {
   return (
     <div className={`product-visual product-visual--${type}`} aria-hidden="true">
@@ -175,36 +202,7 @@ export default function Home() {
   return (
     <main className="min-h-screen overflow-hidden bg-chassis text-ink">
       <div className="noise-layer" />
-      <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/50 bg-chassis/78 backdrop-blur-xl">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
-          <a href="#top" className="group flex items-center gap-3.5" aria-label="Persimmon Quest home">
-            <span className="nav-logo-shell">
-              <img className="nav-logo-mark" src="/media/logo_3d.svg" alt="" aria-hidden="true" />
-            </span>
-            <span className="brand-copy">
-              <span className="brand-title">Persimmon Quest</span>
-              <span className="brand-subtitle">Pro aging neurotech OS for Japan</span>
-            </span>
-          </a>
-          <div className="hidden items-center gap-2 lg:flex">
-            {[
-              ["Product", "#showcase"],
-              ["Facility", "#facility"],
-              ["Systems", "#systems"],
-              ["Team", "#team"],
-              ["Deploy", "#deploy"]
-            ].map(([item, href]) => (
-              <a className="nav-key" href={href} key={item}>
-                {item}
-              </a>
-            ))}
-          </div>
-          <a className="primary-key hidden sm:inline-flex" href="#deploy">
-            <Zap className="h-4 w-4" />
-            Invest in Us
-          </a>
-        </div>
-      </nav>
+      <SiteNav />
 
       <section id="top" className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-5 pb-20 pt-32 sm:px-8 lg:grid-cols-[minmax(0,1.34fr)_minmax(22rem,0.66fr)] lg:gap-8 lg:pt-24 xl:grid-cols-[minmax(0,1.3fr)_minmax(28rem,0.7fr)]">
         <div className="relative z-10">
@@ -448,6 +446,63 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="roadmap" className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+        <ScrewFrame className="roadmap-panel">
+          <div className="roadmap-header">
+            <div>
+              <p className="section-label"><Gauge className="h-4 w-4" /> Product roadmap</p>
+              <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-normal drop-shadow-[0_1px_0_#ffffff] sm:text-5xl">
+                From focused MVP to Japan-scale neuroadaptive care OS.
+              </h2>
+            </div>
+            <p className="max-w-lg text-base font-medium leading-7 text-label">
+              A disciplined path from first clinical-grade interactions to a measurable care infrastructure layer for aging brain research.
+            </p>
+          </div>
+
+          <div className="roadmap-timeline" aria-label="Persimmon Quest roadmap milestones">
+            {roadmapSteps.map((step, index) => {
+              const Icon = step.icon;
+
+              return (
+                <div className="roadmap-step" key={step.number}>
+                  <div className="roadmap-node" aria-hidden="true">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <div className="roadmap-card">
+                    <span className="roadmap-index">Step {step.number}</span>
+                    <h3>{step.title}</h3>
+                    <p>{step.copy}</p>
+                    <span className="roadmap-pulse" aria-hidden="true" />
+                  </div>
+                  {index < roadmapSteps.length - 1 ? <span className="roadmap-connector" aria-hidden="true" /> : null}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="roadmap-contact">
+            <div className="roadmap-contact-grid" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+            <p className="section-label justify-center"><Mail className="h-4 w-4" /> Partner signal</p>
+            <h3>Build the pilot network with us.</h3>
+            <p>
+              We are speaking with nursing home operators, neuroscience researchers, care partners, and aligned investors.
+            </p>
+            <a className="roadmap-contact-button" href="mailto:hello@persimmon.quest">
+              <Mail className="h-4 w-4" />
+              Get in Touch
+            </a>
+          </div>
+        </ScrewFrame>
+      </section>
+
       <section id="newsletter" className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
         <ScrewFrame className="newsletter-panel">
           <div className="newsletter-copy">
@@ -460,7 +515,7 @@ export default function Home() {
             <iframe
               src="https://siliconjelly.substack.com/embed?transparent=1"
               width="480"
-              height="360"
+              height="320"
               style={{ border: 0, background: "transparent" }}
               frameBorder="0"
               scrolling="no"
