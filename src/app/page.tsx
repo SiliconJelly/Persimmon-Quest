@@ -21,7 +21,7 @@ export default function Home() {
             </span>
           </div>
           <h1 className="hero-title max-w-4xl font-black tracking-normal text-ink drop-shadow-[0_1px_0_#ffffff]">
-            Reimagining virtual reality for aging brains.
+            Reimagining virtual reality for aging brains
           </h1>
           <p className="mt-7 max-w-2xl text-lg font-medium leading-8 text-label">
             Persimmon Quest is developing a familiar, pachinko-inspired neurogaming environment for nursing homes. The proposed system pairs supervised engagement with consent-based brain-signal research to support better aging-brain science.

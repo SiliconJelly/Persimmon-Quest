@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, UsersRound } from "lucide-react";
+import { Linkedin, Mail, UsersRound } from "lucide-react";
 import Reveal from "../components/Reveal";
 import { teamMembers } from "../data";
 import { ScrewFrame } from "../components/ui";
@@ -41,7 +41,26 @@ export default function TeamPage() {
                 <div className="team-card-body">
                   <h3 className="text-3xl font-black tracking-normal">{member.name}</h3>
                   <p className="mt-2 font-mono text-[0.68rem] font-bold uppercase tracking-[0.08em] text-accent">{member.role}</p>
-                  <p className="mt-5 text-sm font-medium leading-7 text-label">{member.copy}</p>
+                  <div className="team-bio">
+                    {member.copy.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+                <div className="team-card-controls">
+                  <div className="team-contact-badges" aria-label={`${member.name} contact links`}>
+                    <a href={member.linkedin} target="_blank" rel="noreferrer" aria-label={`${member.name} LinkedIn profile`}>
+                      <Linkedin className="h-4 w-4" />
+                    </a>
+                    <a href={`mailto:${member.email}`} aria-label={`Email ${member.name}`}>
+                      <Mail className="h-4 w-4" />
+                    </a>
+                  </div>
+                  <div className="team-skill-badges" aria-label={`${member.name} skill badges`}>
+                    {member.badges.map((badge) => (
+                      <span key={badge}>{badge}</span>
+                    ))}
+                  </div>
                 </div>
               </ScrewFrame>
             </Reveal>

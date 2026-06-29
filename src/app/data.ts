@@ -230,13 +230,37 @@ export const teamMembers = [
     name: "Nirjhor",
     role: "Founder, CEO",
     avatar: "/media/team-nirjhor.png",
-    copy: "Leading Persimmon Quest's product direction, edge AI architecture, and Japan-first research infrastructure."
+    copy: [
+      "Directs the growth of the project from a non-profit FRO into a scalable deep-tech start-up, with a clear plan to commercialization. Drives cross-border research alliances with global labs and institutional clinical partners. And specializes in Physical AI implementation. Actively fundraising for R&D: to develop the core neural infrastructure MVP with product design and multi-device data synchronization strategy for public health.",
+      "Nirjhor is a sophomore at Ritsumeikan APU, in Japan. Currently taking a study-break to establish his founder-market-fit in neurotech."
+    ],
+    linkedin: "https://linkedin.com/in/siliconjelly",
+    email: "nirjhor@persimmon.quest",
+    badges: ["First-Principles Builder", "FRO Venture Pioneer"]
   },
   {
     name: "Dr. Yana",
-    role: "Head of Research",
+    role: "Head of Clinical Neuroscience",
     avatar: "/media/team-yana.png",
-    copy: "Directing research planning, neuroadaptive modeling, and cognitive exercise design for future supervised studies."
+    copy: [
+      "Translates clinical medical research and neural imaging paradigms to a very adaptive, and feature-rich software interface designing. Also sets the brain activity monitoring criteria and IRB-compliant workflows to safely deploy non-invasive wellness data pipelines directly into on-device systems.",
+      "A proud mother and a fifth-year Neuroscience PhD researcher at the University of Wyoming, Yana pairs rigorous academic inquiry with formal medical training. She completed her Doctor of Medicine (MD) at Tashkent Medical Academy."
+    ],
+    linkedin: "https://www.linkedin.com/in/muzayyana-akhmadjonova-49191a1ab/",
+    email: "makhmadj@uwyo.edu",
+    badges: ["Care Facility UI/UX", "Clinical Trials (IRB)"]
+  },
+  {
+    name: "Mushfiq",
+    role: "DSP Engineer, CTO",
+    avatar: "/media/team-mushfiq.png",
+    copy: [
+      "Engineers the low-level system, and the real-time digital signal processing (DSP) layers. Programs low-level firmware required to extract research-grade EEG signals on resource-constrained edge devices. Ensures data integrity across the full product development cycle, establishing the hardware reliability required for pilot programs.",
+      "Mushfiqul Amin is currently a senior at Bangladesh University of Engineering and Technology, EEE Department."
+    ],
+    linkedin: "https://www.linkedin.com/in/amin-mushfiqul/",
+    email: "2106194@eee.buet.ac.bd",
+    badges: ["Embedded Firmware", "Biosignal Data Integrity"]
   }
 ];
 

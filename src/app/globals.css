@@ -114,78 +114,89 @@ a {
   color: var(--accent);
 }
 
+.brand-lockup {
+  position: relative;
+  border-radius: 24px;
+  padding: 0.42rem 0.86rem 0.42rem 0.5rem;
+  isolation: isolate;
+  transform: translateZ(0);
+}
+
+.brand-lockup::before {
+  content: "";
+  position: absolute;
+  inset: -0.18rem -0.35rem -0.18rem -0.22rem;
+  z-index: -1;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 13% 25%, rgba(255, 255, 255, 0.78), transparent 4.8rem),
+    linear-gradient(145deg, rgba(240, 245, 251, 0.62), rgba(217, 228, 240, 0.42));
+  box-shadow:
+    8px 9px 16px rgba(151, 166, 188, 0.28),
+    -7px -7px 14px rgba(255, 255, 255, 0.72),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.72),
+    inset -3px -3px 7px rgba(145, 158, 178, 0.2);
+  opacity: 0.9;
+}
+
 .nav-logo-shell {
   position: relative;
   display: grid;
-  height: 3.08rem;
-  width: 3.08rem;
+  height: 3.45rem;
+  width: 3.45rem;
   place-items: center;
-  overflow: hidden;
-  flex: 0 0 3.08rem;
-  border-radius: 16px;
-  background:
-    radial-gradient(circle at 32% 25%, rgba(255, 255, 255, 0.96), transparent 34%),
-    linear-gradient(145deg, #f9fbff 0%, #e3e9f2 48%, #cfd9e7 100%);
-  box-shadow:
-    8px 8px 16px rgba(186, 190, 204, 0.9),
-    -7px -7px 15px rgba(255, 255, 255, 0.96),
-    inset 1px 1px 0 rgba(255, 255, 255, 0.82),
-    inset -1px -1px 2px rgba(163, 177, 198, 0.34);
+  overflow: visible;
+  flex: 0 0 3.45rem;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
   transition:
     box-shadow 260ms ease,
     transform 260ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .nav-logo-shell::before {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border-radius: 12px;
-  background: rgba(224, 229, 236, 0.38);
-  box-shadow: inset 2px 2px 4px rgba(186, 190, 204, 0.52), inset -2px -2px 4px rgba(255, 255, 255, 0.76);
+  content: none;
 }
 
 .nav-logo-shell::after {
   content: "";
   position: absolute;
-  inset: 4px;
-  border-radius: 12px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.58), transparent 40%, rgba(232, 135, 54, 0.1)),
-    radial-gradient(circle at 68% 74%, rgba(163, 177, 198, 0.2), transparent 34%);
+  inset: 0.18rem;
+  border-radius: inherit;
+  background: transparent;
+  box-shadow:
+    9px 10px 16px rgba(119, 133, 154, 0.28),
+    -5px -5px 10px rgba(255, 255, 255, 0.86);
   pointer-events: none;
 }
 
 .nav-logo-mark {
   position: relative;
   z-index: 1;
-  height: 2.34rem;
-  width: 2.34rem;
+  height: 3.67rem;
+  width: 3.67rem;
   object-fit: contain;
-  opacity: 0.94;
+  opacity: 0.98;
   filter:
-    drop-shadow(1px 1px 0 rgba(173, 95, 29, 0.26))
-    drop-shadow(-1px -1px 0 rgba(255, 255, 255, 0.84))
-    drop-shadow(0 5px 5px rgba(119, 133, 154, 0.16));
-  transform: translate(-0.5px, 0.5px);
+    drop-shadow(1.5px 1.5px 0 rgba(130, 78, 38, 0.28))
+    drop-shadow(-1.5px -1.5px 0 rgba(255, 255, 255, 0.88))
+    drop-shadow(0 7px 8px rgba(119, 133, 154, 0.28));
+  transform: translateY(-0.08rem);
   transition: filter 260ms ease, opacity 260ms ease;
 }
 
 .group:hover .nav-logo-shell {
-  transform: translateY(-1px) scale(1.01);
-  box-shadow:
-    10px 10px 20px rgba(186, 190, 204, 0.95),
-    -8px -8px 18px rgba(255, 255, 255, 0.98),
-    inset 1px 1px 0 rgba(255, 255, 255, 0.86),
-    inset -1px -1px 2px rgba(163, 177, 198, 0.28);
+  transform: none;
+  box-shadow: none;
 }
 
 .group:hover .nav-logo-mark {
   opacity: 1;
   filter:
-    drop-shadow(1px 1px 0 rgba(173, 95, 29, 0.32))
-    drop-shadow(-1px -1px 0 rgba(255, 255, 255, 0.9))
-    drop-shadow(0 0 8px rgba(232, 135, 54, 0.22));
+    drop-shadow(1.5px 1.5px 0 rgba(130, 78, 38, 0.3))
+    drop-shadow(-1.5px -1.5px 0 rgba(255, 255, 255, 0.9))
+    drop-shadow(0 8px 9px rgba(119, 133, 154, 0.3));
 }
 
 .group:active .nav-logo-shell {
@@ -1553,16 +1564,25 @@ a {
 
 .team-grid {
   display: grid;
-  gap: 2rem;
+  gap: clamp(1.25rem, 2vw, 2rem);
+  align-items: stretch;
+}
+
+.team-grid > .reveal {
+  display: flex;
 }
 
 .team-card {
+  position: relative;
   display: grid;
+  grid-template-rows: auto 1fr;
+  width: 100%;
+  height: 100%;
   min-height: 24rem;
   overflow: visible;
-  padding: 0 1.6rem 1.6rem;
+  padding: 0 1.6rem 6.75rem;
   isolation: isolate;
-  align-content: start;
+  align-content: stretch;
   transition:
     transform 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
     box-shadow 300ms ease;
@@ -1662,15 +1682,130 @@ a {
 .team-card-body {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   margin-top: -2.8rem;
-  min-height: 15rem;
+  min-height: 31rem;
   border-radius: 22px;
-  padding: 4.65rem 1.5rem 1.5rem;
+  padding: 4.65rem 1.15rem 1.35rem;
   background:
     radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.52), transparent 8rem),
     rgba(240, 242, 245, 0.44);
   box-shadow: inset 4px 4px 9px rgba(186, 190, 204, 0.7), inset -4px -4px 9px rgba(255, 255, 255, 0.9);
   text-align: center;
+}
+
+.team-bio {
+  flex: 0 0 auto;
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+  margin-top: 1.35rem;
+  text-align: left;
+}
+
+.team-bio p {
+  margin: 0;
+  color: var(--label);
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.62;
+  text-align: left;
+  hyphens: auto;
+}
+
+.team-card-controls {
+  position: absolute;
+  z-index: 4;
+  left: 1.55rem;
+  right: 1.55rem;
+  bottom: 1.35rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 0.7rem;
+  height: 4.45rem;
+  min-height: 4.45rem;
+}
+
+.team-skill-badges {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 7.4rem), 1fr));
+  align-content: end;
+  align-items: stretch;
+  align-self: flex-end;
+  gap: 0.48rem;
+  width: 100%;
+  min-height: 1.85rem;
+  margin-top: 0;
+  text-align: left;
+}
+
+.team-skill-badges span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.85rem;
+  min-width: 0;
+  border-radius: 999px;
+  padding: 0.44rem 0.52rem;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(218, 227, 238, 0.62));
+  color: rgba(74, 88, 110, 0.94);
+  font-family: var(--font-mono), "JetBrains Mono", "Roboto Mono", ui-monospace, monospace;
+  font-size: 0.52rem;
+  font-weight: 900;
+  letter-spacing: 0.025em;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow:
+    3px 4px 8px rgba(119, 133, 154, 0.16),
+    -3px -3px 7px rgba(255, 255, 255, 0.68),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.58);
+}
+
+.team-contact-badges {
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-columns: repeat(2, 2.55rem);
+  align-self: flex-end;
+  gap: 0.45rem;
+}
+
+.team-contact-badges a {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  height: 2.55rem;
+  width: 2.55rem;
+  border-radius: 14px;
+  padding: 0;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(217, 226, 237, 0.72));
+  color: var(--label);
+  box-shadow:
+    7px 8px 14px rgba(119, 133, 154, 0.22),
+    -6px -6px 12px rgba(255, 255, 255, 0.78),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.7),
+    inset -1px -1px 3px rgba(145, 158, 178, 0.2);
+  transition:
+    transform 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.team-contact-badges a:hover {
+  transform: translateY(-2px);
+  color: var(--accent);
+  box-shadow:
+    9px 10px 18px rgba(119, 133, 154, 0.28),
+    -7px -7px 14px rgba(255, 255, 255, 0.86),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.74),
+    0 0 18px rgba(232, 135, 54, 0.2);
 }
 
 .faq-stack {
@@ -2526,6 +2661,16 @@ a {
   }
 }
 
+@media (min-width: 860px) {
+  .team-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .team-skill-badges {
+    min-height: 4.2rem;
+  }
+}
+
 @media (min-width: 1024px) {
   .desktop-nav-links {
     display: flex;
@@ -2823,10 +2968,57 @@ a {
   .team-card {
     min-height: 0;
     padding-inline: 1.1rem;
+    padding-bottom: 8.4rem;
   }
 
   .team-card-body {
     padding-inline: 1.1rem;
+    min-height: 0;
+  }
+
+  .team-skill-badges {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr));
+    gap: 0.42rem;
+    margin-top: 0;
+  }
+
+  .team-skill-badges span {
+    min-height: 1.75rem;
+    padding: 0.38rem 0.45rem;
+    font-size: 0.48rem;
+    letter-spacing: 0.015em;
+  }
+
+  .team-card-controls {
+    left: 1.1rem;
+    right: 1.1rem;
+    bottom: 1.15rem;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.55rem;
+    height: 6.7rem;
+    min-height: 6.7rem;
+    justify-content: flex-end;
+  }
+
+  .team-card-controls .team-contact-badges {
+    order: 2;
+    align-self: flex-start;
+  }
+
+  .team-card-controls .team-skill-badges {
+    order: 1;
+    min-height: 0;
+  }
+
+  .team-contact-badges {
+    justify-content: start;
+    grid-template-columns: repeat(2, 2.7rem);
+  }
+
+  .team-contact-badges a {
+    height: 2.7rem;
+    width: 2.7rem;
   }
 
   .faq-item summary {

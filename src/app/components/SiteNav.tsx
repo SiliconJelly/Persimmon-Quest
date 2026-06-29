@@ -77,9 +77,9 @@ export default function SiteNav() {
       className={`site-nav fixed left-0 top-0 z-50 w-full border-b border-white/50 bg-chassis/78 backdrop-blur-xl ${isVisible ? "site-nav--visible" : "site-nav--hidden"}`}
     >
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
-        <Link href="/" className="group flex min-w-0 items-center gap-3.5" aria-label="Persimmon Quest home">
+        <Link href="/" className="brand-lockup group flex min-w-0 items-center gap-3" aria-label="Persimmon Quest home">
           <span className="nav-logo-shell">
-            <img className="nav-logo-mark" src="/media/logo_3d.svg" alt="" aria-hidden="true" />
+            <img className="nav-logo-mark" src="/media/logo.png" alt="" aria-hidden="true" />
           </span>
           <span className="brand-copy">
             <span className="brand-title">Persimmon Quest</span>

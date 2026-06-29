@@ -13,7 +13,7 @@ export default function ProductShowcase() {
               <CircleDot className="h-4 w-4 fill-accent text-accent" /> The Quest FRO Ecosystem
             </p>
             <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-normal drop-shadow-[0_1px_0_#ffffff] sm:text-5xl">
-              Convergent research and product development for guided brain-health experiences.
+              Convergent research and product development for guided brain-health experiences
             </h2>
           </div>
           <p className="max-w-md text-base font-medium leading-7 text-label">
