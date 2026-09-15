@@ -1,12 +1,13 @@
 "use client";
 
-import { Menu, X, Zap } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const navItems = [
-  ["Product", "/"],
+  ["Products", "/"],
+  ["Connect", "/connect"],
   ["For Clinicians", "/for-clinicians"],
   ["Team", "/team"],
   ["Roadmap", "/roadmap"],
@@ -68,37 +69,40 @@ export default function SiteNav() {
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
+    if (href === "/connect" && pathname === "/demo") return true;
     return pathname.startsWith(href);
   }
 
   return (
     <nav
       ref={navRef}
-      className={`site-nav fixed left-0 top-0 z-50 w-full border-b border-white/50 bg-chassis/78 backdrop-blur-xl ${isVisible ? "site-nav--visible" : "site-nav--hidden"}`}
+      aria-label="Main navigation"
+      className={`site-nav pq-nav ${isVisible ? "site-nav--visible" : "site-nav--hidden"}`}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
-        <Link href="/" className="brand-lockup group flex min-w-0 items-center gap-3" aria-label="Persimmon Quest home">
-          <span className="nav-logo-shell">
-            <img className="nav-logo-mark" src="/media/logo.png" alt="" aria-hidden="true" />
+      <div className="pq-shell pq-nav-inner">
+        <Link href="/" className="pq-brand" aria-label="Persimmon Quest home">
+          <span className="pq-logo-shell">
+            <img className="pq-logo" src="/media/logo.png" alt="" aria-hidden="true" />
           </span>
-          <span className="brand-copy">
-            <span className="brand-title">Persimmon Quest</span>
-            <span className="brand-subtitle">Pro aging neurotech OS for Japan</span>
+          <span className="pq-brand-copy">
+            <span className="pq-brand-title">Persimmon Quest</span>
           </span>
         </Link>
-        <div className="desktop-nav-links items-center gap-2">
-          {navItems.map(([item, href]) => (
-            <Link className={`nav-key ${isActive(href) ? "nav-key--active" : ""}`} href={href} key={item}>
+        <div className="pq-nav-links">
+          {navItems.map(([item, href]) => {
+            // A fresh lobby visit also resets the hash-based simulated session.
+            const NavigationLink = href === "/connect" ? "a" : Link;
+            return <NavigationLink className={`pq-nav-link ${isActive(href) ? "is-active" : ""}`} href={href} aria-current={isActive(href) ? "page" : undefined} key={item}>
               {item}
-            </Link>
-          ))}
+            </NavigationLink>;
+          })}
         </div>
-        <Link className="primary-key desktop-invest-link" href="/contact">
-          <Zap className="h-4 w-4" />
-          Invest in Us
+        <Link className="pq-nav-contact" href="/contact">
+          Let’s talk
+          <ArrowUpRight size={15} />
         </Link>
         <button
-          className="mobile-menu-button lg:hidden"
+          className="pq-menu-button"
           type="button"
           aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={isOpen}
@@ -108,22 +112,24 @@ export default function SiteNav() {
           {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
-      <div id="mobile-navigation" className={`mobile-nav-shell lg:hidden ${isOpen ? "is-open" : ""}`} aria-hidden={!isOpen}>
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="mobile-nav-panel" role="navigation" aria-label="Mobile navigation">
-            {navItems.map(([item, href]) => (
-              <Link
-                className={`mobile-nav-link ${isActive(href) ? "mobile-nav-link--active" : ""}`}
+      <div id="mobile-navigation" className={`pq-mobile-nav ${isOpen ? "is-open" : ""}`} aria-hidden={!isOpen}>
+        <div className="pq-shell">
+          <div className="pq-mobile-panel" role="navigation" aria-label="Mobile navigation">
+            {navItems.map(([item, href]) => {
+              const NavigationLink = href === "/connect" ? "a" : Link;
+              return <NavigationLink
+                className={`pq-mobile-link ${isActive(href) ? "is-active" : ""}`}
                 href={href}
+                aria-current={isActive(href) ? "page" : undefined}
                 key={item}
                 tabIndex={isOpen ? undefined : -1}
+                onClick={() => setIsOpen(false)}
               >
                 {item}
-              </Link>
-            ))}
-            <Link className="mobile-nav-link mobile-nav-link--primary" href="/contact" tabIndex={isOpen ? undefined : -1}>
-              <Zap className="h-4 w-4" />
-              Invest in Us
+              </NavigationLink>;
+            })}
+            <Link className="pq-mobile-link pq-mobile-link--primary" href="/contact" tabIndex={isOpen ? undefined : -1}>
+              Let’s talk <ArrowUpRight size={15} />
             </Link>
           </div>
         </div>

@@ -1,12 +1,12 @@
 # Persimmon Quest
 
-Persimmon Quest is a Japan-first neurotechnology research and product initiative exploring how familiar play, supervised neurofeedback, and privacy-conscious computing can support better aging-brain research.
+Persimmon Quest is a neurotechnology research and product initiative planned for testing in Korean markets, with an expected expansion path across greater Northeast Asia and the wider APAC region. It explores how familiar play, supervised neurofeedback, and privacy-conscious computing can support better aging-brain research.
 
 The project is currently pre-revenue and developing an MVP. Persimmon Quest is not a gambling product, diagnostic system, medical treatment, or clinically validated therapy. The website distinguishes current concepts from planned research and capabilities that would require future evidence, partnerships, and regulatory clearance.
 
 ## Manifesto
 
-Japan's aging society needs technology that treats older adults as participants in the future, not passive recipients of care. Persimmon Quest starts with a simple premise: an engaging daily experience can also become a respectful research interface when consent, dignity, useful feedback, and good governance are designed into the system from the beginning.
+Northeast Asia's aging societies need technology that treats older adults as participants in the future, not passive recipients of care. Persimmon Quest starts with a simple premise: an engaging daily experience can also become a respectful research interface when consent, dignity, useful feedback, and good governance are designed into the system from the beginning.
 
 We are developing three connected product concepts:
 
@@ -14,7 +14,7 @@ We are developing three connected product concepts:
 - **qPad Oasis**: a calm room-level interface for residents, care teams, and families.
 - **qCore Pillar**: an edge-first processing concept intended to give facilities more control over sensitive research signals.
 
-The initial audience is Japanese nursing homes and elderly-care facilities, alongside caregivers, neuroscience researchers, product collaborators, and aligned investors. The long-term ambition is to build useful neuroadaptive infrastructure from repeated, ethically governed real-world engagement.
+The initial target market is South Korea, with planned testing through Korean nursing homes and elderly-care facilities before expanding into greater Northeast Asia and, over time, the wider APAC region. The intended users and partners include caregivers, neuroscience researchers, product collaborators, and aligned investors. The long-term ambition is to build useful neuroadaptive infrastructure from repeated, ethically governed real-world engagement.
 
 ### Focused Research Organization
 
@@ -48,13 +48,13 @@ The Persimmon Quest website should feel like a calm, precise operating surface f
 The repository contains a statically exported Next.js website with these routes:
 
 - `/` - product ecosystem overview
-- `/for-clinicians` - facility value, research context, pilot workflow, and pilot inquiry form
+- `/for-clinicians` - facility value, research context, pilot workflow, and pilot inquiry form for the planned Korean-market testing phase
 - `/team` - founding team and newsletter embed
 - `/roadmap` - FRO milestones and research translation path
 - `/contact` - general inquiry form and project FAQ
 - `/platform` - compatibility redirect to `/for-clinicians`
 
-Both inquiry forms use `mailto:` because the site is hosted as a static GitHub Pages export. Submission therefore depends on the visitor having an email application configured, and each form provides the direct contact address as a fallback.
+The general inquiry form uses an embedded Tally form, with a direct form link as a fallback. The site remains a static GitHub Pages export, so no private application server or database is included in this repository.
 
 ## Architecture
 

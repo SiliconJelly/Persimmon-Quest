@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Footer from "./components/Footer";
-import HomeIntro from "./components/HomeIntro";
 import SiteNav from "./components/SiteNav";
 import "./globals.css";
+import "./redesign.css";
 
 export const metadata: Metadata = {
-  title: "Persimmon Quest | Pro Aging Neurotech OS",
+  title: "Persimmon Quest | Everyday Brain Health",
   description:
-    "A white industrial 3D showcase for pro-aging neurotech, immersive care, and aging brain research."
+    "Thoughtful neurotechnology for meaningful play, shared moments, and a better understanding of the aging brain."
 };
 
 export default function RootLayout({
@@ -17,15 +17,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
-      <head>
-        <link rel="preload" href="/media/asset_initial_trailer.mp4" as="video" type="video/mp4" />
-      </head>
       <body>
-        <div className="noise-layer" />
-        <HomeIntro />
-        <SiteNav />
-        {children}
-        <Footer />
+        <div id="site-content">
+          <a className="pq-skip-link" href="#main-content">Skip to content</a>
+          <SiteNav />
+          {children}
+          <Footer />
+        </div>
       </body>
     </html>
   );

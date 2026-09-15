@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Persimmon Quest</title>
+  <link rel="stylesheet" href="form.css">
+</head>
+<body>
+  <main class="pq-contact">
+    <header>
+      <p class="pq-eyebrow">Start a conversation</p>
+      <h1>Find a way to work together</h1>
+      <p class="pq-intro">For care providers, researchers, collaborators, and investors</p>
+    </header>
+    <div>
+      <p class="pq-preview" id="preview-note">Design reference only · This HTML does not collect submissions</p>
+      <!-- Import form-spec.md into Tally; use embed.html for live submissions. -->
+      <fieldset class="pq-form" disabled aria-describedby="preview-note">
+        <label>Name<input name="name" type="text" autocomplete="name" required></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <label>Organization<input name="organization" type="text" autocomplete="organization"></label>
+        <label>Topic
+          <select name="topic" required>
+            <option value="" selected disabled>Select one</option>
+            <option>Care-facility pilot</option>
+            <option>Research collaboration</option>
+            <option>Product collaboration</option>
+            <option>Investment</option>
+            <option>General inquiry</option>
+          </select>
+        </label>
+        <label class="pq-wide">Message<textarea name="message" rows="6" required></textarea></label>
+        <button class="pq-submit" type="button">Submit</button>
+      </fieldset>
+    </div>
+  </main>
+</body>
+</html>

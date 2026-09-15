@@ -96,7 +96,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <p className="mt-7 font-mono text-[0.68rem] font-bold uppercase tracking-[0.08em] text-accent">{product.type}</p>
-        <h3 className="mt-2 text-2xl font-extrabold tracking-normal">{product.name}</h3>
+        <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em]">{product.name}</h3>
         <div className="product-copy">
           <ul className="product-copy-main">
             {product.copy.map((item) => (

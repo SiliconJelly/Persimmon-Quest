@@ -1,0 +1,19 @@
+* { box-sizing: border-box; }
+body { margin: 0; padding: 40px 20px; background: #f7f2eb; color: #242522; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.pq-contact { width: 100%; max-width: 1160px; margin: auto; padding: 40px; border: 1px solid #d6cec2; border-radius: 24px; background: #fcf9f5; display: grid; grid-template-columns: .9fr 1.1fr; gap: 60px; }
+.pq-eyebrow { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #6e6b66; }
+h1 { margin: 22px 0; font-size: clamp(30px, 4vw, 46px); line-height: 1.1; letter-spacing: -.045em; font-weight: 500; }
+.pq-intro { color: #6e6b66; font-size: 16px; line-height: 1.7; }
+.pq-preview { color: #786c5d; font-size: 12px; line-height: 1.7; margin: 0 0 20px; }
+.pq-form { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.pq-form label { display: grid; gap: 9px; min-width: 0; color: #6e6b66; font-size: 14px; }
+.pq-form input, .pq-form select, .pq-form textarea { width: 100%; min-width: 0; min-height: 52px; border: 1px solid #d6cec2; border-radius: 10px; padding: 14px 16px; background: #fcf9f5; color: #242522; font: inherit; font-size: 16px; }
+.pq-form textarea { resize: vertical; min-height: 160px; }
+.pq-wide, .pq-submit { grid-column: 1 / -1; }
+.pq-submit { border: 0; border-radius: 999px; min-height: 52px; background: #e8783c; color: #231a12; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer; }
+.pq-submit:disabled { cursor: not-allowed; opacity: .6; }
+.pq-form :focus-visible { outline: 2px solid #b7572b; outline-offset: 3px; }
+.pq-form :disabled { cursor: not-allowed; }
+.pq-embed { display: block; border: 0; width: 100%; }
+@media (max-width: 850px) { .pq-contact { grid-template-columns: 1fr; gap: 28px; } }
+@media (max-width: 500px) { body { padding: 16px; } .pq-contact { padding: 26px 20px; border-radius: 18px; } .pq-form { grid-template-columns: 1fr; } }

@@ -33,9 +33,9 @@ import {
 } from "../data";
 
 export const metadata: Metadata = {
-  title: "Persimmon Quest for Nursing Homes | Neuroadaptive Cognitive Engagement for Japan",
+  title: "Persimmon Quest for Nursing Homes | Neuroadaptive Cognitive Engagement for South Korea",
   description:
-    "EEG-guided, pachinko-inspired neuroadaptive engagement hardware for Japanese nursing homes, elderly-care facilities, and research-forward clinics."
+    "EEG-guided, pachinko-inspired neuroadaptive engagement hardware planned for testing with South Korean nursing homes, elderly-care facilities, and research-forward clinics."
 };
 
 const iconMap = [Activity, ClipboardList, Users, Radio] as const;
@@ -43,25 +43,25 @@ const facilityIcons = [Cpu, Users, Activity, Radio, Sparkles, HeartHandshake] as
 
 export default function ForCliniciansPage() {
   return (
-    <main className="clinician-page min-h-screen overflow-hidden bg-chassis text-ink">
+    <main id="main-content" className="clinician-page min-h-screen overflow-hidden bg-chassis text-ink">
       <section className="clinician-hero mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-5 pb-16 pt-32 sm:px-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(28rem,1.1fr)] lg:pt-28">
         <Reveal className="relative z-10">
           <p className="section-label">
             <CircleDot className="h-4 w-4 fill-accent text-accent" /> For clinicians and facilities
           </p>
-          <h1 className="mt-5 max-w-4xl text-5xl font-black leading-none tracking-normal drop-shadow-[0_1px_0_#ffffff] sm:text-6xl">
-            Turn familiar play into measurable cognitive engagement.
+          <h1 className="mt-5 max-w-4xl text-5xl font-medium leading-none tracking-[-0.04em] sm:text-6xl">
+            Meaningful play for everyday care
           </h1>
           <p className="mt-7 max-w-2xl text-lg font-medium leading-8 text-label">
-            Persimmon Quest is developing EEG-informed, pachinko-inspired neuroadaptive sessions for Japanese nursing homes, with the goal of pairing joyful resident engagement with consent-based brain-health research.
+            We’re developing guided play for South Korean care facilities, with a planned path toward greater Northeast Asia and APAC, connecting resident engagement with consent-based brain research
           </p>
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
             <a className="primary-key" href="#pilot">
               <Sparkles className="h-4 w-4" />
-              Apply for Facility Pilot
+              Explore a facility pilot
             </a>
-            <a className="secondary-key" href="#pilot">
-              Request a 20-Minute Demo
+            <a className="secondary-key" href="/connect">
+              Try the experience
               <MoveRight className="h-4 w-4" />
             </a>
           </div>
@@ -74,7 +74,7 @@ export default function ForCliniciansPage() {
           <ScrewFrame className="clinician-hero-visual">
             <Image
               src="/media/care-facility.png"
-              alt="Japanese elderly residents and care staff using Persimmon Quest qBand Controller, qPad Oasis, and qCore Pillar during supervised cognitive engagement."
+              alt="Elderly residents and care staff using Persimmon Quest qBand Air, qPad One, and qCore Pillar during supervised cognitive engagement."
               fill
               priority
               sizes="(min-width: 1024px) 54vw, 100vw"
@@ -98,9 +98,9 @@ export default function ForCliniciansPage() {
             <p className="section-label">
               <Building2 className="h-4 w-4" /> Facility need
             </p>
-            <h2>Elderly care needs more than entertainment. It needs measurable engagement.</h2>
+            <h2>Everyday engagement, lasting insight</h2>
             <p>
-              Many facilities already offer games, TV, karaoke, and light activities. Most of those interactions disappear after the session ends. Persimmon Quest is exploring how a familiar form of Japanese play could become a structured, sensor-guided research experience.
+              We’re exploring how familiar activities can help care teams understand participation over time
             </p>
           </div>
         </Reveal>
@@ -122,15 +122,15 @@ export default function ForCliniciansPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+      <section id="care-workflow" className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <Reveal>
           <div className="clinician-section-heading">
             <p className="section-label">
               <Radio className="h-4 w-4" /> Workflow shift
             </p>
-            <h2>Neurofeedback has lived inside labs. We are exploring a path into daily care.</h2>
+            <h2>From the lab to daily care</h2>
             <p>
-              Traditional neurofeedback and qEEG workflows often required multi-electrode EEG caps, trained operators, and research-grade environments. Persimmon Quest simplifies the resident-facing experience into a comfortable headband and a guided game-like session while the system handles signal capture, session structure, and analytics in the background.
+              A comfortable headband and guided activities are at the center of our proposed care workflow. Staff support setup, consent, and each session.
             </p>
           </div>
         </Reveal>
@@ -158,8 +158,8 @@ export default function ForCliniciansPage() {
             <ScrewFrame className="comparison-card comparison-card--active">
               <div className="comparison-media">
                 <Image
-                  src="/media/after.avif"
-                  alt="Older adult wearing Persimmon Quest qBand Controller while using a guided mobile session."
+                  src="/media/sleep on it.png"
+                  alt="A person resting comfortably while wearing a soft qBand headband"
                   fill
                   sizes="(min-width: 1024px) 45vw, 100vw"
                   className="object-cover"
@@ -183,9 +183,9 @@ export default function ForCliniciansPage() {
               <p className="section-label">
                 <Brain className="h-4 w-4" /> Brain assessment
               </p>
-              <h2>Explore a broader view of neural activity.</h2>
+              <h2>A broader view of neural activity</h2>
               <p>
-                The proposed workflow combines EEG-informed signals, cognitive tasks, and staff observations to explore useful research baselines over time.
+                The proposed workflow combines EEG-informed signals, cognitive tasks, and staff observations to explore useful research baselines over time
               </p>
             </div>
           </Reveal>
@@ -210,9 +210,9 @@ export default function ForCliniciansPage() {
               <p className="section-label">
                 <ClipboardList className="h-4 w-4" /> Staff dashboard
               </p>
-              <h2>Take control, monitor, and customize.</h2>
+              <h2>A clear view for care teams</h2>
               <p>
-                The facility dashboard concept is designed to help staff review session readiness, completion, engagement patterns, and follow-up tasks from one calm operating surface.
+                A dashboard concept for session readiness, participation, and follow-up tasks
               </p>
             </div>
           </Reveal>
@@ -237,9 +237,9 @@ export default function ForCliniciansPage() {
               <p className="section-label">
                 <ShieldCheck className="h-4 w-4" /> Comfort with precision
               </p>
-              <h2>Combine comfort with precision.</h2>
+              <h2>Comfort by design</h2>
               <p>
-                qBand Controller is intended to feel simple and non-intimidating for elderly residents while supporting supervised exploration of neural signals.
+                qBand Air is intended to feel simple and non-intimidating for elderly residents while supporting supervised exploration of neural signals
               </p>
             </div>
           </Reveal>
@@ -247,7 +247,7 @@ export default function ForCliniciansPage() {
             <div className="clinician-feature-media">
               <Image
                 src="/media/qband-comfort-and-precision.png"
-                alt="Japanese elderly resident wearing Persimmon Quest qBand Controller while reviewing qEEG insights."
+                alt="Elderly resident wearing Persimmon Quest qBand Air while reviewing qEEG insights."
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover"
@@ -257,12 +257,12 @@ export default function ForCliniciansPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+      <section id="personal-learning" className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="clinician-science-grid">
           <Reveal>
             <ScrewFrame className="clinician-science-card">
               <p className="section-label">
-                <Brain className="h-4 w-4" /> Neurofeedback
+                <Brain className="h-4 w-4" /> Cognition builds narrative
               </p>
               <h2>What is neurofeedback?</h2>
               <p>
@@ -279,7 +279,7 @@ export default function ForCliniciansPage() {
           <Reveal delay={80}>
             <ScrewFrame className="clinician-science-card">
               <p className="section-label">
-                <Cpu className="h-4 w-4" /> Neuroadaptive learning
+                <Cpu className="h-4 w-4" /> Your personal algorithm
               </p>
               <h2>What is neuroadaptive learning?</h2>
               <p>
@@ -301,13 +301,13 @@ export default function ForCliniciansPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+      <section id="resident-experience" className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="resident-experience">
           <Reveal className="resident-experience__media-stack">
             <div className="clinician-feature-media resident-experience__media">
               <Image
                 src="/media/hero-care.png"
-                alt="Japanese elderly resident wearing Persimmon Quest qBand Controller while using qPad Oasis in a care facility."
+                alt="Elderly resident wearing Persimmon Quest qBand Air while using qPad One in a care facility."
                 fill
                 sizes="(min-width: 1024px) 48vw, 100vw"
                 className="resident-experience__image object-cover"
@@ -315,16 +315,16 @@ export default function ForCliniciansPage() {
             </div>
             <div className="edge-note resident-edge-note">
               <ShieldCheck className="h-4 w-4" />
-              Sensitive session data can be processed closer to the facility, reducing latency and supporting privacy-conscious infrastructure.
+              Our edge-processing approach aims to keep sensitive session data closer to the facility
             </div>
           </Reveal>
           <Reveal delay={80}>
             <div className="resident-experience__content">
               <p className="section-label">
-                <HeartHandshake className="h-4 w-4" /> Resident experience
+                <HeartHandshake className="h-4 w-4" /> Longevity care as a service
               </p>
-              <h2 className="mt-4 text-4xl font-black tracking-normal drop-shadow-[0_1px_0_#ffffff] sm:text-5xl">
-                What residents experience.
+              <h2 className="mt-4 text-4xl font-medium tracking-[-0.04em] sm:text-5xl">
+                Designed around residents
               </h2>
               <div className="resident-card-grid">
                 {clinicianResidentCards.map(([title, copy]) => (
@@ -339,16 +339,20 @@ export default function ForCliniciansPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+      <section id="monarch" className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <Reveal>
-          <div className="clinician-section-heading">
-            <p className="section-label">
-              <Building2 className="h-4 w-4" /> Facility value
-            </p>
-            <h2>What your facility gets.</h2>
-            <p>
-              Persimmon Quest is developing a Focused Research Organization pathway for Japan-first AI-product R&D in elderly brain health. Proposed pilots are intended to test practical engagement workflows while building consent-based infrastructure for longitudinal neuroscience research.
-            </p>
+          <div className="monarch-feature">
+            <div className="clinician-section-heading monarch-copy">
+              <p className="section-label">
+                <Building2 className="h-4 w-4" /> Facility value
+              </p>
+              <h2>Empower the residents</h2>
+              <p>Set agents for consent-based monitoring and care workflow management with Monarch EHR suite</p>
+            </div>
+            <div className="monarch-stage">
+              <img className="monarch-butterflies" src="/media/funky neon monarch.png" width="500" height="473" alt="" aria-hidden="true" loading="lazy" />
+              <img className="monarch-package" src="/media/Monarch.png" width="531" height="470" alt="Monarch EHR suite package — Wings for cognitive care" loading="lazy" />
+            </div>
           </div>
         </Reveal>
         <div className="clinician-card-grid clinician-card-grid--three">
@@ -369,16 +373,17 @@ export default function ForCliniciansPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+      <section id="pilot-workflow" className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <Reveal>
           <ScrewFrame className="pilot-workflow-panel">
             <div className="clinician-section-heading">
               <p className="section-label">
-                <ClipboardList className="h-4 w-4" /> Pilot workflow
+                <ClipboardList className="h-4 w-4" /> Hire us
               </p>
-              <h2>How a facility pilot works.</h2>
+              <h2>A pilot, step by step</h2>
               <p>
-                A Persimmon Quest pilot starts with operational fit, staff readiness, resident consent, and facility safety requirements before any session data becomes part of a research workflow.
+                Contact us to check your facility's operational fit, staff readiness, resident consent planning, and facility safety requirements before we can setup our ecosystem. Fill out{" "}
+                <a className="pq-inline-link" href="https://forms.gle/kzbuLfF125qkUYC19" target="_blank" rel="noopener noreferrer">this form</a>
               </p>
             </div>
             <div className="pilot-step-grid">
@@ -399,9 +404,9 @@ export default function ForCliniciansPage() {
           <ScrewFrame className="ethics-panel">
             <div className="ethics-copy">
               <p className="section-label section-label--dark">
-                <ShieldCheck className="h-4 w-4" /> Trust before scale
+                <ShieldCheck className="h-4 w-4" /> Research ethics
               </p>
-              <h2>Built for trust before scale.</h2>
+              <h2>Trust before scale</h2>
               <p>
                 Elderly brain data must be handled with care. Persimmon Quest communicates privacy, consent, staff supervision, and research ethics clearly from the first demo.
               </p>
@@ -449,88 +454,13 @@ export default function ForCliniciansPage() {
 
       <section id="pilot" className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
         <Reveal>
-          <ScrewFrame className="pilot-form-panel">
-            <div className="pilot-form-copy">
-              <p className="section-label">
-                <Mail className="h-4 w-4" /> Facility pilot
-              </p>
-              <h2>Bring neuroadaptive engagement to your facility.</h2>
-              <p>
-                Join the first wave of Japanese elderly-care partners helping shape a safer, warmer, data-rich future for cognitive wellness.
-              </p>
-              <p className="clinician-disclaimer">
-                Persimmon Quest is developing supervised neuroadaptive engagement technology. Product features may change during pilot development. Not intended to diagnose, treat, cure, or prevent disease.
-              </p>
-              <p className="form-fallback">
-                This form opens your email application. If it does not open, write directly to{" "}
-                <a href="mailto:nirjhor.builds@proton.me">nirjhor.builds@proton.me</a>.
-              </p>
+          <ScrewFrame className="clinician-pilot-invitation">
+            <div>
+              <p className="section-label"><Mail className="h-4 w-4" /> Build with us</p>
+              <h2>Help shape a facility pilot</h2>
+              <p>Tell us about your residents, care team, and goals for a pilot</p>
             </div>
-            <form
-              className="pilot-form"
-              action="mailto:nirjhor.builds@proton.me?subject=Persimmon%20Quest%20Facility%20Pilot%20Application"
-              method="post"
-              encType="text/plain"
-            >
-              <input name="Form" type="hidden" value="Persimmon Quest Facility Pilot Application" />
-              <label>
-                Facility name
-                <input name="01 Facility name" type="text" autoComplete="organization" required />
-              </label>
-              <label>
-                Location in Japan
-                <input name="02 Location in Japan" type="text" autoComplete="address-level2" required />
-              </label>
-              <label>
-                Facility type
-                <select name="03 Facility type" required defaultValue="">
-                  <option value="" disabled>
-                    Select one
-                  </option>
-                  <option>Nursing home</option>
-                  <option>Clinic</option>
-                  <option>Rehabilitation center</option>
-                  <option>Dementia-prevention program</option>
-                  <option>Research partner</option>
-                </select>
-              </label>
-              <label>
-                Number of residents
-                <input name="04 Number of residents" type="number" min="1" inputMode="numeric" />
-              </label>
-              <label>
-                Decision-maker name
-                <input name="05 Decision-maker name" type="text" autoComplete="name" required />
-              </label>
-              <label>
-                Email
-                <input name="06 Email" type="email" autoComplete="email" required />
-              </label>
-              <label>
-                Phone
-                <input name="07 Phone" type="tel" autoComplete="tel" />
-              </label>
-              <label>
-                Interest
-                <select name="08 Interest" required defaultValue="">
-                  <option value="" disabled>
-                    Select one
-                  </option>
-                  <option>Demo</option>
-                  <option>Pilot</option>
-                  <option>Research collaboration</option>
-                  <option>Investor or partner</option>
-                </select>
-              </label>
-              <label className="pilot-form__wide">
-                Message
-                <textarea name="09 Message" rows={5} />
-              </label>
-              <button className="primary-key pilot-form__submit" type="submit">
-                <ArrowUpRight className="h-4 w-4" />
-                Apply for Facility Pilot
-              </button>
-            </form>
+            <a className="primary-key" href="/contact#contact-form">Discuss a facility pilot <ArrowUpRight className="h-4 w-4" /></a>
           </ScrewFrame>
         </Reveal>
       </section>

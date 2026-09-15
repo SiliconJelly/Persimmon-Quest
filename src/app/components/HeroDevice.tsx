@@ -1,75 +1,27 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { LedLabel, ScrewFrame } from "./ui";
-
-const SCREEN_IMAGES = [
-  "/media/asset_interface_bg.jpeg",
-  "/media/asset_persimmon_man.jpeg",
-  "/media/asset_bibble.jpeg"
-] as const;
+import { useRef } from "react";
 
 export default function HeroDevice() {
-  const [activeIndex, setActiveIndex] = useState(SCREEN_IMAGES.length - 1);
-  const [engaged, setEngaged] = useState(false);
-  const [glitching, setGlitching] = useState(false);
-
-  const advanceScreen = useCallback(() => {
-    setEngaged(true);
-    setGlitching(true);
-    window.setTimeout(() => setGlitching(false), 680);
-    setActiveIndex((current) => (current + 1) % SCREEN_IMAGES.length);
-  }, []);
-
-  const resetScreen = useCallback(() => {
-    setEngaged(false);
-    setGlitching(false);
-  }, []);
-
+  const scene = useRef<HTMLDivElement>(null);
   return (
-    <ScrewFrame className="hero-device">
-      <div className="device-rack">
-        <div className="device-bezel">
-          <div
-            className={`device-screen ${engaged ? "device-screen--engaged" : ""} ${glitching ? "device-screen--glitch" : ""}`}
-            onMouseEnter={advanceScreen}
-            onMouseLeave={resetScreen}
-            onTouchStart={advanceScreen}
-          >
-            <div className="screen-media" aria-hidden="true">
-              {SCREEN_IMAGES.map((src, index) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt=""
-                  className={`screen-media__image ${index === activeIndex ? "screen-media__image--active" : ""}`}
-                />
-              ))}
-            </div>
-            <div className="scanlines" />
-            <div className="screen-topline">
-              <LedLabel tone="orange">PQ CORE</LedLabel>
-              <span>08:24:16</span>
-            </div>
-            <div className="body-scan" />
-            <div className="screen-grid">
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-            </div>
-          </div>
-          <div className="device-controls">
-            <span />
-            <span />
-            <span />
-          </div>
-        </div>
-        <div className="rack-foot rack-foot--left" />
-        <div className="rack-foot rack-foot--right" />
+    <div className="brain-scene" ref={scene}
+      onPointerMove={(event) => {
+        if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const box = event.currentTarget.getBoundingClientRect();
+        scene.current?.style.setProperty("--brain-x", `${((event.clientX - box.left) / box.width - .5) * 7}deg`);
+        scene.current?.style.setProperty("--brain-y", `${((event.clientY - box.top) / box.height - .5) * -5}deg`);
+      }}
+      onPointerLeave={() => {
+        scene.current?.style.setProperty("--brain-x", "0deg");
+        scene.current?.style.setProperty("--brain-y", "0deg");
+      }}>
+      <div className="brain-render">
+        <img src="/media/brain-hero.png" width="1254" height="1254" fetchPriority="high"
+          alt="Sculptural white brain, a study in the complexity of human connection" />
       </div>
-    </ScrewFrame>
+      <span className="brain-note brain-note--top"><i /> Personal intelligence</span>
+      <span className="brain-note brain-note--bottom">Picturing 86 billion neurons<br /><strong>Starts with a quest like this</strong></span>
+    </div>
   );
 }

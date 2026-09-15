@@ -39,7 +39,7 @@ export function SectionHeader({
           {labelIcon}
           {label}
         </p>
-        <h2 className={`mt-4 max-w-3xl text-4xl font-black tracking-normal drop-shadow-[0_1px_0_#ffffff] sm:text-5xl ${centered ? "" : ""}`}>
+        <h2 className={`mt-4 max-w-3xl text-4xl font-medium tracking-[-0.04em] sm:text-5xl ${centered ? "" : ""}`}>
           {title}
         </h2>
         {description && centered ? (

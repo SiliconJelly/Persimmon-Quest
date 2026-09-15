@@ -1,0 +1,58 @@
+/* Paste into Tally > Customize > Custom CSS (Tally Pro).
+   Uses Tally's documented, stable class names. */
+:root {
+  --pq-paper: #fcf9f5;
+  --pq-ink: #242522;
+  --pq-label: #6e6b66;
+  --pq-line: #d6cec2;
+  --pq-orange: #e8783c;
+}
+html, .tally-app { background: var(--pq-paper); color: var(--pq-ink); }
+.tally-app, .tally-app input, .tally-app textarea, .tally-app button {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.tally-page { max-width: 760px; }
+.tally-block-title h3, .tally-block-label {
+  color: var(--pq-label);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.tally-block-input-text input,
+.tally-block-input-email input,
+.tally-block-textarea textarea,
+.tally-block-dropdown input,
+.tally-block-dropdown select {
+  background: var(--pq-paper);
+  color: var(--pq-ink);
+  border: 1px solid var(--pq-line);
+  border-radius: 10px;
+  min-height: 52px;
+  font-size: 16px;
+  box-shadow: none;
+}
+.tally-block-textarea textarea { min-height: 160px; }
+.tally-block input:focus, .tally-block textarea:focus, .tally-block select:focus {
+  outline: 2px solid #b7572b;
+  outline-offset: 2px;
+}
+.tally-submit-button { width: 100%; }
+.tally-submit-button button {
+  width: 100%;
+  min-height: 52px;
+  justify-content: center;
+  background: var(--pq-orange);
+  border: 1px solid var(--pq-orange);
+  border-radius: 999px;
+  color: #231a12;
+  font-size: 15px;
+  font-weight: 500;
+  box-shadow: none;
+}
+.tally-submit-button button:hover { background: #ed8951; }
+.tally-submit-button button:focus-visible { outline: 2px solid #b7572b; outline-offset: 4px; }
+.tally-submit-button svg { display: none; }
+@media (max-width: 576px) {
+  .tally-column-list { flex-direction: column; gap: 16px; }
+  .tally-column { width: 100%; }
+}
