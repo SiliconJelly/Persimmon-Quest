@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDownToLine, ArrowRight, Bluetooth, Check, CircleDot, Code2, Github, Leaf, LoaderCircle, ShieldCheck, Sparkles, Wind } from "lucide-react";
+import { ArrowRight, Bluetooth, Check, CircleDot, Code2, Github, Leaf, LoaderCircle, ShieldCheck, Sparkles, Wind } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { bluetoothErrorMessage, checkBluetooth, requestBluetoothAccess, type BluetoothAdapter, type BluetoothAvailability, type BluetoothDeviceAccess } from "./bluetooth";
 import { connectDevices, type ConnectDevice } from "./devices";
@@ -26,7 +26,6 @@ export default function ConnectExperience() {
   const [access, setAccess] = useState<BluetoothDeviceAccess | null>(null);
   const [requesting, setRequesting] = useState(false);
   const [message, setMessage] = useState("");
-  const [bridgeRequested, setBridgeRequested] = useState(false);
   const pending = useRef(false);
   const mounted = useRef(false);
 
@@ -101,16 +100,16 @@ export default function ConnectExperience() {
         <div>
           <p className="pq-eyebrow"><span className="pq-dot" /> Persimmon Connect</p>
           <h1>A closer connection</h1>
-          <p>Choose your device and explore everyday brain health</p>
+          <p>Choose your style and explore the experience</p>
         </div>
         <span className="connect-status"><span /> Open experience <span className="connect-status-divider">/</span> No sign-in</span>
       </header>
 
       <section className="connect-catalog" aria-labelledby="choose-device-title">
-        <div className="connect-section-heading"><h2 id="choose-device-title">Find your everyday companion</h2><span>Five styles · One ecosystem</span></div>
+        <div className="connect-section-heading"><h2 id="choose-device-title">Explore the neurofashion collection</h2><span>Five styles · One ecosystem</span></div>
         <div className="connect-device-grid" role="group" aria-label="Choose a device style">
           {connectDevices.map(device => (
-            <button type="button" key={device.id} className={`connect-device ${selected.id === device.id ? "is-selected" : ""}`} aria-pressed={selected.id === device.id} aria-label={`${device.family} — ${device.style}`} onClick={() => setSelected(device)}>
+            <button type="button" key={device.id} className={`connect-device ${selected.id === device.id ? "is-selected" : ""}`} aria-pressed={selected.id === device.id} aria-label={`${device.family}, ${device.style}`} onClick={() => setSelected(device)}>
               <span className="connect-device-top"><span>{device.family}</span>{device.kind === "band" ? <Wind size={17} strokeWidth={1.5} aria-hidden="true" /> : <CircleDot size={17} strokeWidth={1.5} aria-hidden="true" />}</span>
               <img src={device.image} width="1536" height="1024" alt={`${device.family}, ${device.style} style in ivory`} />
               <span className="connect-device-bottom"><span><strong>{device.style}</strong><small>{device.feature} / ivory</small></span><span className="connect-selection" aria-hidden="true">{selected.id === device.id && <Check size={13} />}</span></span>
@@ -124,7 +123,7 @@ export default function ConnectExperience() {
           <div className="connect-preview-copy">
             <p className="pq-eyebrow"><Sparkles size={14} /> Your first connection</p>
             <h2>Find your rhythm</h2>
-            <p>Breathe, play, and see how everyday moments could become signals for better care</p>
+            <p>Breathe, play, and explore the experiences behind your everyday style</p>
             <button type="button" className="pq-button pq-button--orange" onClick={startSession}>Explore simulation <ArrowRight size={17} /></button>
             <span className="connect-preview-note">No hardware needed · Synthetic signals only</span>
           </div>
@@ -151,8 +150,7 @@ export default function ConnectExperience() {
         <div className="connect-resource">
           <Code2 size={22} strokeWidth={1.5} />
           <div><div className="connect-resource-title"><h2>Local bridge</h2><span>Developer preview</span></div><p>Explore synthetic session data locally with Python</p>
-            <a href="/downloads/persimmon-replay-bridge.zip" download onClick={() => setBridgeRequested(true)}>Download starter <ArrowDownToLine size={15} /></a>
-            {bridgeRequested && <p className="connect-resource-feedback" role="status">Download requested · Generates sample data only <button type="button" onClick={startSession}>Try it in the browser <ArrowRight size={13} /></button></p>}
+            <p className="connect-resource-feedback">The Python starter is being refreshed. <button type="button" onClick={startSession}>Try the sample session in your browser <ArrowRight size={13} /></button></p>
           </div>
         </div>
         <div className="connect-resource">

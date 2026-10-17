@@ -29,42 +29,42 @@ export const products: Product[] = [
   {
     id: "PQ-SENSOR",
     name: "qBand Air",
-    type: "Input signal device",
+    type: "Neurofashion wearable",
     iconKey: "brain",
-    iconImage: "/media/qband-sensor-icon.png",
-    frame1: "/media/5afad371-aea0-4d9a-9b78-9d9ed1e256b4.png",
-    frame2: "/media/eba98a24-0e1b-4ef2-9fd6-6c469a75357f.png",
+    iconImage: "/media/icons/qband-sensor-icon.png",
+    frame1: "/media/mockups/headband/brainwear-extra-1.png",
+    frame2: "/media/mockups/headband/brainwear-extra-2.png",
     stagePosition: "center 42%",
     stageScale: 1.08,
     copy: [
-      "Lightweight multisensor headband designed for daily use inside elderly-care facilities",
+      "A lightweight wearable concept combining personal style, material expression, and neuroscience",
       "Designed to capture brain-signal patterns and interaction responses during guided activities",
-      "Works as the primary input device for PQ games, tablets, and edge-computing systems",
-      "Aims to turn routine play and cognitive tasks into structured, consent-based research signals"
+      "Designed to pair with Persimmon Quest companion experiences and research tools",
+      "Explores how everyday wear and guided activities can support consent-based research"
     ],
     more: [
-      "qBand is a headband concept for collecting signals during games, focus tasks, and guided care activities, with informed consent",
-      "Paired with qPad, it is intended to connect EEG-informed signals with activity responses, helping researchers study attention, fatigue, and engagement in everyday care."
+      "qBand Air is our neurofashion wearable concept, bringing sculpted forms, textile finishes, and a personal fit to EEG-informed experiences",
+      "Paired with qPad One, it is intended to connect EEG-informed signals with guided activities. Research applications depend on informed consent and future validation."
     ],
     stats: ["Prototype concept", "Supervised sessions", "Consent-first"]
   },
   {
     id: "PQ-APPLIANCE",
     name: "qPad One",
-    type: "Room intelligence",
+    type: "Connected companion",
     iconKey: "tablet",
-    frame1: "/media/8fa8621f-3f14-4152-a110-af6e79388582.png",
-    frame2: "/media/5e3dc914-6ba6-4247-8c10-f89525dff27c.png",
+    frame1: "/media/mockups/tablet/tablet-holder-2.png",
+    frame2: "/media/mockups/tablet/tablet-holder-1.png",
     stagePosition: "center 48%",
     stageScale: 1.02,
     copy: [
-      "Dedicated bedside tablet for nursing homes, clinics, and assisted-living rooms",
+      "A companion tablet concept for guided play, connection, and shared experiences",
       "Connects residents, caregivers, family members, and PQ neurogaming activities through one calm interface",
       "Designed to capture interaction data such as task response, speech activity, engagement, and session behavior",
       "Bridges daily care moments into the facility’s local research and monitoring ecosystem"
     ],
     more: [
-      "qPad is a tablet concept for guided games, family calls, and everyday care support",
+      "qPad One is a companion to the neurofashion collection, designed for guided games, shared moments, and care applications",
       "Designed to work with qBand, it would bring activity responses and session history into local records for care teams and consent-based research"
     ],
     stats: ["Guided workflow", "Care-room concept", "Family connection"]
@@ -107,7 +107,6 @@ export const clinicianComparison = {
   ],
   pqWay: [
     "Simple qBand Air",
-    "qCore Pillar edge device",
     "Guided tablet workflow",
     "Familiar pachinko-inspired interaction",
     "Staff-friendly sessions",
@@ -117,7 +116,7 @@ export const clinicianComparison = {
 
 export const clinicianLearningLoop = [
   ["01", "Sense", "qBand is designed to capture EEG-informed signals"],
-  ["02", "Adapt", "qCore is intended to inform game response and session flow"],
+  ["02", "Adapt", "The game is intended to adjust response and session flow"],
   ["03", "Engage", "Resident plays a familiar pachinko-inspired neurogame"],
   ["04", "Learn", "Staff review trends and session summaries"]
 ] as const;
@@ -148,7 +147,7 @@ export const clinicianFacilityCards = [
 
 export const clinicianPilotSteps = [
   ["01", "Discovery call", "We understand your facility size, resident profile, staff workflow, and safety requirements"],
-  ["02", "Prototype setup", "We prepare the proposed qCore, qBand, and qPad workflow for the agreed pilot scope"],
+  ["02", "Prototype setup", "We prepare the proposed qBand and qPad workflow for the agreed pilot scope"],
   ["03", "Staff training", "Care staff learn how to run short supervised sessions"],
   ["04", "Guided sessions", "Residents participate in scheduled neuroadaptive gameplay"],
   ["05", "Review findings", "Facility owners review the engagement and session findings supported by the pilot"],
@@ -194,9 +193,9 @@ export const teamMembers = [
   {
     name: "Nirjhor",
     role: "Founder, CEO",
-    avatar: "/media/team-nirjhor.png",
+    avatar: "/media/team/team-nirjhor.png",
     copy: [
-      "Leads product strategy, hardware development, and fundraising. Building a foundational model for everyday care.",
+      "Leads product strategy, wearable development, and fundraising, bringing the neurofashion vision into everyday experiences.",
       "Former CS student from Japan, bridging artificial intelligence with electroencephalography (EEG) technology and longevity research."
     ],
     linkedin: "https://linkedin.com/in/siliconjelly",
@@ -206,9 +205,9 @@ export const teamMembers = [
   {
     name: "Dr. Yana",
     role: "Co-founder, CSO",
-    avatar: "/media/team-yana.png",
+    avatar: "/media/team/team-yana.png",
     copy: [
-      "Connects neuroscience research with product design. Leads brain-monitoring criteria, care workflows, and research partnerships.",
+      "Connects neuroscience research with the neurofashion vision. Leads brain-monitoring criteria, care applications, and research partnerships.",
       "A neuroscience PhD researcher at the University of Wyoming, with an MD from Tashkent Medical Academy"
     ],
     linkedin: "https://www.linkedin.com/in/muzayyana-akhmadjonova-49191a1ab/",
@@ -220,11 +219,11 @@ export const teamMembers = [
 export const faqs = [
   [
     "What is Persimmon Quest?",
-    "We’re developing qBand Air, qPad One, and care software to bring guided engagement and brain-health research into everyday life."
+    "Persimmon Quest is a neurofashion brand bringing personal style, wearable design, and neuroscience together. Our current concepts include qBand Air and the qPad One companion."
   ],
   [
     "Who are you building for?",
-    "Residents, families, and teams in dementia and elderly care, alongside researchers studying the aging brain."
+    "People who value personal expression and thoughtful connected experiences, alongside care teams and researchers exploring the collection’s applications."
   ],
   [
     "Can I try the experience?",
@@ -232,7 +231,7 @@ export const faqs = [
   ],
   [
     "How can we work together?",
-    "We welcome care-facility pilots, research and product collaborations, and conversations with investors. Tell us what you have in mind using the form above."
+    "We welcome design and fashion collaborations, wearable research, care-facility pilots, and conversations with investors. Tell us what you have in mind using the form above."
   ]
 ] as const;
 
@@ -246,10 +245,10 @@ export const roadmapSteps = [
   },
   {
     number: "02",
-    title: "Build the research MVP",
+    title: "Develop the neurofashion concepts",
     icon: CircuitBoard,
-    copy: "Develop qBand Air and qPad One prototypes with Monarch EHR integration for validation in elderly care settings",
-    output: "Device and EHR validation"
+    copy: "Develop qBand Air wearable concepts and the qPad One companion, exploring fit, materials, interaction, and research applications",
+    output: "Wearable and companion prototypes"
   },
   {
     number: "03",
@@ -281,9 +280,9 @@ export const roadmapSteps = [
   },
   {
     number: "07",
-    title: "Explore guided home experiences",
+    title: "Explore everyday experiences",
     icon: HousePlug,
-    copy: "After research and validation, explore supervised neurofeedback beyond care facilities",
+    copy: "After research and validation, explore how neurofashion wearables and guided experiences can fit into everyday life",
     output: "Validated translation pathway"
   }
 ];

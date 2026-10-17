@@ -14,10 +14,10 @@ const activities = [
   { id: "recall", label: "Recall & play", icon: Sparkles },
   { id: "signals", label: "Explore signals", icon: Activity }
 ] as const;
-const careCopy = {
-  breathe: ["A guided pause", "A quiet moment before a care session, at a pace the resident can follow"],
-  recall: ["A shared moment", "Simple activities that residents, families, and caregivers can enjoy together"],
-  signals: ["A view for care teams", "Explore how session signals could accompany engagement notes in future care workflows"]
+const experienceCopy = {
+  breathe: ["A guided pause", "A quiet moment in your day, at a pace that feels right for you"],
+  recall: ["A shared moment", "Simple activities to enjoy on your own or share with someone close"],
+  signals: ["Patterns to explore", "Explore illustrative signals behind a connected wearable experience"]
 };
 
 export default function SessionDashboard({ device, onDeviceChange, onLeave, authorizedDevice }: { device: ConnectDevice; onDeviceChange: (device: ConnectDevice) => void; onLeave: () => void; authorizedDevice?: string }) {
@@ -89,7 +89,7 @@ export default function SessionDashboard({ device, onDeviceChange, onLeave, auth
         <aside className="session-sidebar" aria-label="Session details">
           <section className="session-device-panel"><div className="connect-section-heading"><h2>Your companion</h2><span>Ivory</span></div><img className="session-device-image" src={device.image} width="1536" height="1024" alt={`${device.family}, ${device.style} in ivory`} /><div className="session-device-name"><div><h3>{device.family}</h3><p>{device.style} / {device.feature}</p></div><Check size={17} /></div><div className="session-device-picker" role="group" aria-label="Session device style">{connectDevices.map(item => <button type="button" key={item.id} aria-label={`Use ${item.family} ${item.style}`} aria-pressed={item.id === device.id} onClick={() => onDeviceChange(item)}><img src={item.image} width="72" height="48" alt="" /></button>)}</div><p className="session-device-source">{authorizedDevice ? `Bluetooth permission: ${authorizedDevice}. Signal source: simulation` : "Virtual device · No hardware connected"}</p></section>
           <section className="session-rhythms"><div className="connect-section-heading"><h2>Rhythm mix</h2><span>Illustrative</span></div>{["Delta", "Theta", "Alpha", "Beta"].map((label, index) => <div className="session-rhythm" key={label}><span>{label}</span><div><i style={{ width: `${rhythms[index]}%` }} /></div><span>{rhythms[index]}%</span></div>)}<p>Example proportions for the {mood === "calm" ? "quiet moment" : "active play"} scenario</p></section>
-          <section className="session-care-note"><p className="pq-eyebrow">Care, within reach</p><h2>{careCopy[activity][0]}</h2><p>{careCopy[activity][1]}</p><Link href="/for-clinicians">Care & research <ArrowUpRight size={14} /></Link></section>
+          <section className="session-care-note"><p className="pq-eyebrow">Everyday, in your rhythm</p><h2>{experienceCopy[activity][0]}</h2><p>{experienceCopy[activity][1]}</p><Link href="/for-clinicians">Care & research <ArrowUpRight size={14} /></Link></section>
         </aside>
       </div>
 

@@ -31,7 +31,7 @@ export default function MemoryGame({ elapsed, running, onInteraction }: { elapse
   }
 
   const title = phase === "showing" ? "Watch the sequence" : phase === "recall" ? "Your turn" : phase === "done" ? "A lovely little match" : phase === "retry" ? "Let’s try that again" : "A moment to remember";
-  const caption = phase === "showing" ? "Follow the three highlighted symbols" : phase === "recall" ? `Repeat the sequence · ${position} of 3` : phase === "done" ? `${completed} ${completed === 1 ? "sequence" : "sequences"} matched` : phase === "retry" ? "No rush — take another look" : "Watch three symbols, then tap them in order";
+  const caption = phase === "showing" ? "Follow the three highlighted symbols" : phase === "recall" ? `Repeat the sequence · ${position} of 3` : phase === "done" ? `${completed} ${completed === 1 ? "sequence" : "sequences"} matched` : phase === "retry" ? "No rush, take another look" : "Watch three symbols, then tap them in order";
 
   return (
     <div className="session-memory">

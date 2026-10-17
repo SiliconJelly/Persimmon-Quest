@@ -4,7 +4,7 @@ import "./connect.css";
 
 export const metadata: Metadata = {
   title: "Connect | Persimmon Quest",
-  description: "Explore qBand Air and qPad One through an interactive, simulated brain-health experience. No hardware or sign-in needed."
+  description: "Explore the Persimmon Quest neurofashion collection with qBand Air, qPad One, and an interactive simulation. No hardware or sign-in needed."
 };
 
 export default function ConnectPage() {

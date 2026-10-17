@@ -33,9 +33,9 @@ import {
 } from "../data";
 
 export const metadata: Metadata = {
-  title: "Persimmon Quest for Nursing Homes | Neuroadaptive Cognitive Engagement for South Korea",
+  title: "Persimmon Quest for Clinicians | Neurofashion in Care & Research",
   description:
-    "EEG-guided, pachinko-inspired neuroadaptive engagement hardware planned for testing with South Korean nursing homes, elderly-care facilities, and research-forward clinics."
+    "Explore care and research applications of the Persimmon Quest neurofashion ecosystem, with wearable concepts and supervised engagement workflows."
 };
 
 const iconMap = [Activity, ClipboardList, Users, Radio] as const;
@@ -53,7 +53,7 @@ export default function ForCliniciansPage() {
             Meaningful play for everyday care
           </h1>
           <p className="mt-7 max-w-2xl text-lg font-medium leading-8 text-label">
-            We’re developing guided play for South Korean care facilities, with a planned path toward greater Northeast Asia and APAC, connecting resident engagement with consent-based brain research
+            Our neurofashion approach brings personal identity and comfortable wearable design into guided care experiences, connecting resident engagement with consent-based brain research
           </p>
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
             <a className="primary-key" href="#pilot">
@@ -73,8 +73,8 @@ export default function ForCliniciansPage() {
         <Reveal delay={120}>
           <ScrewFrame className="clinician-hero-visual">
             <Image
-              src="/media/care-facility.png"
-              alt="Elderly residents and care staff using Persimmon Quest qBand Air, qPad One, and qCore Pillar during supervised cognitive engagement."
+              src="/media/case-study/care-facility.png"
+              alt="Elderly residents and care staff using Persimmon Quest qBand Air and qPad One during supervised cognitive engagement."
               fill
               priority
               sizes="(min-width: 1024px) 54vw, 100vw"
@@ -130,7 +130,7 @@ export default function ForCliniciansPage() {
             </p>
             <h2>From the lab to daily care</h2>
             <p>
-              A comfortable headband and guided activities are at the center of our proposed care workflow. Staff support setup, consent, and each session.
+              Personal wearable design and guided activities are at the center of our proposed care workflow. Staff support setup, consent, and each session.
             </p>
           </div>
         </Reveal>
@@ -139,7 +139,7 @@ export default function ForCliniciansPage() {
             <ScrewFrame className="comparison-card">
               <div className="comparison-media">
                 <Image
-                  src="/media/before.avif"
+                  src="/media/case-study/before.avif"
                   alt="Traditional EEG setup with multiple electrodes and clinical equipment."
                   fill
                   sizes="(min-width: 1024px) 45vw, 100vw"
@@ -158,7 +158,7 @@ export default function ForCliniciansPage() {
             <ScrewFrame className="comparison-card comparison-card--active">
               <div className="comparison-media">
                 <Image
-                  src="/media/sleep on it.png"
+                  src="/media/case-study/sleep on it.png"
                   alt="A person resting comfortably while wearing a soft qBand headband"
                   fill
                   sizes="(min-width: 1024px) 45vw, 100vw"
@@ -192,7 +192,7 @@ export default function ForCliniciansPage() {
           <Reveal delay={80}>
             <div className="clinician-feature-media">
               <Image
-                src="/media/neural-assessment-dashboard.png"
+                src="/media/case-study/neural-assessment-dashboard.png"
                 alt="qEEG brain map dashboard showing eyes-open and eyes-closed activity for elderly-care research."
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
@@ -219,7 +219,7 @@ export default function ForCliniciansPage() {
           <Reveal delay={80}>
             <div className="clinician-feature-media">
               <Image
-                src="/media/clinician-monitoring-dashboard.png"
+                src="/media/case-study/clinician-monitoring-dashboard.png"
                 alt="Persimmon Quest clinician dashboard showing live EEG session channels and engagement analytics."
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
@@ -246,7 +246,7 @@ export default function ForCliniciansPage() {
           <Reveal delay={80}>
             <div className="clinician-feature-media">
               <Image
-                src="/media/qband-comfort-and-precision.png"
+                src="/media/case-study/qband-comfort-and-precision.png"
                 alt="Elderly resident wearing Persimmon Quest qBand Air while reviewing qEEG insights."
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
@@ -283,7 +283,7 @@ export default function ForCliniciansPage() {
               </p>
               <h2>What is neuroadaptive learning?</h2>
               <p>
-                Neuroadaptive learning means an experience can change based on a user's brain and behavior. Persimmon Quest is researching how qBand signals and qCore processing could eventually inform session difficulty, pace, and feedback style without overstimulation.
+                Neuroadaptive learning means an experience can change based on a user's brain and behavior. Persimmon Quest is researching how qBand signals could eventually inform session difficulty, pace, and feedback style without overstimulation.
               </p>
               <div className="clinician-loop">
                 {clinicianLearningLoop.map(([number, title, copy]) => (
@@ -306,7 +306,7 @@ export default function ForCliniciansPage() {
           <Reveal className="resident-experience__media-stack">
             <div className="clinician-feature-media resident-experience__media">
               <Image
-                src="/media/hero-care.png"
+                src="/media/case-study/hero-care.png"
                 alt="Elderly resident wearing Persimmon Quest qBand Air while using qPad One in a care facility."
                 fill
                 sizes="(min-width: 1024px) 48vw, 100vw"
@@ -350,8 +350,8 @@ export default function ForCliniciansPage() {
               <p>Set agents for consent-based monitoring and care workflow management with Monarch EHR suite</p>
             </div>
             <div className="monarch-stage">
-              <img className="monarch-butterflies" src="/media/funky neon monarch.png" width="500" height="473" alt="" aria-hidden="true" loading="lazy" />
-              <img className="monarch-package" src="/media/Monarch.png" width="531" height="470" alt="Monarch EHR suite package — Wings for cognitive care" loading="lazy" />
+              <img className="monarch-butterflies" src="/media/case-study/funky neon monarch.png" width="500" height="473" alt="" aria-hidden="true" loading="lazy" />
+              <img className="monarch-package" src="/media/case-study/Monarch.png" width="531" height="470" alt="Monarch EHR suite package, Wings for cognitive care" loading="lazy" />
             </div>
           </div>
         </Reveal>

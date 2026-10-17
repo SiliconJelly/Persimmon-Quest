@@ -11,3 +11,13 @@ coverage
 dist
 .codex-audit
 .superdesign
+
+# Third-party inspiration placeholders (Tailoor, Gucci x Adidas). Local preview only, never deploy.
+public/media/_inspo/
+
+# Meta TRIBE v2 website assets: downloaded for inspection only, no licence to republish.
+public/media/case-study/tribev2-assets/
+
+# Local-only files
+.claude/
+public/downloads/pinterest-*.html

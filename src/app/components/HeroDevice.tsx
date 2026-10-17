@@ -17,11 +17,11 @@ export default function HeroDevice() {
         scene.current?.style.setProperty("--brain-y", "0deg");
       }}>
       <div className="brain-render">
-        <img src="/media/brain-hero.png" width="1254" height="1254" fetchPriority="high"
+        <img src="/media/case-study/brain-hero.png" width="1254" height="1254" fetchPriority="high"
           alt="Sculptural white brain, a study in the complexity of human connection" />
       </div>
-      <span className="brain-note brain-note--top"><i /> Personal intelligence</span>
-      <span className="brain-note brain-note--bottom">Picturing 86 billion neurons<br /><strong>Starts with a quest like this</strong></span>
+      <span className="brain-note brain-note--top"><i /> Neuroscience, made personal</span>
+      <span className="brain-note brain-note--bottom">Inspired by the brain<br /><strong>Expressed through design</strong></span>
     </div>
   );
 }

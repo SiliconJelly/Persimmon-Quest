@@ -9,9 +9,9 @@ import { ScrewFrame } from "../components/ui";
 import { faqs } from "../data";
 
 export const metadata: Metadata = {
-  title: "Contact Persimmon Quest | Pilots, Research, and Partnerships",
+  title: "Contact Persimmon Quest | Neurofashion & Collaborations",
   description:
-    "Contact Persimmon Quest about dementia-care pilots, neuroscience research, partnerships, or investment."
+    "Connect with Persimmon Quest about neurofashion, design collaborations, wearable research, care pilots, or investment."
 };
 
 export default function ContactPage() {

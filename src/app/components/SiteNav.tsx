@@ -82,7 +82,7 @@ export default function SiteNav() {
       <div className="pq-shell pq-nav-inner">
         <Link href="/" className="pq-brand" aria-label="Persimmon Quest home">
           <span className="pq-logo-shell">
-            <img className="pq-logo" src="/media/logo.png" alt="" aria-hidden="true" />
+            <img className="pq-logo" src="/media/icons/logo.png" alt="" aria-hidden="true" />
           </span>
           <span className="pq-brand-copy">
             <span className="pq-brand-title">Persimmon Quest</span>

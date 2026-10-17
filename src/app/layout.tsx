@@ -1,29 +1,42 @@
-import type { Metadata } from "next";
-import Footer from "./components/Footer";
-import SiteNav from "./components/SiteNav";
+import type { Metadata, Viewport } from "next";
+import { Doto, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { BagProvider } from "./components/site/BagContext";
+import Nav from "./components/site/Nav";
+import SiteFooter from "./components/site/SiteFooter";
 import "./globals.css";
 import "./redesign.css";
+import "./pq.css";
+
+const display = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-display", display: "swap" });
+// Dot matrix numerals for sensor readouts in the Quest View app screens.
+const dot = Doto({ subsets: ["latin"], weight: ["600", "800"], variable: "--font-dot", display: "swap" });
+const hud = Geist_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-hud", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Persimmon Quest | Everyday Brain Health",
-  description:
-    "Thoughtful neurotechnology for meaningful play, shared moments, and a better understanding of the aging brain."
+  title: "Persimmon Quest | The long run, beautifully worn",
+  description: "Biosensing activewear and wellness plans for Korea's silver towns. Shop by ritual: Walk, Flow, Rest and Duet."
 };
 
-export default function RootLayout({
-  children
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = { themeColor: "#f5f2ed", width: "device-width", initialScale: 1 };
+
+// Runs before paint: keeps a dismissed announcement strip hidden.
+const stripGate = `try{if(localStorage.getItem('pq-strip')==='hidden')document.documentElement.dataset.strip='hidden'}catch(e){}`;
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" className={`${display.variable} ${hud.variable} ${dot.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: stripGate }} />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+      </head>
       <body>
-        <div id="site-content">
-          <a className="pq-skip-link" href="#main-content">Skip to content</a>
-          <SiteNav />
-          {children}
-          <Footer />
-        </div>
+        <a className="q-skip" href="#content">Skip to content</a>
+        <BagProvider>
+          <Nav />
+          <div id="content" tabIndex={-1} style={{ outline: "none" }}>{children}</div>
+          <SiteFooter />
+        </BagProvider>
       </body>
     </html>
   );

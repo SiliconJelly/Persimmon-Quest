@@ -5,7 +5,7 @@ import { teamMembers } from "../data";
 
 export const metadata: Metadata = {
   title: "Team | Persimmon Quest",
-  description: "Meet the founders building Persimmon Quest’s neurotechnology for everyday care."
+  description: "Meet the founders bringing personal style, wearable design, and neuroscience together at Persimmon Quest."
 };
 
 export default function TeamPage() {
@@ -15,7 +15,7 @@ export default function TeamPage() {
         <div className="pq-page-heading">
           <p className="pq-eyebrow">The founding team</p>
           <h1>Meet the people<br />behind the quest</h1>
-          <p>Bringing product thinking and neuroscience together for better aging</p>
+          <p>Bringing personal expression, product design, and neuroscience together</p>
         </div>
         <div className="pq-founders">
           {teamMembers.map((member, index) => (
@@ -36,7 +36,7 @@ export default function TeamPage() {
           ))}
         </div>
         <section className="pq-build-notes" aria-labelledby="build-notes-title">
-          <div><p className="pq-eyebrow">Build notes</p><h2 id="build-notes-title">Follow the research</h2><p>Notes on what we’re building and learning</p></div>
+          <div><p className="pq-eyebrow">Build notes</p><h2 id="build-notes-title">Follow the quest</h2><p>Notes on design, neuroscience, and what we’re building</p></div>
           <a className="pq-button pq-button--dark" href="https://siliconjelly.substack.com" target="_blank" rel="noreferrer">Read our updates <ArrowUpRight size={16} /></a>
         </section>
       </section>

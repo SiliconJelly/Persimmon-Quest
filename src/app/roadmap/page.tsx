@@ -5,9 +5,9 @@ import { roadmapSteps } from "../data";
 import { ScrewFrame } from "../components/ui";
 
 export const metadata: Metadata = {
-  title: "Persimmon Quest Roadmap | Brain Health & Longevity",
+  title: "Persimmon Quest Roadmap | Neurofashion & Research",
   description:
-    "The Persimmon Quest roadmap from US incorporation and dementia-care pilots to EEG applications and longevity research."
+    "Our path toward neurofashion products, connected experiences, and responsible neuroscience research."
 };
 
 export default function RoadmapPage() {
@@ -19,25 +19,25 @@ export default function RoadmapPage() {
             <div className="roadmap-header">
               <div>
                 <p className="section-label">
-                  <FlaskConical className="h-4 w-4" /> Sustainable, product-driven research
+                  <FlaskConical className="h-4 w-4" /> Neurofashion, grounded in research
                 </p>
                 <h1 className="mt-4 max-w-3xl text-4xl font-medium tracking-[-0.04em] sm:text-5xl">
-                  Redefining brain health is our main quest
+                  Making neuroscience personal
                 </h1>
               </div>
               <div className="roadmap-summary-panel" aria-label="Roadmap summary">
                 <span>
-                  <strong>Initial market</strong>
-                  Dementia-care facilities
+                  <strong>Brand category</strong>
+                  Neurofashion
                 </span>
                 <span>
-                  <strong>Long-term category</strong>
-                  Validated neuroadaptive experiences
+                  <strong>Research applications</strong>
+                  Everyday experiences and care
                 </span>
               </div>
             </div>
             <p className="roadmap-intro">
-              Partner with us to bring neuroscience to a personal level.
+              Partner with us to bring personal style, wearable design, and neuroscience together.
             </p>
 
             <div className="roadmap-timeline" aria-label="Persimmon Quest roadmap milestones">
@@ -72,10 +72,10 @@ export default function RoadmapPage() {
                 <Layers3 className="h-4 w-4" /> Research, together
               </p>
               <h2 className="mt-4 text-4xl font-medium tracking-[-0.04em] sm:text-5xl">
-                Help close the aging research gap
+                Design with purpose
               </h2>
               <p className="mt-6 text-base font-medium leading-8 text-label">
-                Help turn everyday care into useful research through thoughtful devices, responsible data collection, and collaboration
+                Help shape expressive wearables and connected experiences through thoughtful design, responsible research, and collaboration
               </p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <a
