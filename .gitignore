@@ -12,7 +12,7 @@ dist
 .codex-audit
 .superdesign
 
-# Third-party inspiration placeholders (Tailoor, Gucci x Adidas). Local preview only, never deploy.
+# Raw inspiration sources. The graded cuts we use live in public/media/site/film.
 public/media/_inspo/
 
 # Meta TRIBE v2 website assets: downloaded for inspection only, no licence to republish.

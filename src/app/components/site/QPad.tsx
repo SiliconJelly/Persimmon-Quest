@@ -153,7 +153,7 @@ export function RestFace() {
       </div>
       <div className="qf-row">
         <span className="qf-dots qf-dots--sm">7h 20m<small>asleep</small></span>
-        <span className="qf-text">Deep rest came early. Brainwear and your Rest hood noticed.</span>
+        <span className="qf-text">Deep rest came early. Brainwear Sleep noticed.</span>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 // Storefront catalog. Prices are placeholders until pricing is confirmed.
-// Media under /media/_inspo/ are third-party inspiration placeholders (gitignored, never deployed).
+// Films and material stills live in /media/site/film and /media/site/material, graded to the house look.
 
 export type RitualId = "walk" | "flow" | "rest" | "duet";
 
@@ -197,7 +197,7 @@ export const products: Product[] = [
     line: "Atelier knit, made to order.",
     cut: "/media/site/cut/hood-graphite.webp", alt: "Graphite hooded jacket with silver feather sleeves",
     onBody: "/media/site/detail/hood-graphite.webp", onBodyAlt: "Close up of the graphite knit and concealed zip",
-    pod: [0.5, 0.5], senses: ["Warmth", "Sleep rhythm"],
+    pod: [0.5, 0.5], senses: ["Warmth", "Posture"],
     fabric: "Cashmere merino knit, silk blend jacquard", sizes: apparel
   },
   {
@@ -241,7 +241,7 @@ export const products: Product[] = [
     fabric: "Soft touch shell, washable inner pad", sizes: ["One size"]
   },
   {
-    slug: "brainwear-sleep", gender: "unisex", colorways: cw("brainwear-arc", ["Oat", "#d9cfc0"], ["Graphite"]), tags: ["device"], name: "Brainwear Sleep", ritual: "rest", category: "Duet", price: 299000,
+    slug: "brainwear-sleep", gender: "unisex", colorways: cw("brainwear-arc", ["Oat", "#d9cfc0"], ["Graphite"]), tags: ["device"], name: "Brainwear Sleep", ritual: "duet", category: "Duet", price: 299000,
     line: "A soft knit band to wear to bed.",
     cut: "/media/site/cut/brainwear-arc.webp", alt: "Oat knit headband with a flat pod",
     onBody: "/media/site/people/sleep-band.webp", onBodyAlt: "Woman asleep wearing the soft knit headband",

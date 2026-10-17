@@ -146,7 +146,6 @@ export function linePrice(l: BagLine) {
 export type Setup = { hub: boolean; headband: boolean; premium: boolean; wear: { slug: string; addons: Addons }[] };
 
 const lower = ["walking-shorts", "movement-leggings", "quest-stride", "everyday-socks"];
-const restWear = ["movement-hood", "quest-hood-graphite"];
 const tops = Object.keys(slotMaps).filter((k) => lower.indexOf(k) < 0);
 
 export type Insight = {
@@ -174,7 +173,7 @@ export const insights: Insight[] = [
   { id: "pressure", label: "Foot pressure", line: "How weight moves through each step.", has: (s) => anyModule(s, "pressure"), hint: "Add Quest Stride or Everyday Socks", fix: { module: "pressure" }, needsHub: true },
   { id: "grip", label: "Grip strength", line: "A quiet measure of everyday strength.", has: (s) => anyModule(s, "grip"), hint: "Add Everyday Gloves", needsHub: true },
   { id: "warmth", label: "Warmth", line: "Skin warmth through the day and night.", has: (s) => anyModule(s, "warmth"), hint: "Add a Warmth sensor", fix: { module: "warmth" }, needsHub: true },
-  { id: "sleep", label: "Sleep rhythm", line: "Rest and recovery, from a hood worn to bed.", has: (s) => anyModule(s, "heart", restWear) || anyModule(s, "core", restWear), hint: "Add a Heart rhythm pod to a Rest hood", fix: { module: "heart", prefer: restWear }, needsHub: true },
+  { id: "sleep", label: "Sleep rhythm", line: "Rest and recovery through the night, from a soft band worn to bed.", has: (s) => s.headband, hint: "Add Brainwear Sleep", needsHub: true },
   { id: "focus", label: "Focus and calm", line: "EEG guided sessions with Everyday Brainwear.", has: (s) => s.headband, hint: "Add Everyday Brainwear", needsHub: true },
   { id: "programs", label: "Guided programs", line: "Walk, Flow and Rest programs shaped around you.", has: (s) => s.premium, hint: "Add Quest View Premium", needsHub: true },
   { id: "family", label: "Family summary", line: "A weekly note you can share with family.", has: (s) => s.premium, hint: "Add Quest View Premium" }

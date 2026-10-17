@@ -16,6 +16,9 @@ function inTab(p: Product, tab: TabId) {
   return p.category === "Duet";
 }
 
+// The words the homepage uses for each collection
+const RITUAL_LABELS: Record<string, string> = { walk: "Run longer", flow: "Stand stronger", rest: "Signature style", duet: "Ecosystem" };
+
 const SORTS = [
   { id: "featured", label: "Featured" },
   { id: "low", label: "Price, low to high" },
@@ -66,7 +69,7 @@ export default function ShopGrid() {
         <p aria-live="polite">{list.length} {list.length === 1 ? "piece" : "pieces"} · {colours} colours</p>
         {ritual && (
           <button type="button" className="q-tag" onClick={() => setParam("ritual", null)}>
-            {ritualById(ritual)?.name ?? ritual} <X size={14} aria-hidden="true" /><span className="q-sr">Remove filter</span>
+            {RITUAL_LABELS[ritual] ?? ritualById(ritual)?.name ?? ritual} <X size={14} aria-hidden="true" /><span className="q-sr">Remove filter</span>
           </button>
         )}
       </div>

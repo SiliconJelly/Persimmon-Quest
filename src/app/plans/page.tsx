@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import PlanCards from "../components/site/PlanCards";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import PlanFinder from "./PlanFinder";
 
 export const metadata: Metadata = { title: "Your wellness profile | Persimmon Quest" };
@@ -14,10 +15,7 @@ export default function PlansPage() {
       <Suspense fallback={<div className="q-finder" style={{ minHeight: 480 }} />}>
         <PlanFinder />
       </Suspense>
-      <section className="q-section" aria-labelledby="all-plans" style={{ paddingBottom: 0 }}>
-        <h2 id="all-plans" className="q-h2" style={{ marginBottom: 40 }}>All plans</h2>
-        <PlanCards />
-      </section>
+      <p className="q-plans-link"><Link className="q-link" href="/pricing">Compare all plans and pricing <ArrowRight size={18} aria-hidden="true" /></Link></p>
     </main>
   );
 }

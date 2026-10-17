@@ -22,6 +22,13 @@ export default function ResearchPage() {
         </nav>
       </header>
 
+      {/* Brain activity, seen from the inside: the white matter film that anchors our research */}
+      <section className="q-research__film" aria-label="Brain research film">
+        <AutoVideo className="q-research__video" src="/media/site/film/white-matter.mp4" poster="" label="The brain's white matter pathways, lit in persimmon, turning slowly" toggleClassName="q-media-toggle q-research__toggle" />
+        <span className="q-grain" aria-hidden="true" />
+        <p className="q-research__filmline">A lifetime of connections. <em>One gentle headband.</em></p>
+      </section>
+
       <div className="q-shell q-research__list">
         {CASES.map((c) => (
           <article key={c.id} id={c.id} className="q-rcase" aria-labelledby={`${c.id}-title`}>
@@ -52,6 +59,7 @@ export default function ResearchPage() {
 
       <section id="join" className="q-research__join" aria-labelledby="join-title">
         <div className="q-shell">
+          <img className="q-research__rings" src="/media/site/material/rings.webp" alt="Bronze rings linked together, catching warm light" loading="lazy" />
           <Reveal className="q-research__joinhead">
             <h2 id="join-title" className="q-display">Shape what comes next, <em>from day one.</em></h2>
             <p className="q-lead">The best ideas for active ageing come from the people living it. Join in as much or as little as you like.</p>

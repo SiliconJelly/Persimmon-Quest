@@ -53,9 +53,9 @@ export const CASES: CaseStudy[] = [
   {
     id: "sleep", eyebrow: "Case study · Sleep", status: "Exploring now",
     title: "Sleep, understood gently.",
-    line: "A soft band and a warm hood can read a night's rest. We are learning how to turn it into one kind sentence by morning, instead of a chart.",
+    line: "A soft knit band, worn to bed, can read a night's rest. We are learning how to turn it into one kind sentence by morning, instead of a chart.",
     question: "What is the most useful thing to hear about last night?",
-    exploring: "How the headband and Rest hood can notice deep rest and waking, and how to say it simply.",
+    exploring: "How Brainwear Sleep can notice deep rest and waking without disturbing you, and how to say it simply.",
     meaning: "Waking up knowing how you slept, without reading a single graph.",
     cta: "Read the case study", visual: "sleep"
   },

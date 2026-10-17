@@ -1,10 +1,9 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import AppShowcase from "./components/site/AppShowcase";
-import { Chrono, Hero, Reveal, Stride } from "./components/site/HomeMotion";
-import PlanCards from "./components/site/PlanCards";
+import { Chrono, Film, Hero, Reveal, Stride } from "./components/site/HomeMotion";
 import { CASES, CaseVisual } from "./components/site/ResearchCases";
-import { AssetSlot, ProductRail, Rail, StoryCarousel, type Story } from "./components/site/Storefront";
+import { ProductRail, Rail, StoryCarousel, type Story } from "./components/site/Storefront";
 
 // Research carousel: an entry point into our case studies. Each slide opens its full story on /research.
 const stories: Story[] = CASES.map((c, i) => ({
@@ -19,12 +18,12 @@ const stories: Story[] = CASES.map((c, i) => ({
 }));
 
 const ritualTiles = [
-  { label: "Walk", href: "/shop?ritual=walk", image: "/media/site/life/walk.webp", alt: "Man jogging in the Walking Shorts" },
-  { label: "Flow", href: "/shop?ritual=flow", image: "/media/site/life/top.webp", alt: "Woman in the Breather Top" },
-  { label: "Rest", href: "/shop?ritual=rest", image: "/media/site/detail/hood-graphite.webp", alt: "Graphite knit hood up close" },
-  { label: "Duet", href: "/duet", image: "/media/site/life/qpad.webp", alt: "Hands on the tablet's tactile keys" },
-  { label: "Shoes", href: "/shop?category=Shoes", image: "/media/site/cut/shoe.webp", alt: "Quest Stride shoes", cut: true },
-  { label: "Accessories", href: "/shop?category=Accessories", image: "/media/site/life/glove.webp", alt: "Hand in the Everyday Glove" }
+  { label: "Run longer", href: "/shop?ritual=walk", image: "/media/site/life/walk.webp", alt: "Man in his seventies running in the polo and shorts" },
+  { label: "Stand stronger", href: "/shop?ritual=flow", image: "/media/site/life/top.webp", alt: "Woman in the Breather Top" },
+  { label: "Signature style", href: "/shop?ritual=rest", image: "/media/site/detail/hood-graphite.webp", alt: "Graphite knit hood up close" },
+  { label: "Ecosystem", href: "/shop?c=devices", image: "/media/site/life/qpad.webp", alt: "Hands on the tablet's tactile keys" },
+  { label: "Footwear", href: "/shop?c=shoes", image: "/media/site/cut/shoe.webp", alt: "Quest Stride shoes", cut: true },
+  { label: "Accessories", href: "/shop?c=accessories", image: "/media/site/life/glove.webp", alt: "Hand in the Everyday Glove" }
 ];
 
 export default function Home() {
@@ -54,8 +53,8 @@ export default function Home() {
 
       <section className="q-shell q-split q-gender" aria-label="Shop by segment">
         {[
-          { label: "Women", href: "/shop?gender=women", image: "/media/site/life/flow.webp", alt: "Woman in a Pilates session" },
-          { label: "Men", href: "/shop?gender=men", image: "/media/site/life/walk.webp", alt: "Man jogging in the Walk collection" }
+          { label: "Women", href: "/shop?c=women", image: "/media/site/life/flow.webp", alt: "Woman in a Pilates session" },
+          { label: "Men", href: "/shop?c=men", image: "/media/site/life/polo.webp", alt: "Man in his seventies wearing the Everyday Polo" }
         ].map((g) => (
           <Link key={g.label} href={g.href} className="q-gender__tile">
             <img src={g.image} alt={g.alt} loading="lazy" />
@@ -67,8 +66,8 @@ export default function Home() {
         ))}
       </section>
 
-      <section className="q-section" aria-label="Shop by ritual">
-        <Rail eyebrow="Find your fit" title="Shop by ritual" label="rituals and categories">
+      <section className="q-section" aria-label="Shop the collection">
+        <Rail eyebrow="Shop the collection" title="Made for how you move" label="collection">
           {ritualTiles.map((t) => (
             <li key={t.label} className="q-rail__item q-rail__item--tile">
               <Link href={t.href} className="q-cat">
@@ -82,69 +81,15 @@ export default function Home() {
 
       <Stride />
 
-      <section className="q-section q-shell" aria-labelledby="atelier-title">
-        <Reveal className="q-section-head">
-          <div style={{ display: "grid", gap: 20 }}>
-            <span className="q-mono q-mono--bronze q-rule">Atelier</span>
-            <h2 id="atelier-title" className="q-display">Made like jewelry.<br /><em>Worn</em> every day.</h2>
-          </div>
-          <p className="q-lead">Bronze hardware. Soft knits. Sensors you never feel.</p>
-        </Reveal>
-        <div className="q-atelier__grid">
-          <Reveal>
-            <figure className="q-tile">
-              <div className="q-tile__media" style={{ aspectRatio: "4 / 5" }}>
-                <img src="/media/site/detail/hood-white.webp" alt="Ivory feather jacquard knit up close" loading="lazy" />
-              </div>
-              <figcaption><span className="q-mono">01 · Fabric</span><b>Merino lyocell knit</b></figcaption>
-            </figure>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <figure className="q-tile">
-              <div className="q-tile__media" style={{ aspectRatio: "1 / 1" }}>
-                <img src="/media/site/detail/sock.webp" alt="Brushed bronze pod on a ribbed cuff" loading="lazy" />
-              </div>
-              <figcaption><span className="q-mono">02 · Hardware</span><b>Brushed bronze pod</b></figcaption>
-            </figure>
-          </Reveal>
-          <Reveal delay={0.16}>
-            <figure className="q-tile">
-              <div className="q-tile__media" style={{ aspectRatio: "3 / 4" }}>
-                <img src="/media/site/detail/sock.webp" alt="Close up of a ribbed cuff with a bronze sensor pod" loading="lazy" />
-              </div>
-              <figcaption><span className="q-mono">03 · Sensing</span><b>Clicks out. Washes clean.</b></figcaption>
-            </figure>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="q-section q-shell" aria-labelledby="plans-title">
-        <Reveal className="q-section-head">
-          <div style={{ display: "grid", gap: 20 }}>
-            <span className="q-mono q-mono--bronze q-rule">Wellness plans</span>
-            <h2 id="plans-title" className="q-display">Clothes are the start.<br /><em>The plan</em> is the point.</h2>
-          </div>
-          <p className="q-lead">Quest View Premium on your qPad, the Duet bundle with a year included, and Monarch OS for whole communities.</p>
-        </Reveal>
-        <PlanCards />
-      </section>
-
       <AppShowcase />
 
-      <section className="q-section" aria-label="Silver town stories">
-        <Rail eyebrow="Our people" title="Silver town stories" label="stories">
-          {["Story 01", "Story 02", "Story 03", "Story 04"].map((s) => (
-            <li key={s} className="q-rail__item q-rail__item--story">
-              <AssetSlot kind="video" label={`${s} · 9:16 video`} ratio="9 / 16" />
-              <p className="q-mono" style={{ marginTop: 12 }}>Name · Silver town</p>
-            </li>
-          ))}
-        </Rail>
-      </section>
+      <Film />
 
-      <section className="q-section q-shell" aria-labelledby="closing-title">
-        <Reveal className="q-closing">
-          <span className="q-mono q-mono--bronze">Three questions · Two minutes</span>
+      <section className="q-closing-band" aria-labelledby="closing-title">
+        <img className="q-closing-band__silk" src="/media/site/material/silk.webp" alt="" loading="lazy" />
+        <span className="q-grain" aria-hidden="true" />
+        <Reveal className="q-closing q-shell">
+          <span className="q-mono q-mono--bronze">About two minutes</span>
           <h2 id="closing-title" className="q-display-xl">See you on<br /><em>the long run.</em></h2>
           <Link className="q-btn q-btn--primary" href="/plans">Find your plan <ArrowRight size={18} aria-hidden="true" /></Link>
         </Reveal>

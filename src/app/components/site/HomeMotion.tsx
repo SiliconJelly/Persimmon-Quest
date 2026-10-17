@@ -121,8 +121,15 @@ export function Hero() {
     <section ref={ref} className={`q-hero ${reduce ? "is-still" : ""}`} aria-labelledby="hero-title">
       <div className="q-hero__sticky" ref={stickyRef}>
         <motion.div className="q-hero__frame" style={reduce ? undefined : { clipPath: clip }}>
-          <img className="q-hero__media" src="/media/site/hero/pilates-hero-3.webp" alt="" fetchPriority="high" />
+          <AutoVideo
+            className="q-hero__media q-grade"
+            src="/media/site/film/drape.mp4"
+            poster="/media/site/hero/pilates-hero-3.webp"
+            label="Hero film, fabric drifting in soft light"
+            showToggle={false}
+          />
           <motion.div className="q-hero__veil" style={reduce ? undefined : { opacity: veil }} />
+          <span className="q-grain" aria-hidden="true" />
         </motion.div>
 
         <motion.h1 ref={titleRef} id="hero-title" className="q-display-xl q-hero__title" style={reduce ? undefined : { scale: titleScale }}>
@@ -143,8 +150,8 @@ export function Hero() {
 /* ---------- Chronophotography: two frames, still pose then motion trail, each with its own line ---------- */
 const FRAMES = [
   // Both frames are cropped so her head sits at the same point (75% 80%), so the swap reads as one continuous movement.
-  { src: "/media/site/hero/chrono-a.webp", alt: "Woman in her seventies lifting her legs in a Pilates roll, shown as a motion trail", line: ["Every piece", "is ", "planned."] },
-  { src: "/media/site/hero/chrono-b.webp", alt: "The same woman settling back to rest on the floor", line: ["So you can make peace", "around ", " your moves."] }
+  { src: "/media/site/hero/chrono-a.webp", alt: "Woman in her seventies lifting her legs in a Pilates roll, shown as a motion trail", line: ["Every movement", "is ", "noticed."] },
+  { src: "/media/site/hero/chrono-b.webp", alt: "The same woman settling back to rest on the floor", line: ["So every rest", "feels ", "earned."] }
 ] as const;
 
 export function Chrono() {
@@ -206,7 +213,7 @@ export function Stride() {
       <motion.p className="q-stride__year" aria-hidden="true" style={reduce ? undefined : { x: yearX }}>2080</motion.p>
       <div className="q-shell q-stride__grid">
         <div ref={ref} className="q-stride__stage">
-          <img className="q-stride__scan" src="/media/site/detail/shoe.webp" alt="" loading="lazy" />
+          <AutoVideo className="q-stride__scan q-grade" src="/media/site/film/scan.mp4" poster="/media/site/detail/shoe.webp" label="3D scan of a shoe sole" rate={0.6} showToggle={false} />
           <motion.div style={{ position: "absolute", inset: 0, ...(reduce ? {} : { opacity: shoeOpacity, filter: shoeFilter }) }}>
             <div className="q-stride__shoe-bg" />
             <img className="q-stride__shoe q-float" src="/media/site/cut/shoe.webp" alt="Quest Stride shoes in oat and graphite" loading="lazy" />
@@ -246,3 +253,58 @@ export function Reveal({ children, delay = 0, className }: { children: React.Rea
     </motion.div>
   );
 }
+
+/* ---------- The film: a statement that opens into the brand film as you scroll (after aquest.it) ----------
+   Two lines frame a small window onto the film. Scrolling parts the lines and the window grows to full bleed,
+   then one closing line lands on the film. */
+export function Film() {
+  const ref = useRef<HTMLElement>(null);
+  const reduce = !!useReducedMotion();
+  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const side = useMotionValue(30);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const sync = () => side.set(mq.matches ? 30 : 6);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, [side]);
+
+  const grow = (v: number) => Math.min(1, Math.max(0, (v - 0.08) / 0.5));
+  const insetY = useTransform(() => 27 * (1 - grow(p.get())));
+  const insetX = useTransform(() => side.get() * (1 - grow(p.get())));
+  const radius = useTransform(() => 28 * (1 - grow(p.get())));
+  const clip = useMotionTemplate`inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${radius}px)`;
+  const leftX = useTransform(p, [0.04, 0.5], ["0%", "-40%"]);
+  const rightX = useTransform(p, [0.04, 0.5], ["0%", "40%"]);
+  const linesO = useTransform(p, [0.25, 0.48], [1, 0]);
+  const capO = useTransform(p, [0.62, 0.78], [0, 1]);
+  const capY = useTransform(p, [0.62, 0.78], [24, 0]);
+
+  return (
+    <section ref={ref} className={`q-film ${reduce ? "is-still" : ""}`} aria-labelledby="film-title">
+      <div className="q-film__sticky">
+        <motion.div className="q-film__frame" style={reduce ? undefined : { clipPath: clip }}>
+          <AutoVideo
+            className="q-film__video q-grade q-grade--soft"
+            src="/media/hero-homepage/hero-video-scroll-effect.mp4"
+            poster=""
+            label="Persimmon Quest film: a dancer in grey activewear moving through a slow balance"
+            toggleClassName="q-media-toggle q-film__toggle"
+          />
+          <div className="q-film__scrim" aria-hidden="true" />
+          <span className="q-grain" aria-hidden="true" />
+        </motion.div>
+        <h2 id="film-title" className="q-film__lines">
+          <motion.span className="q-film__line q-film__line--a" style={reduce ? undefined : ({ x: leftX, "--o": linesO } as unknown as MotionStyle)}>Every age has</motion.span>{" "}
+          <motion.span className="q-film__line q-film__line--b" style={reduce ? undefined : ({ x: rightX, "--o": linesO } as unknown as MotionStyle)}><em>its own choreography.</em></motion.span>
+        </h2>
+        <motion.div className="q-film__caption" style={reduce ? undefined : ({ "--o": capO, y: capY } as unknown as MotionStyle)}>
+          <p>We design for the decades most brands forget.</p>
+          <Link className="q-btn q-btn--light" href="/shop">Shop the collection</Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+

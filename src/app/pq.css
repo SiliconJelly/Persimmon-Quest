@@ -712,7 +712,8 @@ html[data-strip="hidden"] .q-strip { display: none; }
 .q-stride__stage { position: relative; aspect-ratio: 16 / 11; border-radius: var(--radius-lg); overflow: hidden; background: #dcd8e0; }
 .q-stride__scan { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .q-stride__shoe { position: absolute; inset: 4% 8%; width: 84%; height: 92%; object-fit: contain; filter: drop-shadow(0 40px 40px rgba(23,21,19,.22)); }
-.q-stride__shoe-bg { position: absolute; inset: 0; background: var(--c-bg); }
+/* A soft halo, not a wall: the 3D scan keeps playing behind the floating shoes */
+.q-stride__shoe-bg { position: absolute; inset: 0; background: radial-gradient(52% 58% at 50% 54%, rgba(245, 242, 237, 0.82) 0%, rgba(245, 242, 237, 0.45) 55%, rgba(245, 242, 237, 0) 100%); }
 .q-specs { list-style: none; margin: 8px 0 0; padding: 0; border-top: 1px solid color-mix(in srgb, var(--c-ink) 18%, transparent); }
 .q-specs li { display: grid; grid-template-columns: 56px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 18%, transparent); }
 .q-specs b { display: block; font-weight: 600; }
@@ -757,17 +758,34 @@ html[data-strip="hidden"] .q-strip { display: none; }
 
 /* ---------- Closing + footer ---------- */
 .q-closing { text-align: center; display: grid; justify-items: center; gap: 32px; }
-.q-footer { background: var(--c-graphite); color: #e9e4dc; padding-block: 72px 32px; }
+.q-footer { background: var(--c-graphite); color: #e9e4dc; padding-block: 72px 32px; overflow: hidden; }
 .q-footer a { color: inherit; text-decoration: none; }
 .q-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
-.q-footer__grid { display: grid; gap: 40px; }
-@media (min-width: 900px) { .q-footer__grid { grid-template-columns: 5fr repeat(3, 2fr); } }
+/* Phones: brand on its own row, links in two columns. Tablets: three columns. Desktop: brand beside the links. */
+.q-footer__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 24px; }
+.q-footer__brand { grid-column: 1 / -1; display: grid; gap: 16px; align-content: start; }
+.q-footer__brand p { margin: 0; max-width: 30ch; color: #d6cfc4; font-size: 20px; }
+.q-footer__mono { width: 44px; height: 44px; }
+@media (min-width: 700px) { .q-footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1024px) {
+  .q-footer__grid { grid-template-columns: 5fr repeat(3, 2fr); }
+  .q-footer__brand { grid-column: auto; }
+}
 .q-footer h2 { margin: 0 0 16px; }
 .q-footer .q-mono { color: #bfb7ab; }
 .q-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
-.q-footer li a { display: inline-flex; min-height: 40px; align-items: center; }
-.q-footer__base { margin-top: 64px; padding-top: 24px; border-top: 1px solid #3a3734; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
-.q-footer__giant { font-family: var(--f-display); font-size: clamp(64px, 14vw, 220px); line-height: 0.85; letter-spacing: -0.03em; margin: 56px 0 0; color: #e9e4dc; }
+.q-footer li a { display: inline-flex; min-height: 44px; align-items: center; }
+/* Wordmark sized from its own container: 0.1797 is the font-size to width ratio of the set line */
+.q-footer__mark { container-type: inline-size; margin-top: clamp(56px, 8vw, 104px); }
+.q-footer__mark p {
+  margin: 0; white-space: nowrap; font-family: var(--f-display); font-weight: 400; letter-spacing: -0.03em;
+  font-size: calc(100cqw * 0.1797 * 0.985); line-height: 0.86; color: #efe9e0;
+  background: linear-gradient(180deg, #f5f0e8 0%, #e2d6c6 70%, #c9a27e 140%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.q-footer__base { margin-top: clamp(28px, 4vw, 48px); padding-top: 24px; border-top: 1px solid #3a3734; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 32px; }
+.q-footer__legal { margin: 0; font-size: 15px; font-weight: 600; color: #e9e4dc; white-space: nowrap; }
+.q-footer__statement { margin: 0; font-size: 15px; line-height: 1.6; color: #bfb7ab; }
+
 
 /* ---------- Page heads (shop, plans, duet) ---------- */
 .q-pagehead { padding-top: calc(var(--nav-h) + 56px); padding-bottom: 40px; display: grid; gap: 20px; }
@@ -1609,3 +1627,89 @@ button.qpad__key:hover { filter: brightness(1.04); }
   .q-card .q-shade { width: 28px; height: 28px; }
   .q-card .q-shade::before { width: 16px; height: 16px; }
 }
+
+/* ======================================================================
+   The film: two lines part as the brand film opens to full bleed
+   ====================================================================== */
+.q-film { position: relative; height: 280vh; background: var(--c-bg); }
+.q-film__sticky { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
+.q-film__frame { position: absolute; inset: 0; overflow: hidden; background: #e9e1d8; will-change: clip-path; }
+.q-film__video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.q-film__scrim { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(23, 21, 19, 0.6) 0%, rgba(23, 21, 19, 0) 42%); opacity: var(--scrim, 0.85); }
+.q-film__toggle { position: absolute; right: 16px; bottom: 16px; z-index: 3; }
+.q-film__lines { position: absolute; inset: 0; z-index: 2; margin: 0; pointer-events: none; font-family: var(--f-display); font-weight: 400; font-size: clamp(42px, 7.4vw, 128px); line-height: 0.95; letter-spacing: -0.02em; color: var(--c-ink); }
+.q-film__line { position: absolute; display: block; opacity: var(--o, 1); }
+.q-film__line--a { top: 8%; left: var(--gutter); }
+.q-film__line--b { bottom: 8%; right: var(--gutter); text-align: right; max-width: calc(100% - 2 * var(--gutter)); }
+.q-film__line em { font-style: italic; color: var(--c-bronze); }
+.q-film__caption { position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: clamp(72px, 10vh, 112px); display: grid; gap: 20px; justify-items: start; opacity: var(--o, 0); }
+.q-film__caption p { margin: 0; max-width: 18ch; font-family: var(--f-display); font-size: clamp(30px, 3.6vw, 56px); line-height: 1.05; color: #fff; text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25); }
+/* Reduced motion: lines, then the film, then the caption, all in place */
+.q-film.is-still { height: auto; padding-block: 72px; }
+.q-film.is-still .q-film__sticky { position: relative; height: auto; display: grid; gap: 24px; }
+.q-film.is-still .q-film__lines { position: relative; inset: auto; padding-inline: var(--gutter); }
+.q-film.is-still .q-film__line { position: relative; inset: auto; text-align: left; }
+.q-film.is-still .q-film__frame { position: relative; aspect-ratio: 16 / 9; }
+.q-film.is-still .q-film__caption { position: relative; inset: auto; opacity: 1; }
+.q-film.is-still .q-film__caption p { color: var(--c-ink); text-shadow: none; }
+.q-film.is-still .q-film__caption .q-btn--light { background: var(--c-ink); color: #f5f2ed; }
+
+/* ======================================================================
+   Pricing
+   ====================================================================== */
+.q-pricing .q-pagehead { display: grid; gap: 18px; }
+.q-compare { overflow-x: auto; border-radius: 20px; background: var(--c-surface); }
+.q-compare:focus-visible { outline: 3px solid var(--c-persimmon); outline-offset: 4px; }
+.q-compare table { width: 100%; min-width: 680px; border-collapse: collapse; font-size: 17px; }
+.q-compare th, .q-compare td { padding: 18px 20px; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--c-hairline); }
+.q-compare tbody tr:last-child th, .q-compare tbody tr:last-child td { border-bottom: 0; }
+.q-compare thead th { vertical-align: bottom; background: var(--c-bg); }
+.q-compare__name { display: block; font-family: var(--f-display); font-weight: 400; font-size: 24px; line-height: 1.1; }
+.q-compare__price { display: block; margin-top: 6px; font-weight: 600; font-size: 17px; }
+.q-compare__price small { font-weight: 400; color: var(--c-ink-3); }
+.q-compare tbody th { font-weight: 500; color: var(--c-ink-2); width: 34%; }
+.q-compare td svg { color: var(--c-jade); vertical-align: middle; }
+.q-compare td .q-compare__no { color: var(--c-ink-3); }
+.q-pricing__note { margin: 16px 0 0; color: var(--c-ink-3); font-size: 16px; }
+.q-pricing__help { margin-top: 72px; padding: 32px; border-radius: 24px; background: var(--c-stone); display: grid; gap: 12px; justify-items: start; }
+.q-pricing__help p { margin: 0; color: var(--c-ink-2); }
+.q-plans-link { margin: 40px 0 0; }
+
+/* ======================================================================
+   The Persimmon grade: one look across every film and photo we use
+   ====================================================================== */
+.q-grade { filter: saturate(0.84) sepia(0.12) contrast(1.04) brightness(1.02); }
+.q-grade--soft { filter: saturate(0.92) sepia(0.06) contrast(1.02); }
+/* Fine film grain laid over graded media */
+.q-grain {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.22; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+.q-stride__stage .q-grain { z-index: 0; }
+
+/* Closing: the silk returns to bookend the hero */
+.q-closing-band { position: relative; overflow: hidden; isolation: isolate; padding-block: clamp(96px, 16vw, 200px); }
+.q-closing-band__silk { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.q-closing-band::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(70% 70% at 50% 50%, rgba(245, 242, 237, 0.86), rgba(245, 242, 237, 0.55) 70%, rgba(245, 242, 237, 0.35)); }
+.q-closing-band .q-grain { z-index: -1; }
+
+/* Duet: the headband film */
+.q-duetfilm { display: grid; gap: 28px; padding-block: 24px 96px; }
+.q-duetfilm__frame { position: relative; overflow: hidden; border-radius: 28px; background: #1c1a18; aspect-ratio: 1266 / 638; }
+.q-duetfilm__video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.q-duetfilm__toggle { position: absolute; right: 16px; bottom: 16px; z-index: 2; }
+.q-duetfilm__line { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(34px, 4.4vw, 68px); line-height: 1.02; letter-spacing: -0.02em; max-width: 18ch; }
+.q-duetfilm__line em { font-style: italic; color: var(--c-bronze); }
+
+/* Research: the white matter film */
+.q-research__film { position: relative; overflow: hidden; margin: 8px var(--gutter) 0; border-radius: 32px; background: #f7f3ee; aspect-ratio: 16 / 9; max-height: 78vh; }
+@media (min-width: 1440px) { .q-research__film { margin-inline: auto; max-width: calc(1440px - 2 * var(--gutter)); } }
+.q-research__video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.q-research__toggle { position: absolute; right: 16px; bottom: 16px; z-index: 2; }
+.q-research__filmline { position: absolute; left: clamp(20px, 4vw, 48px); bottom: clamp(20px, 4vw, 48px); z-index: 2; margin: 0; max-width: 16ch; font-family: var(--f-display); font-size: clamp(26px, 3.4vw, 52px); line-height: 1.04; color: var(--c-ink); }
+.q-research__filmline em { font-style: italic; color: var(--c-persimmon); }
+@media (max-width: 599px) { .q-research__film { aspect-ratio: 4 / 5; } }
+
+/* Research: bronze rings beside the invitation */
+.q-research__join .q-shell { position: relative; }
+.q-research__rings { width: 100%; aspect-ratio: 16 / 7; object-fit: cover; border-radius: 28px; margin-bottom: 40px; display: block; }

@@ -6,7 +6,7 @@ export const SHOP_TABS: { id: TabId; label: string }[] = [
   { id: "all", label: "All" },
   { id: "women", label: "Women" },
   { id: "men", label: "Men" },
-  { id: "shoes", label: "Shoes" },
+  { id: "shoes", label: "Footwear" },
   { id: "accessories", label: "Accessories" },
   { id: "devices", label: "Headband & qPad" }
 ];

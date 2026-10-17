@@ -10,13 +10,13 @@ import Monogram, { EMBLEM } from "./Monogram";
 
 const links = [
   { label: "New in", href: "/shop" },
-  { label: "Women", href: "/shop?gender=women" },
-  { label: "Men", href: "/shop?gender=men" },
-  { label: "Shoes", href: "/shop?category=Shoes" },
+  { label: "Women", href: "/shop?c=women" },
+  { label: "Men", href: "/shop?c=men" },
+  { label: "Footwear", href: "/shop?c=shoes" },
   { label: "Duet", href: "/duet" },
   { label: "Quest View", href: "/quest-view" }
 ];
-const menuLinks = [...links, { label: "Plans", href: "/plans" }, { label: "Research", href: "/research" }, { label: "About", href: "/team" }];
+const menuLinks = [...links, { label: "Find my plan", href: "/plans" }, { label: "Pricing", href: "/pricing" }, { label: "Research", href: "/research" }, { label: "About", href: "/team" }];
 
 // How far the visitor must scroll up, continuously, before the bar comes back.
 const SHOW_AFTER_UP_PX = 72;
