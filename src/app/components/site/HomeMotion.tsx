@@ -124,7 +124,8 @@ export function Hero() {
           <AutoVideo
             className="q-hero__media q-grade"
             src="/media/site/film/drape.mp4"
-            poster="/media/site/hero/pilates-hero-3.webp"
+            poster=""
+            fadeIn
             label="Hero film, fabric drifting in soft light"
             showToggle={false}
           />
@@ -201,36 +202,29 @@ export function Chrono() {
 export function Stride() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start 0.85", "center 0.45"] });
-  // The scan dissolves into the finished shoe: a soft crossfade with a little focus pull, no shapes.
-  const shoeOpacity = useTransform(p, [0.35, 0.9], [0, 1]);
-  const shoeBlur = useTransform(p, [0.35, 0.9], [10, 0]);
-  const shoeFilter = useMotionTemplate`blur(${shoeBlur}px)`;
+  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const yearX = useTransform(p, [0, 1], ["6%", "-6%"]);
 
   return (
     <section className="q-stride q-section" aria-labelledby="stride-title">
       <motion.p className="q-stride__year" aria-hidden="true" style={reduce ? undefined : { x: yearX }}>2080</motion.p>
       <div className="q-shell q-stride__grid">
+        {/* The scan alone: a short clip played slowly forward and back, so the sole turns in one long, unbroken move */}
         <div ref={ref} className="q-stride__stage">
-          <AutoVideo className="q-stride__scan q-grade" src="/media/site/film/scan.mp4" poster="/media/site/detail/shoe.webp" label="3D scan of a shoe sole" rate={0.6} showToggle={false} />
-          <motion.div style={{ position: "absolute", inset: 0, ...(reduce ? {} : { opacity: shoeOpacity, filter: shoeFilter }) }}>
-            <div className="q-stride__shoe-bg" />
-            <img className="q-stride__shoe q-float" src="/media/site/cut/shoe.webp" alt="Quest Stride shoes in oat and graphite" loading="lazy" />
-          </motion.div>
-          <span className="q-stage__tag q-mono">From scan to stride</span>
+          <AutoVideo className="q-stride__scan" src="/media/site/film/scan.mp4" poster="" fadeIn pingPong rate={0.42} label="3D scan of the Quest Stride sole, turning slowly" toggleClassName="q-media-toggle q-stride__toggle" />
+          <span className="q-stride__badge"><i aria-hidden="true" />Smart insole for fatigue analysis</span>
         </div>
-        <div style={{ display: "grid", gap: 24 }}>
-          <span className="q-mono q-mono--bronze">New drop · Walk</span>
+        <div className="q-stride__copy">
+          <span className="q-mono q-mono--bronze">Pre-orders open · Footwear</span>
           <h2 id="stride-title" className="q-display">Quest<br />Stride</h2>
           <p className="q-lead">Every step, considered. Shaped around how feet change with time.</p>
           <ul className="q-specs">
             <li><span className="q-mono q-mono--bronze">01</span><div><b>Pressure insole</b><span>Maps heel to toe, gently.</span></div></li>
             <li><span className="q-mono q-mono--bronze">02</span><div><b>One-pull strap</b><span>No laces. Easy grip tab.</span></div></li>
-            <li><span className="q-mono q-mono--bronze">03</span><div><b>Motion core</b><span>Clicks out to charge.</span></div></li>
+            <li><span className="q-mono q-mono--bronze">03</span><div><b>Motion core</b><span>Just run. It charges itself on the dock.</span></div></li>
           </ul>
           <div className="q-hero__actions">
-            <Link className="q-btn q-btn--ink" href="/shop/quest-stride">Shop Quest Stride · ₩269,000</Link>
+            <Link className="q-btn q-btn--ink" href="/shop/quest-stride">Pre-order Quest Stride · ₩269,000</Link>
           </div>
         </div>
       </div>

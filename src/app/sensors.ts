@@ -36,44 +36,44 @@ export const devices: Record<string, { role: string; builtIn: string[] }> = {
   "everyday-brainwear": { role: "Headband", builtIn: ["EEG sensors for focus and calm", "Head motion"] },
   "qpad-one": { role: "Hub", builtIn: ["Pairs every pod", "Runs Quest View"] },
   "brainwear-arc": { role: "Headband", builtIn: ["EEG sensors for focus and calm", "Head motion"] },
-  "brainwear-sleep": { role: "Headband", builtIn: ["EEG sensors for sleep and calm"] },
   "qpad-grip": { role: "Hub", builtIn: ["Pairs every pod", "Runs Quest View"] }
 };
 
+// Slot positions are fractions of the product's still life (/media/shop/<slug>/<colour>-still.webp).
 export const slotMaps: Record<string, Slot[]> = {
   "everyday-polo": [
-    { id: "sleeve", label: "Right sleeve", x: 0.8, y: 0.33, fitted: "heart" },
-    { id: "placket", label: "Chest placket", x: 0.47, y: 0.32, fitted: "core" },
-    { id: "side", label: "Side panel", x: 0.66, y: 0.6, fitted: "muscle" },
-    { id: "left-sleeve", label: "Left sleeve", x: 0.18, y: 0.36, accepts: ["heart", "warmth"] },
-    { id: "hem", label: "Front hem", x: 0.32, y: 0.74, accepts: ["breath", "warmth"] }
+    { id: "sleeve", label: "Right sleeve", x: 0.79, y: 0.31, fitted: "heart" },
+    { id: "placket", label: "Chest placket", x: 0.46, y: 0.31, fitted: "core" },
+    { id: "side", label: "Side panel", x: 0.66, y: 0.62, fitted: "muscle" },
+    { id: "left-sleeve", label: "Left sleeve", x: 0.16, y: 0.38, accepts: ["heart", "warmth"] },
+    { id: "hem", label: "Front hem", x: 0.34, y: 0.72, accepts: ["breath", "warmth"] }
   ],
   "walking-shorts": [
-    { id: "waist", label: "Waistband", x: 0.71, y: 0.21, fitted: "core" },
-    { id: "thigh-l", label: "Left thigh", x: 0.25, y: 0.64, fitted: "muscle" },
-    { id: "thigh-r", label: "Right thigh", x: 0.6, y: 0.6, accepts: ["muscle", "warmth"] },
-    { id: "pocket", label: "Side pocket", x: 0.74, y: 0.4, accepts: ["warmth"] }
+    { id: "waist", label: "Waistband", x: 0.71, y: 0.22, fitted: "core" },
+    { id: "thigh-l", label: "Left thigh", x: 0.27, y: 0.64, fitted: "muscle" },
+    { id: "thigh-r", label: "Right thigh", x: 0.62, y: 0.6, accepts: ["muscle", "warmth"] },
+    { id: "pocket", label: "Side pocket", x: 0.82, y: 0.45, accepts: ["warmth"] }
   ],
   "quest-stride": [
-    { id: "core", label: "Side cage", x: 0.47, y: 0.6, fitted: "core" },
-    { id: "insole", label: "Insole", x: 0.62, y: 0.7, accepts: ["pressure"] },
-    { id: "collar", label: "Heel collar", x: 0.24, y: 0.5, accepts: ["warmth"] }
+    { id: "core", label: "Side cage", x: 0.35, y: 0.6, fitted: "core" },
+    { id: "insole", label: "Pressure insole", x: 0.62, y: 0.66, fitted: "pressure" },
+    { id: "collar", label: "Heel collar", x: 0.17, y: 0.45, accepts: ["warmth"] }
   ],
   "everyday-socks": [
-    { id: "ankle", label: "Ankle cuff", x: 0.22, y: 0.24, fitted: "warmth" },
-    { id: "sole", label: "Sole zone", x: 0.8, y: 0.5, fitted: "pressure" },
-    { id: "heel", label: "Heel", x: 0.62, y: 0.7, accepts: ["pressure", "core"] }
+    { id: "ankle", label: "Ankle dock", x: 0.3, y: 0.3, fitted: "warmth" },
+    { id: "sole", label: "Sole zone", x: 0.62, y: 0.72, fitted: "pressure" },
+    { id: "heel", label: "Heel", x: 0.22, y: 0.6, accepts: ["pressure", "core"] }
   ],
   "breather-top": [
-    { id: "underband", label: "Underband", x: 0.3, y: 0.73, fitted: "breath" },
-    { id: "side", label: "Left side", x: 0.88, y: 0.58, accepts: ["heart", "warmth"] },
-    { id: "strap", label: "Back strap", x: 0.78, y: 0.24, accepts: ["core"] }
+    { id: "underband", label: "Underband", x: 0.37, y: 0.68, fitted: "breath" },
+    { id: "side", label: "Left side", x: 0.86, y: 0.55, accepts: ["heart", "warmth"] },
+    { id: "strap", label: "Back strap", x: 0.77, y: 0.2, accepts: ["core"] }
   ],
   "movement-tank": [
-    { id: "side", label: "Side seam", x: 0.75, y: 0.55, fitted: "heart" },
-    { id: "band", label: "Inner band", x: 0.5, y: 0.76, fitted: "breath" },
-    { id: "chest", label: "Chest", x: 0.32, y: 0.44, accepts: ["muscle", "warmth"] },
-    { id: "strap", label: "Shoulder strap", x: 0.69, y: 0.16, accepts: ["core"] }
+    { id: "side", label: "Side seam", x: 0.8, y: 0.53, fitted: "heart" },
+    { id: "band", label: "Breathing band", x: 0.58, y: 0.67, fitted: "breath" },
+    { id: "chest", label: "Chest", x: 0.3, y: 0.42, accepts: ["muscle", "warmth"] },
+    { id: "strap", label: "Shoulder strap", x: 0.78, y: 0.17, accepts: ["core"] }
   ],
   "movement-leggings": [
     { id: "thigh", label: "Right thigh", x: 0.45, y: 0.4, fitted: "muscle" },
@@ -82,32 +82,37 @@ export const slotMaps: Record<string, Slot[]> = {
     { id: "waist", label: "Waistband", x: 0.68, y: 0.12, accepts: ["breath", "warmth"] }
   ],
   "breather-vest": [
-    { id: "chest", label: "Chest pod", x: 0.8, y: 0.53, fitted: "heart" },
-    { id: "band", label: "Breathing band", x: 0.4, y: 0.53, fitted: "breath" },
-    { id: "shoulder", label: "Upper back", x: 0.3, y: 0.24, accepts: ["core"] },
-    { id: "hem", label: "Hem", x: 0.5, y: 0.82, accepts: ["warmth", "muscle"] }
+    { id: "chest", label: "Chest pod", x: 0.67, y: 0.5, fitted: "heart" },
+    { id: "band", label: "Breathing band", x: 0.38, y: 0.52, fitted: "breath" },
+    { id: "shoulder", label: "Upper back", x: 0.3, y: 0.18, accepts: ["core"] },
+    { id: "hem", label: "Hem", x: 0.5, y: 0.78, accepts: ["warmth", "muscle"] }
   ],
   "everyday-gloves": [
+    { id: "palm", label: "Palm pads", x: 0.32, y: 0.52, fitted: "grip" },
+    { id: "wrist", label: "Wrist pod", x: 0.87, y: 0.65, fitted: "core" },
+    { id: "cuff", label: "Left cuff", x: 0.2, y: 0.7, accepts: ["warmth", "heart"] }
+  ],
+  "grip-gloves": [
     { id: "palm", label: "Palm pads", x: 0.3, y: 0.52, fitted: "grip" },
-    { id: "wrist", label: "Wrist pod", x: 0.75, y: 0.62, fitted: "core" },
-    { id: "cuff", label: "Left cuff", x: 0.2, y: 0.66, accepts: ["warmth", "heart"] }
+    { id: "wrist", label: "Wrist pod", x: 0.84, y: 0.66, fitted: "core" },
+    { id: "cuff", label: "Left cuff", x: 0.25, y: 0.7, accepts: ["warmth", "heart"] }
   ],
   "movement-hood": [
-    { id: "chest", label: "Chest", x: 0.36, y: 0.4, accepts: ["heart", "breath"] },
-    { id: "cuff", label: "Left cuff", x: 0.12, y: 0.77, accepts: ["warmth", "core"] },
-    { id: "pocket", label: "Pocket seam", x: 0.6, y: 0.6, accepts: ["core", "warmth"] }
+    { id: "chest", label: "Chest", x: 0.42, y: 0.37, accepts: ["heart", "breath"] },
+    { id: "cuff", label: "Left cuff", x: 0.12, y: 0.7, accepts: ["warmth", "core"] },
+    { id: "pocket", label: "Pocket seam", x: 0.57, y: 0.6, accepts: ["core", "warmth"] }
   ],
-  "quest-hood-graphite": [
+  "quest-hood": [
     { id: "front", label: "Inner front", x: 0.5, y: 0.5, fitted: "warmth" },
-    { id: "chest", label: "Left chest", x: 0.32, y: 0.4, accepts: ["heart", "breath"] },
-    { id: "cuff", label: "Right cuff", x: 0.86, y: 0.82, accepts: ["core", "warmth"] }
+    { id: "chest", label: "Left chest", x: 0.35, y: 0.38, accepts: ["heart", "breath"] },
+    { id: "cuff", label: "Right cuff", x: 0.83, y: 0.77, accepts: ["core", "warmth"] }
   ]
 };
 
 export const isWear = (slug: string) => !!slotMaps[slug];
 
-/** White line sketch for a product, generated from its studio cutout. */
-export const sketchFor = (p: Product) => p.cut.replace("/cut/", "/sketch/");
+/** White line sketch for a product, drawn from its studio still life. */
+export const sketchFor = (p: Product) => p.sketch;
 
 export type Addons = Record<string, ModuleId>;
 
@@ -171,9 +176,9 @@ export const insights: Insight[] = [
   { id: "gait", label: "Gait and balance", line: "Stride rhythm and steadiness on your feet.", has: (s) => anyModule(s, "core", lower), hint: "Add shoes, shorts or leggings with a Motion core", fix: { module: "core", prefer: lower }, needsHub: true },
   { id: "muscle", label: "Muscle activity", line: "Which muscles are doing the work.", has: (s) => anyModule(s, "muscle"), hint: "Add a Muscle panel", fix: { module: "muscle" }, needsHub: true },
   { id: "pressure", label: "Foot pressure", line: "How weight moves through each step.", has: (s) => anyModule(s, "pressure"), hint: "Add Quest Stride or Everyday Socks", fix: { module: "pressure" }, needsHub: true },
-  { id: "grip", label: "Grip strength", line: "A quiet measure of everyday strength.", has: (s) => anyModule(s, "grip"), hint: "Add Everyday Gloves", needsHub: true },
+  { id: "grip", label: "Grip strength", line: "A quiet measure of everyday strength.", has: (s) => anyModule(s, "grip"), hint: "Add Grip Gloves or Everyday Gloves", needsHub: true },
   { id: "warmth", label: "Warmth", line: "Skin warmth through the day and night.", has: (s) => anyModule(s, "warmth"), hint: "Add a Warmth sensor", fix: { module: "warmth" }, needsHub: true },
-  { id: "sleep", label: "Sleep rhythm", line: "Rest and recovery through the night, from a soft band worn to bed.", has: (s) => s.headband, hint: "Add Brainwear Sleep", needsHub: true },
+  { id: "sleep", label: "Sleep rhythm", line: "Rest and recovery, from calm evenings with Brainwear and a soft Movement Tank at night.", has: (s) => s.headband, hint: "Add Brainwear", needsHub: true },
   { id: "focus", label: "Focus and calm", line: "EEG guided sessions with Everyday Brainwear.", has: (s) => s.headband, hint: "Add Everyday Brainwear", needsHub: true },
   { id: "programs", label: "Guided programs", line: "Walk, Flow and Rest programs shaped around you.", has: (s) => s.premium, hint: "Add Quest View Premium", needsHub: true },
   { id: "family", label: "Family summary", line: "A weekly note you can share with family.", has: (s) => s.premium, hint: "Add Quest View Premium" }
@@ -207,7 +212,7 @@ export function setupFromLines(lines: BagLine[]): Setup {
   const duet = lines.some((l) => l.kind === "duet");
   return {
     hub: duet || has("qpad-one", "qpad-grip"),
-    headband: duet || has("everyday-brainwear", "brainwear-arc", "brainwear-sleep"),
+    headband: duet || has("brainwear-duo", "everyday-brainwear", "brainwear-arc"),
     premium: duet || lines.some((l) => l.kind === "premium"),
     wear: lines.filter((l): l is Extract<BagLine, { kind: "item" }> => l.kind === "item" && isWear(l.slug)).map((l) => ({ slug: l.slug, addons: l.addons }))
   };

@@ -1,21 +1,10 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, ImageIcon, Pause, Play, Video } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { type Gender, products } from "../../catalog";
+import { type Audience, productBySlug } from "../../catalog";
 import ProductCard from "./ProductCard";
-
-/* ---------- Asset slot: a labelled placeholder for media the team will supply ---------- */
-export function AssetSlot({ label, kind = "image", ratio, className }: { label: string; kind?: "image" | "video"; ratio?: string; className?: string }) {
-  const Icon = kind === "video" ? Video : ImageIcon;
-  return (
-    <div className={`q-slot ${className ?? ""}`} style={ratio ? { aspectRatio: ratio } : undefined} role="img" aria-label={`Placeholder for ${label}`}>
-      <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
-      <span className="q-mono">{label}</span>
-    </div>
-  );
-}
 
 /* ---------- Video story carousel (arrow controlled, autoplays, always pausable) ---------- */
 export type Story = {
@@ -26,8 +15,6 @@ export type Story = {
   cta: { label: string; href: string };
   image?: string;
   video?: string;
-  /** Shown when no media is supplied yet. */
-  slot?: string;
   /** A composed visual (coded UI, sketch or framed video) staged on the dark field instead of full-bleed media. */
   visual?: React.ReactNode;
   alt: string;
@@ -91,9 +78,7 @@ export function StoryCarousel({ stories, label }: { stories: Story[]; label: str
               <video className="q-story__media" src={s.video} poster={s.image} muted loop playsInline preload="metadata" aria-label={s.alt} />
             ) : s.image ? (
               <img className="q-story__media" src={s.image} alt={s.alt} loading={i === 0 ? "eager" : "lazy"} />
-            ) : (
-              <AssetSlot className="q-story__media" kind="video" label={s.slot ?? "Story video 16:9"} />
-            )}
+            ) : null}
             <div className="q-story__scrim" aria-hidden="true" />
             <div className="q-shell q-story__copy">
               <span className="q-mono">{s.eyebrow}</span>
@@ -165,22 +150,28 @@ export function Rail({ title, eyebrow, aside, children, label }: { title: string
   );
 }
 
-/* ---------- New arrivals rail with Women / Men / All tabs ---------- */
-const tabs: { id: Exclude<Gender, "unisex">; label: string }[] = [
+/* ---------- New arrivals rail with Women / Men tabs ---------- */
+const tabs: { id: Audience; label: string }[] = [
   { id: "women", label: "Women" },
   { id: "men", label: "Men" }
 ];
 
-export function ProductRail({ title, eyebrow, order }: { title: string; eyebrow?: string; order?: string[] }) {
-  const [tab, setTab] = useState<Exclude<Gender, "unisex">>("women");
-  const base = order ? order.map((slug) => products.find((p) => p.slug === slug)!).filter(Boolean) : products;
-  const list = [...base.filter((p) => p.gender === tab), ...base.filter((p) => p.gender === "unisex")];
+// A hand set running order for each tab: the signature pieces first, then what goes with them.
+const ARRIVALS: Record<Audience, string[]> = {
+  women: ["breather-top", "quest-hood", "movement-tank", "movement-hood", "movement-leggings", "quest-stride", "everyday-socks", "grip-gloves"],
+  men: ["everyday-polo", "quest-hood", "walking-shorts", "movement-hood", "breather-vest", "quest-stride", "everyday-socks", "grip-gloves"]
+};
+
+export function ProductRail({ title, eyebrow }: { title: string; eyebrow?: string }) {
+  const [tab, setTab] = useState<Audience>("women");
+  const list = ARRIVALS[tab].map((slug) => productBySlug(slug)!);
+  const label = tabs.find((t) => t.id === tab)!.label;
 
   return (
     <Rail
       title={title}
       eyebrow={eyebrow}
-      label={`${title}, ${tabs.find((t) => t.id === tab)!.label}`}
+      label={`${title}, ${label}`}
       aside={
         <div className="q-tabs" role="group" aria-label="Show products for">
           {tabs.map((t) => (
@@ -190,10 +181,10 @@ export function ProductRail({ title, eyebrow, order }: { title: string; eyebrow?
       }
     >
       {list.map((p, i) => (
-        <li key={`${tab}-${p.slug}`} className="q-rail__item"><ProductCard product={p} priority={i < 2} /></li>
+        <li key={`${tab}-${p.slug}`} className="q-rail__item"><ProductCard product={p} audience={tab} priority={i < 2} /></li>
       ))}
       <li className="q-rail__item q-rail__more">
-        <Link href={`/shop?gender=${tab}`} className="q-link">Shop all {tabs.find((t) => t.id === tab)!.label.toLowerCase()} <ChevronRight size={18} aria-hidden="true" /></Link>
+        <Link href={`/shop?c=${tab}`} className="q-link">Shop all {label.toLowerCase()} <ChevronRight size={18} aria-hidden="true" /></Link>
       </li>
     </Rail>
   );

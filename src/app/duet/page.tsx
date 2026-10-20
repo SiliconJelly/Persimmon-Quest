@@ -28,8 +28,8 @@ export default function DuetPage() {
             </div>
           </div>
           <div className="q-stage" style={{ "--field": "var(--c-celadon)", aspectRatio: "4 / 3.2" } as React.CSSProperties}>
-            <img className="q-stage__cut q-float" src="/media/site/cut/qpad.webp" alt="qPad One tablet with tactile keys" style={{ inset: "14% 4% auto 30%", width: "66%", height: "auto" }} />
-            <img className="q-stage__cut" src="/media/site/cut/brainwear.webp" alt="Everyday Brainwear headband" style={{ inset: "auto auto 4% 2%", width: "46%", height: "auto", animationDelay: "-2s" }} />
+            <img className="q-stage__cut q-float" src="/media/shop/qpad-one/ivory-cut.webp" alt="qPad One tablet with tactile keys" style={{ inset: "14% 4% auto 30%", width: "66%", height: "auto" }} />
+            <img className="q-stage__cut" src="/media/shop/brainwear-duo/sage-cut.webp" alt="Everyday Brainwear headband" style={{ inset: "auto auto 4% 2%", width: "46%", height: "auto", animationDelay: "-2s" }} />
           </div>
         </div>
       </section>
@@ -45,8 +45,8 @@ export default function DuetPage() {
 
       <section className="q-shell" aria-label="Duet in use">
         <div className="q-split">
-          <Reveal><img src="/media/site/life/brainwear.webp" alt="Man smiling while using the tablet and headband at home" style={{ borderRadius: 20, width: "100%", aspectRatio: "4/5", objectFit: "cover" }} loading="lazy" /></Reveal>
-          <Reveal delay={0.08}><img src="/media/site/life/qpad.webp" alt="Woman pressing a tactile key on the tablet" style={{ borderRadius: 20, width: "100%", aspectRatio: "4/5", objectFit: "cover" }} loading="lazy" /></Reveal>
+          <Reveal><img src="/media/shop/brainwear-duo/sage-context.webp" alt="Man in a sage polo wearing Brainwear Duo and holding qPad" style={{ borderRadius: 20, width: "100%", aspectRatio: "4/5", objectFit: "cover" }} loading="lazy" /></Reveal>
+          <Reveal delay={0.08}><img src="/media/shop/qpad-one/ivory-context.webp" alt="Woman wearing Brainwear Duo, tapping a Word Quest card on qPad" style={{ borderRadius: 20, width: "100%", aspectRatio: "4/5", objectFit: "cover" }} loading="lazy" /></Reveal>
         </div>
       </section>
 
@@ -54,7 +54,7 @@ export default function DuetPage() {
         <h2 id="duet-why" className="q-display" style={{ marginBottom: 56 }}>Made for <em>hands</em>,<br />not menus.</h2>
         <div className="q-plans">
           {[
-            ["01", "Five keys", "Big tactile buttons. No tiny icons."],
+            ["01", "Four keys", "Big tactile buttons. No tiny icons."],
             ["02", "Soft band", "Woven textile, washable cover."],
             ["03", "Family in the loop", "A weekly summary, only if you choose."]
           ].map(([n, t, d]) => (

@@ -240,11 +240,11 @@ function rhythmWeights(days: number): Weights {
 export type Profile = { id: ProfileId; name: string; line: string; image: string; ritual: RitualId };
 
 export const profiles: Record<ProfileId, Profile> = {
-  everyday: { id: "everyday", name: "The Everyday Mover", line: "Movement woven through your day, from morning walks to the long way home.", image: "/media/site/life/walk.webp", ritual: "walk" },
-  mindful: { id: "mindful", name: "The Mindful Mover", line: "Breath, stretch and ease, practised with care and on your own terms.", image: "/media/site/life/flow.webp", ritual: "flow" },
-  strength: { id: "strength", name: "The Strength Builder", line: "Stamina and strength, built steadily for the things you love.", image: "/media/site/hero/chrono-a.webp", ritual: "walk" },
-  social: { id: "social", name: "The Social Explorer", line: "Moving with people, places and plans, and dressed for all of it.", image: "/media/site/life/polo.webp", ritual: "walk" },
-  gentle: { id: "gentle", name: "The Gentle Return", line: "Rebuilding at your own pace, with clothes that make every start easier.", image: "/media/site/life/brainwear.webp", ritual: "flow" }
+  everyday: { id: "everyday", name: "The Everyday Mover", line: "Movement woven through your day, from morning walks to the long way home.", image: "/media/shop/edits/run-longer.webp", ritual: "walk" },
+  mindful: { id: "mindful", name: "The Mindful Mover", line: "Breath, stretch and ease, practised with care and on your own terms.", image: "/media/shop/edits/breathe-better.webp", ritual: "flow" },
+  strength: { id: "strength", name: "The Strength Builder", line: "Stamina and strength, built steadily for the things you love.", image: "/media/shop/edits/stand-stronger.webp", ritual: "walk" },
+  social: { id: "social", name: "The Social Explorer", line: "Moving with people, places and plans, and dressed for all of it.", image: "/media/shop/edits/signature-style.webp", ritual: "walk" },
+  gentle: { id: "gentle", name: "The Gentle Return", line: "Rebuilding at your own pace, with clothes that make every start easier.", image: "/media/shop/brainwear-duo/sage-context.webp", ritual: "flow" }
 };
 
 /* ---------- Helpers ---------- */

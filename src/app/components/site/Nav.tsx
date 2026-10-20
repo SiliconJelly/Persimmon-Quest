@@ -4,7 +4,7 @@ import { ArrowRight, Search, ShoppingBag, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
-import { products, won } from "../../catalog";
+import { products, thumbFor, won } from "../../catalog";
 import { useBag } from "./BagContext";
 import Monogram, { EMBLEM } from "./Monogram";
 
@@ -34,14 +34,14 @@ function QuerySync({ onChange }: { onChange: (query: string) => void }) {
 function Strip() {
   const dismiss = () => {
     document.documentElement.dataset.strip = "hidden";
-    try { localStorage.setItem("pq-strip", "hidden"); } catch { /* storage unavailable */ }
+    try { localStorage.setItem("pq-strip-preorder", "hidden"); } catch { /* storage unavailable */ }
   };
   return (
     <div className="q-strip" role="region" aria-label="Announcement">
       <p className="q-strip__text">
         <svg className="q-strip__star" viewBox="42 42 16 16" aria-hidden="true"><path d={EMBLEM.star} fill="currentColor" /></svg>
-        <span>New drop: Quest Stride<span className="q-strip__lede">, made for the long run</span></span>
-        <Link className="q-strip__chip" href="/shop/quest-stride">Shop now <span><ArrowRight size={14} aria-hidden="true" /></span></Link>
+        <span>Pre-orders are open<span className="q-strip__lede"> for our first collection</span></span>
+        <Link className="q-strip__chip" href="/shop">Pre-order <span><ArrowRight size={14} aria-hidden="true" /></span></Link>
       </p>
       <button type="button" className="q-strip__close" onClick={dismiss} aria-label="Dismiss announcement"><X size={18} aria-hidden="true" /></button>
     </div>
@@ -78,7 +78,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
           {results.map((p) => (
             <li key={p.slug}>
               <Link href={`/shop/${p.slug}`} onClick={onClose}>
-                <img src={p.cut} alt="" />
+                <img src={thumbFor(p)} alt="" />
                 <span><b style={{ fontWeight: 600 }}>{p.name}</b><br /><span className="q-hint">{p.category}</span></span>
                 <span className="q-tabular">{won(p.price)}</span>
               </Link>

@@ -23,7 +23,7 @@ const BEATS: { key: QKey; title: string; line: string; face: React.ReactNode; la
   },
   {
     key: "rest", title: "Rest is already done.",
-    line: "Brainwear Sleep reads your night while you do nothing at all. In the morning, one plain sentence about how you rested.",
+    line: "The soft Movement Tank follows your breathing through the night while you do nothing at all. In the morning, one plain sentence about how you rested.",
     face: <RestFace />, label: "Rest screen: last night, slept well, woke once, 7 hours 20 minutes asleep."
   },
   {
@@ -124,9 +124,9 @@ const WEEK = [
 
 /* ---------- On-device intelligence: threads from each sensor weave into today's quest ---------- */
 const SOURCES = [
-  { img: "brainwear", label: "Last night's rest", from: "Brainwear" },
-  { img: "shorts", label: "This week's walks", from: "Walking Shorts" },
-  { img: "top", label: "Calm breathing", from: "Breather Top" }
+  { img: "movement-tank", label: "Last night's rest", from: "Movement Tank" },
+  { img: "walking-shorts", label: "This week's walks", from: "Walking Shorts" },
+  { img: "breather-top", label: "Calm breathing", from: "Breather Top" }
 ];
 
 function LocalAI() {
@@ -151,7 +151,7 @@ function LocalAI() {
         <ul className="qv-loom__sources">
           {SOURCES.map((s) => (
             <li key={s.img}>
-              <span className="qv-loom__tile"><img src={`/media/site/sketch/${s.img}.webp`} alt="" /></span>
+              <span className="qv-loom__tile"><img src={`/media/shop/${s.img}/sketch.webp`} alt="" /></span>
               <span><b>{s.label}</b><small>{s.from}</small></span>
             </li>
           ))}
@@ -270,7 +270,7 @@ function Access() {
 const CASES: { id: string; title: string; line: string; face: React.ReactNode; bg: string; pairs: { name: string; slug: string }[] }[] = [
   { id: "aqua", title: "Water aerobics", line: "From the poolside table, qPad calls each set in big type with a steady beat.", face: <AquaFace />, bg: "qv-case--pool", pairs: [{ name: "Movement Hood", slug: "movement-hood" }] },
   { id: "flow", title: "Pilates and yoga", line: "Breath counts and gentle cues, while your leggings notice when your core is working.", face: <FlowFace />, bg: "qv-case--flow", pairs: [{ name: "Movement Leggings", slug: "movement-leggings" }, { name: "Breather Top", slug: "breather-top" }] },
-  { id: "sleep", title: "Sleep", line: "A dim clock all night. A kind sentence about your rest by morning.", face: <NightFace />, bg: "qv-case--sleep", pairs: [{ name: "Brainwear Sleep", slug: "brainwear-sleep" }] },
+  { id: "sleep", title: "Sleep", line: "A dim clock all night. A kind sentence about your rest by morning.", face: <NightFace />, bg: "qv-case--sleep", pairs: [{ name: "Movement Tank", slug: "movement-tank" }] },
   { id: "calm", title: "Meditation", line: "Follow the breathing circle as Brainwear shows your mind settling.", face: <CalmFace />, bg: "qv-case--calm", pairs: [{ name: "Everyday Brainwear", slug: "everyday-brainwear" }] },
   { id: "walk", title: "The morning walk", line: "Steps and steadiness from your clothes, ready on qPad when you get home.", face: <MoveFace />, bg: "qv-case--walk", pairs: [{ name: "Everyday Polo", slug: "everyday-polo" }, { name: "Quest Stride", slug: "quest-stride" }] },
   { id: "photo", title: "A frame for family", line: "Between sessions, qPad shows the photos your family shares.", face: <PhotoFace />, bg: "qv-case--photo", pairs: [] }
@@ -376,7 +376,7 @@ export default function QuestViewStory() {
           <Reveal className="qv-layer">
             <p className="qv-layer__name">Sense</p>
             <div className="qv-layer__sketches">
-              {["polo", "brainwear", "shoe"].map((s) => <img key={s} src={`/media/site/sketch/${s}.webp`} alt="" />)}
+              {["everyday-polo", "everyday-brainwear", "quest-stride"].map((s) => <img key={s} src={`/media/shop/${s}/sketch.webp`} alt="" />)}
             </div>
             <p>Smart clothes, Brainwear and the Quest View phone app</p>
           </Reveal>

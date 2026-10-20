@@ -127,7 +127,7 @@ function Intro({ onStart }: { onStart: () => void }) {
         <p className="q-mono">About 2 minutes · Skip any question</p>
         <button type="button" className="q-btn q-btn--primary" onClick={onStart}>Explore my profile <ArrowRight size={18} aria-hidden="true" /></button>
       </div>
-      <img className="q-intro-step__img" src="/media/site/life/flow.webp" alt="Woman in her sixties mid Pilates session at home" />
+      <img className="q-intro-step__img" src="/media/shop/movement-tank/sage-motion.webp" alt="Woman in her sixties smiling in a seated yoga pose" />
     </div>
   );
 }

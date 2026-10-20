@@ -54,9 +54,9 @@ function Phone({ children, className, label }: { children: React.ReactNode; clas
 }
 
 const devices = [
-  { name: "Everyday Polo", img: "/media/site/sketch/polo.webp", battery: 92 },
-  { name: "Brainwear", img: "/media/site/sketch/brainwear.webp", battery: 85 },
-  { name: "Quest Stride", img: "/media/site/sketch/shoe.webp", battery: 88 }
+  { name: "Everyday Polo", img: "/media/shop/everyday-polo/sketch.webp", battery: 92 },
+  { name: "Brainwear", img: "/media/shop/everyday-brainwear/sketch.webp", battery: 85 },
+  { name: "Quest Stride", img: "/media/shop/quest-stride/sketch.webp", battery: 88 }
 ];
 
 function TodayScreen() {

@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { products, RENAMED } from "../../catalog";
 import { type Addons, type BagLine, linePrice } from "../../sensors";
 
 // The bag holds real lines: garments with their size and added sensors, devices, the Duet bundle and Premium.
@@ -37,7 +38,10 @@ export function BagProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(KEY);
-      if (raw) setLines(JSON.parse(raw));
+      // Saved bags can hold pieces that were renamed or retired: move them to today's slug, or drop them.
+      if (raw) setLines((JSON.parse(raw) as BagLine[])
+        .map((l) => (l.kind === "item" && RENAMED[l.slug] ? { ...l, slug: RENAMED[l.slug], color: undefined, addons: {} } : l))
+        .filter((l) => l.kind !== "item" || products.some((p) => p.slug === l.slug)));
       localStorage.removeItem("pq-bag-count"); // retire the old count-only bag
     } catch { /* storage unavailable */ }
     setReady(true);

@@ -13,7 +13,7 @@ export const moduleIcons: Record<ModuleId, typeof HeartPulse> = {
  * fitted pods (included), sensors the visitor added, and open room for more.
  */
 export default function SensorMap({
-  product, addons = {}, active, onSlot, labels = true, size = "lg"
+  product, addons = {}, active, onSlot, labels = true, size = "lg", numbered = false
 }: {
   product: Product;
   addons?: Addons;
@@ -21,22 +21,24 @@ export default function SensorMap({
   onSlot?: (slotId: string) => void;
   labels?: boolean;
   size?: "sm" | "lg";
+  /** Number the pins to match a list beside the drawing, instead of icons and labels on it. */
+  numbered?: boolean;
 }) {
   const slots = slotMaps[product.slug] ?? [];
   return (
-    <div className={`q-smap q-smap--${size}`}>
+    <div className={`q-smap q-smap--${size} ${numbered ? "q-smap--numbered" : ""}`}>
       <img className="q-smap__sketch" src={sketchFor(product)} alt={`Line drawing of the ${product.name}`} width={500} height={625} />
-      {slots.map((s) => {
+      {slots.map((s, i) => {
         const mod = s.fitted ?? addons[s.id];
         const state = s.fitted ? "fitted" : mod ? "added" : "open";
         const Icon = mod ? moduleIcons[mod] : Plus;
-        const label = mod ? moduleById(mod).short : "Open";
+        const label = mod ? moduleById(mod).short : "Free slot";
         const style = { left: `${s.x * 100}%`, top: `${s.y * 100}%` } as React.CSSProperties;
         const flip = s.x > 0.62;
         const content = (
           <>
-            <span className="q-smap__dot"><Icon size={size === "sm" ? 10 : 15} strokeWidth={2} aria-hidden="true" /></span>
-            {labels && <span className={`q-smap__label ${flip ? "is-left" : ""}`}>{label}</span>}
+            <span className="q-smap__dot">{numbered ? i + 1 : <Icon size={size === "sm" ? 10 : 15} strokeWidth={2} aria-hidden="true" />}</span>
+            {labels && !numbered && <span className={`q-smap__label ${flip ? "is-left" : ""}`}>{label}</span>}
           </>
         );
         const name = `${s.label}: ${state === "open" ? "open slot" : `${moduleById(mod!).name}${state === "fitted" ? ", included" : ", added"}`}`;

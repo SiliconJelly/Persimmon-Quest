@@ -13,9 +13,9 @@ export default function PlanCards() {
           <h3 className="q-h3">{plan.name}</h3>
           {plan.id === "duet" && (
             <div className="q-plan__kit" aria-hidden="true">
-              <img src="/media/site/cut/brainwear.webp" alt="" loading="lazy" />
+              <img src="/media/shop/brainwear-duo/sage-cut.webp" alt="" loading="lazy" />
               <span>+</span>
-              <img src="/media/site/cut/qpad.webp" alt="" loading="lazy" />
+              <img src="/media/shop/qpad-one/ivory-cut.webp" alt="" loading="lazy" />
             </div>
           )}
           <p className="q-body">{plan.line}</p>

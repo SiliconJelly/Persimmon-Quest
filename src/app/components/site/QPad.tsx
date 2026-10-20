@@ -153,7 +153,7 @@ export function RestFace() {
       </div>
       <div className="qf-row">
         <span className="qf-dots qf-dots--sm">7h 20m<small>asleep</small></span>
-        <span className="qf-text">Deep rest came early. Brainwear Sleep noticed.</span>
+        <span className="qf-text">Your breathing settled early. Deep rest followed.</span>
       </div>
     </div>
   );
@@ -194,7 +194,7 @@ export function NightFace() {
 export function FamilyFace() {
   return (
     <div className="qf qf--family">
-      <img src="/media/site/life/walk-wide.webp" alt="" />
+      <img src="/media/site/people/family-ride.webp" alt="" />
       <div className="qf-family__bar">
         <span className="qf-avatar">J</span>
         <span><b>Jiwoo</b> would like to say hello</span>
@@ -233,10 +233,10 @@ export function LocalAIFace({ ready }: { ready: boolean }) {
 /* ---------- Brain map in plain words ---------- */
 type Eyes = "open" | "closed";
 const BANDS = [
-  { id: "calm", name: "Calm", hz: "8 to 12 Hz", open: [50, 70, 0.35], closed: [50, 74, 0.95] },
-  { id: "drift", name: "Drifting", hz: "4 to 7 Hz", open: [50, 30, 0.45], closed: [50, 38, 0.6] },
+  { id: "calm", name: "Calm", hz: "8 to 13 Hz", open: [50, 70, 0.35], closed: [50, 74, 0.95] },
+  { id: "drift", name: "Drifting", hz: "4 to 8 Hz", open: [50, 30, 0.45], closed: [50, 38, 0.6] },
   { id: "think", name: "Thinking", hz: "13 to 20 Hz", open: [50, 26, 0.8], closed: [50, 30, 0.4] },
-  { id: "busy", name: "Busy mind", hz: "21 to 30 Hz", open: [36, 30, 0.5], closed: [40, 34, 0.2] }
+  { id: "busy", name: "Busy mind", hz: "20 to 30 Hz", open: [36, 30, 0.5], closed: [40, 34, 0.2] }
 ] as const;
 const levelColor = (l: number) => (l > 0.7 ? "#e8692f" : l > 0.45 ? "#e3cfa6" : "#8fa3b8");
 
@@ -273,7 +273,7 @@ export function BrainMapFace({ eyes }: { eyes: Eyes }) {
         ))}
       </div>
       <p className="qf-explain"><Star className="qf-star" />{eyes === "closed"
-        ? "With your eyes closed, calm rose at the back of your head. A settled, healthy pattern."
+        ? "Eyes closed, your calm rose. Most brains do this at rest."
         : "Eyes open, your thinking is bright and your busy mind stays low. Ready for the day."}</p>
     </div>
   );
@@ -335,7 +335,7 @@ export function FlowFace() {
 export function PhotoFace() {
   return (
     <div className="qf qf--family">
-      <img src="/media/site/life/rest-wide.webp" alt="" />
+      <img src="/media/site/people/family-walk.webp" alt="" />
       <div className="qf-photo__cap"><b>10:09</b><span>From Jiwoo, Sunday</span></div>
     </div>
   );

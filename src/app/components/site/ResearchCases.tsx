@@ -1,9 +1,8 @@
 import { productBySlug } from "../../catalog";
 import QPad, { LocalAIFace, RestFace } from "./QPad";
-import SensorMap from "./SensorMap";
 
 // Our research case studies. Shared by the homepage carousel (short line) and the /research page (full story).
-// Visuals are real footage, an archival lab photo, and our own coded qPad screens and sketches.
+// Visuals are real footage, an archival lab photo, our own coded qPad screens and product pictures.
 
 export type CaseStudy = {
   id: string;
@@ -53,9 +52,9 @@ export const CASES: CaseStudy[] = [
   {
     id: "sleep", eyebrow: "Case study · Sleep", status: "Exploring now",
     title: "Sleep, understood gently.",
-    line: "A soft knit band, worn to bed, can read a night's rest. We are learning how to turn it into one kind sentence by morning, instead of a chart.",
+    line: "A soft top, worn to bed, can follow a night's breathing. We are learning how to turn it into one kind sentence by morning, instead of a chart.",
     question: "What is the most useful thing to hear about last night?",
-    exploring: "How Brainwear Sleep can notice deep rest and waking without disturbing you, and how to say it simply.",
+    exploring: "How the Movement Tank can notice deep rest and waking without disturbing you, and how to say it simply.",
     meaning: "Waking up knowing how you slept, without reading a single graph.",
     cta: "Read the case study", visual: "sleep"
   },
@@ -79,36 +78,70 @@ export const CASES: CaseStudy[] = [
   }
 ];
 
+// What you do, when, and what you wear for it: a real product picture beside each moment.
 const DAY = [
-  { time: "Morning", label: "Walk", note: "Steady stride", sketch: "shoe" },
-  { time: "Midday", label: "Flow", note: "Easy style", sketch: "hood-graphite" },
-  { time: "Afternoon", label: "Calm", note: "Settled mind", sketch: "brainwear" },
-  { time: "Night", label: "Sleep", note: "Deep rest", sketch: "top" }
+  { time: "Morning", label: "Walk", slug: "quest-stride", colour: "Ivory" },
+  { time: "Midday", label: "Out and about", slug: "quest-hood", colour: "Pine" },
+  { time: "Afternoon", label: "Calm", slug: "everyday-brainwear", colour: "Oat" },
+  { time: "Night", label: "Sleep", slug: "movement-tank", colour: "Pearl" }
 ];
 
-/** One day, one headband: a single brain signal running through walks, breathing, calm and sleep. */
+/** One day, one headband: a single brain signal running through walks, time out, calm and sleep. */
 export function BrainDay() {
   // Busier waves while moving, smoother when calm, slow and deep at night.
   const wave = "M0 60 C10 30 20 90 30 60 S50 30 60 60 S80 90 90 60 S110 40 120 60 S140 70 150 60 S170 50 180 60 S200 66 210 60 S240 40 270 60 S320 90 360 60 S420 30 480 60";
   return (
-    <div className="q-day" role="img" aria-label="A single brain signal across a day: busy during the morning walk, easy during Flow, settled during calm, slow and deep during sleep.">
+    <div className="q-day" role="img" aria-label="A single brain signal across a day: busy on the morning walk in Quest Stride, easy at midday in the Quest Hood, settled during calm with Everyday Brainwear, slow and deep at night in the soft Movement Tank.">
       <svg className="q-day__wave" viewBox="0 0 480 120" preserveAspectRatio="none" aria-hidden="true">
         <path d={wave} />
       </svg>
       <ol className="q-day__stops">
-        {DAY.map((d) => (
-          <li key={d.label}>
-            <span className="q-day__tile"><img src={`/media/site/sketch/${d.sketch}.webp`} alt="" /></span>
-            <b>{d.label}</b>
-            <small>{d.time} · {d.note}</small>
-          </li>
-        ))}
+        {DAY.map((d) => {
+          const p = productBySlug(d.slug)!;
+          const c = p.colorways.find((x) => x.name === d.colour) ?? p.colorways[0];
+          return (
+            <li key={d.label}>
+              <span className="q-day__tile"><img src={c.still} alt="" loading="lazy" /></span>
+              <small className="q-day__time">{d.time}</small>
+              <b>{d.label}</b>
+              <span className="q-day__wear">{p.name}</span>
+            </li>
+          );
+        })}
       </ol>
     </div>
   );
 }
 
-const stride = productBySlug("quest-stride")!;
+// The shoe from the side, with each sensor named in plain words.
+const STEP_POINTS = [
+  { n: 1, x: 0.34, y: 0.68, title: "Motion core", line: "Step rhythm and balance", state: "fitted" },
+  { n: 2, x: 0.63, y: 0.86, title: "Pressure insole", line: "Weight, heel to toe", state: "fitted" },
+  { n: 3, x: 0.08, y: 0.42, title: "Free slot", line: "Room for a warmth sensor", state: "open" }
+] as const;
+
+export function StepMap({ tone = "dark" }: { tone?: "dark" | "light" }) {
+  return (
+    <figure className={`q-stepmap ${tone === "light" ? "q-stepmap--light" : ""}`}>
+      <div className="q-stepmap__shoe">
+        <img src="/media/shop/quest-stride/ivory-hero.webp" alt="Quest Stride in Ivory, seen from the side" width={1248} height={953} loading="lazy" />
+        {STEP_POINTS.map((p) => (
+          <span key={p.n} className={`q-stepmap__pin is-${p.state}`} style={{ left: `${p.x * 100}%`, top: `${p.y * 100}%` }} aria-hidden="true">{p.n}</span>
+        ))}
+      </div>
+      <figcaption>
+        <ol className="q-stepmap__key">
+          {STEP_POINTS.map((p) => (
+            <li key={p.n} className={`is-${p.state}`}>
+              <span className="q-stepmap__num" aria-hidden="true">{p.n}</span>
+              <span><b>{p.title}</b><small>{p.line}</small></span>
+            </li>
+          ))}
+        </ol>
+      </figcaption>
+    </figure>
+  );
+}
 
 /** The visual for a case study, used on the dark carousel stage and on the research page. */
 export function CaseVisual({ kind }: { kind: NonNullable<CaseStudy["visual"]> }) {
@@ -134,11 +167,7 @@ export function CaseVisual({ kind }: { kind: NonNullable<CaseStudy["visual"]> })
     return <QPad active="rest" className="q-case-pad" label="qPad morning note: slept well, woke once, 7 hours 20 minutes asleep."><RestFace /></QPad>;
   }
   if (kind === "footwear") {
-    return (
-      <div className="q-case-shoe">
-        <SensorMap product={stride} addons={{ insole: "pressure" }} />
-      </div>
-    );
+    return <StepMap />;
   }
   return <BrainDay />;
 }

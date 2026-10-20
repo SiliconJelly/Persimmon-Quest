@@ -14,13 +14,13 @@ const hud = Geist_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "
 
 export const metadata: Metadata = {
   title: "Persimmon Quest | The long run, beautifully worn",
-  description: "Biosensing activewear and wellness plans for Korea's silver towns. Shop by ritual: Walk, Flow, Rest and Duet."
+  description: "Biosensing activewear, Brainwear and the qPad for active ageing. Cut for women and men, made to be worn every day."
 };
 
 export const viewport: Viewport = { themeColor: "#f5f2ed", width: "device-width", initialScale: 1 };
 
 // Runs before paint: keeps a dismissed announcement strip hidden.
-const stripGate = `try{if(localStorage.getItem('pq-strip')==='hidden')document.documentElement.dataset.strip='hidden'}catch(e){}`;
+const stripGate = `try{if(localStorage.getItem('pq-strip-preorder')==='hidden')document.documentElement.dataset.strip='hidden'}catch(e){}`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

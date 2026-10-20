@@ -21,3 +21,11 @@ public/media/case-study/tribev2-assets/
 # Local-only files
 .claude/
 public/downloads/pinterest-*.html
+
+# Studio pipeline cache (subject masks, fitted plate)
+scripts/studio/.cache/
+
+# Deep research notes and reports (kept out of the site)
+research_notes/
+reports/
+__pycache__/
