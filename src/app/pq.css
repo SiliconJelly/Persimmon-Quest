@@ -857,42 +857,57 @@ html[data-strip="hidden"] .q-strip { display: none; }
 .q-bws__hero { position: absolute; left: var(--gutter); right: var(--gutter); top: calc(var(--nav-h) + 3vh); text-align: center; color: var(--c-ink); }
 .q-bws__title { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(36px, min(calc((100vw - 2 * var(--gutter)) / 5.8), 12vh), 200px); line-height: 0.92; letter-spacing: -0.03em; white-space: nowrap; }
 .q-bws__title em { display: block; font-style: italic; letter-spacing: -0.02em; color: var(--c-bronze); }
-/* The spotlight: a chapter's title, then its caption, in the display face. On top on phones, in a column beside the
-   devices on wide screens. Ink in the studio, cream once night has come in. */
-/* Title and caption share one cell, so one can leave while the next arrives without either pushing the other */
+/* The spotlight: one chapter at a time, its title over its caption, in the display face. On top on phones, in a column
+   beside the devices on wide screens. Ink in the studio, cream once night has come in. */
 .q-bws__copy { position: absolute; left: var(--gutter); right: var(--gutter); top: calc(var(--nav-h) + 20px); display: grid; align-items: start; color: var(--bw-cream); transition: color 800ms var(--ease-out); }
 .q-bws__copy > * { grid-area: 1 / 1; }
 .q-bws__copy.is-day { color: var(--c-ink); }
-.q-bws__spot-title { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(52px, 6vw, 104px); line-height: 0.95; letter-spacing: -0.02em; max-width: 9em; text-wrap: balance; transform-origin: 0 100%; }
-.q-bws__spot-line { display: grid; gap: 28px; justify-items: start; pointer-events: auto; }
-.q-bws__spot-line p { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(21px, 2.2vw, 36px); line-height: 1.22; max-width: 30ch; text-wrap: pretty; }
+.q-bws__spot { display: grid; gap: clamp(10px, 1.2vw, 18px); justify-items: start; pointer-events: auto; }
+.q-bws__spot .q-btn { margin-top: clamp(8px, 1.2vw, 16px); }
+.q-bws__spot-title { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(34px, 4.2vw, 76px); line-height: 0.98; letter-spacing: -0.02em; max-width: 11em; text-wrap: balance; }
+.q-bws__spot-line { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(20px, 2vw, 32px); line-height: 1.24; max-width: 30ch; text-wrap: pretty; opacity: 0.86; }
 .q-bws__measure, .q-bws__measure > * { position: absolute; left: 0; right: 0; top: 0; visibility: hidden; pointer-events: none; }
+/* The screen's smallest height (toolbars showing), which the layout is planned for */
+.q-bws__probe { position: absolute; left: 0; top: 0; width: 1px; height: 100vh; height: 100svh; visibility: hidden; pointer-events: none; }
 @media (min-width: 720px) and (min-aspect-ratio: 21/20) {
   .q-bws__title { font-size: clamp(56px, min(8.4vw, 12.5vh), 180px); }
   .q-bws__copy { top: 50%; right: auto; width: min(36vw, 560px); translate: 0 -50%; align-items: center; }
-  .q-bws__spot-line p { max-width: 22ch; }
+  .q-bws__spot-line { max-width: 24ch; }
 }
 
 /* The rail: one mark per chapter, the current one drawn longer, each a way to jump there */
 .q-bws { --rail: var(--c-ink); }
 .q-bws.is-night { --rail: var(--bw-cream); }
-.q-bws__rail { position: absolute; z-index: 6; left: 50%; bottom: 8px; translate: -50% 0; display: flex; flex-direction: column-reverse; align-items: center; gap: 0; color: var(--rail); transition: color 600ms var(--ease-out); }
+.q-bws__rail { position: absolute; z-index: 6; left: 50%; bottom: 8px; translate: -50% 0; color: var(--rail); transition: color 600ms var(--ease-out); }
 .q-bws__rail ol { display: flex; list-style: none; margin: 0; padding: 0; }
 .q-bws__rail button { display: grid; place-items: center; width: 32px; height: 44px; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; }
 .q-bws__rail button i { display: block; width: 14px; height: 2px; border-radius: 2px; background: currentColor; opacity: 0.32; transition: width 500ms var(--ease-out), opacity 500ms var(--ease-out); }
 .q-bws__rail button[aria-current] i { width: 26px; opacity: 1; }
 .q-bws__rail button:hover i { opacity: 0.7; }
 .q-bws__rail button:focus-visible { outline: 2px solid currentColor; outline-offset: -6px; border-radius: 8px; }
-/* Where each chapter's title comes to rest once its caption is up */
-.q-bws__now { display: grid; min-height: 1.15em; font-family: var(--f-display); font-size: clamp(19px, 1.6vw, 24px); line-height: 1.15; white-space: nowrap; }
-.q-bws__now > span { grid-area: 1 / 1; }
 .q-bws__cue { position: absolute; z-index: 6; right: var(--gutter); bottom: 20px; display: grid; justify-items: center; gap: 8px; font-size: 13px; color: var(--c-ink-2); pointer-events: none; }
 .q-bws__cue i { display: block; width: 1px; height: 36px; background: linear-gradient(currentColor, transparent); transform-origin: top; animation: q-bws-cue 2.2s var(--ease-out) infinite; }
 @keyframes q-bws-cue { 0% { transform: scaleY(0); } 55% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
 @media (min-width: 720px) and (min-aspect-ratio: 21/20) {
-  .q-bws__rail { left: var(--gutter); bottom: 22px; translate: none; margin-left: -9px; flex-direction: row; gap: 14px; }
+  .q-bws__rail { left: var(--gutter); bottom: 22px; translate: none; margin-left: -9px; }
   .q-bws__cue { right: auto; left: 50%; translate: -50% 0; }
 }
+
+/* Phones (touch screens): the scene follows the finger, so nothing in it may cost a redraw per frame. The sheen and
+   the filter glows go (the strokes keep their colour), the qPad's shadow is drawn once beneath it, the screens show
+   their photos as they are, and night falls as two fades of a room painted once. */
+.q-bws.is-lite .q-bws__sheen { display: none; }
+.q-bws.is-lite :is(.q-bws__stream, .q-bws__spark, .q-bws__sensor, .q-bws__trace, .q-bws__pulse) { filter: none; }
+.q-bws.is-lite .q-bws__stream { stroke-width: 2.4; }
+.q-bws.is-lite .q-bws__trace { stroke-width: 3; }
+.q-bws.is-lite .q-bws__pad { filter: none; }
+.q-bws.is-lite .q-bws__pad::after {
+  content: ""; position: absolute; z-index: -1; left: 8%; right: 8%; bottom: -4%; height: 14%; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.42), transparent);
+}
+.q-bws.is-lite .q-bws__screen img { filter: none; }
+.q-bws__dusk--fade { -webkit-mask-image: none; mask-image: none; background: none; }
+.q-bws__dusk--fade i { position: absolute; inset: 0; background: radial-gradient(circle at var(--cx) var(--cy), #5c3121 0, #2d1f18 36vmax, var(--bw-night) 72vmax); }
 
 /* Less motion: the same story in order, standing still */
 .q-bws--still { height: auto; background: var(--c-bg); padding-block: calc(var(--nav-h) + 32px) 72px; }
@@ -1151,15 +1166,15 @@ html[data-strip="hidden"] .q-strip { display: none; }
 .q-footer__brand { grid-column: 1 / -1; display: grid; gap: 16px; align-content: start; }
 .q-footer__brand p { margin: 0; max-width: 30ch; color: #d6cfc4; font-size: 20px; }
 .q-footer__mono { width: 44px; height: 44px; }
-/* Follow us: two outlined pills under the brand line, filling in light on hover */
-.q-footer .q-footer__social { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+/* Follow us: each network's mark alone, in the footer's warm grey, brightening on hover. The hit area is a 44px square,
+   pulled left so the first mark lines up with the words above it. */
+.q-footer .q-footer__social { list-style: none; margin: 4px 0 0 -11px; padding: 0; display: flex; gap: 6px; }
 .q-footer .q-footer__social a {
-  display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px 0 15px; border-radius: 999px;
-  border: 1px solid #4a4642; color: #e9e4dc; font-size: 15px; font-weight: 500;
-  transition: background-color var(--d-fast) var(--ease-out), color var(--d-fast) var(--ease-out), border-color var(--d-fast) var(--ease-out);
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; color: #bfb7ab;
+  transition: color var(--d-fast) var(--ease-out), background-color var(--d-fast) var(--ease-out);
 }
-.q-footer .q-footer__social a:hover { background: #e9e4dc; border-color: #e9e4dc; color: var(--c-graphite); text-decoration: none; }
-.q-footer .q-footer__social a:focus-visible { outline: 2px solid #e9a379; outline-offset: 3px; }
+.q-footer .q-footer__social a:hover { color: #fff; background: rgba(233, 228, 220, 0.08); }
+.q-footer .q-footer__social a:focus-visible { outline: 2px solid #e9a379; outline-offset: 0; color: #fff; }
 @media (min-width: 700px) { .q-footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1024px) {
   .q-footer__grid { grid-template-columns: 5fr repeat(3, 2fr); }
@@ -2374,9 +2389,8 @@ a.q-tier__note:hover { color: var(--c-ink); text-decoration: underline; text-und
 /* ======================================================================
    The Persimmon grade: one look across every film and photo we use
    ====================================================================== */
-.q-grade { filter: saturate(0.84) sepia(0.12) contrast(1.04) brightness(1.02); }
-.q-grade--soft { filter: saturate(0.92) sepia(0.06) contrast(1.02); }
-/* Fine film grain laid over graded media */
+/* The grade itself is baked into the films and photos (scripts/studio: sweep.py for photos, webfilm.py for films), so
+   phones play them without a filter. Fine film grain is laid over graded stills. */
 .q-grain {
   position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.22; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");

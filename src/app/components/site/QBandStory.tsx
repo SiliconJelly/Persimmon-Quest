@@ -2,14 +2,16 @@
 
 import Link from "next/link";
 import { AnimatePresence, type MotionValue, type Variants, motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 
 // The homepage opening, told in one pinned scroll: the title over the headband in a warm studio, the headband coming
 // closer, then turning to show the sensors inside it as the room dims and a brain comes down above it, its signals
 // running into them; then the band lies down beside a qPad that wakes when its signal reaches it and swipes through
 // what the day looked like, then the same qPad in the hands of two people on a bench.
-// The pictures move with the scroll. The words change by step instead: each chapter's title takes the spotlight, then
-// settles into the footer while its caption takes over, so no line of type is ever left half way.
+// The pictures move with the scroll. The words change by step instead: each chapter's title and caption arrive together
+// and leave together with a short fade, so no line of type is ever left half way and the eye never has to chase one.
+// On phones the scene follows the finger directly, like scrubbing a film, and drops the effects a phone would have to
+// redraw on every frame (blurs, the sheen, glows drawn as filters, the closing circle of night).
 // Media comes from scripts/studio/story.py, which also prints GLASS: where the screen sits.
 
 // The headband from three angles, all on one shared frame at one scale. It turns once per scene, always the same way
@@ -69,12 +71,11 @@ const CHAPTERS = [
   { at: 0.383, title: "See it", line: "qPad wakes up with you and finds your rhythm. Explore something new, and turn daily routines into something you look forward to better every day." },
   { at: 0.586, title: "Full body on one screen", line: "Your qBand, custom-made sensing clothes, and smart footwear, together on Quest View. See small steps become progress. And find your own pace." },
   { at: 0.838, title: "Live it together", line: "More to learn about our bodies. More ways to move. More new stories with the people you choose." },
-  { at: 0.927, title: "Your first year in one box", line: "qBand, qPad and 12 months of Quest View, all bundled for our founding members." }
+  { at: 0.915, title: "Your first year in one box", line: "qBand, qPad and 12 months of Quest View, all bundled for our founding members." }
 ] as const;
 const ORDER = { label: "Pre-order", href: "/duet" };
-// How long a chapter's title holds the spotlight before it settles into the footer, unless the reader scrolls on
-const HOLD = 1000;
-const HOLD_SCROLL = 0.028;
+// A chapter changes a little past its starting point, so a scroll resting on one never makes the words flicker
+const SLACK = 0.003;
 
 /* ---------- small helpers ---------- */
 const clamp01 = (t: number) => Math.min(1, Math.max(0, t));
@@ -156,9 +157,11 @@ function handover(L: Plan, e: number) {
   return { s, cx, cy, px, py };
 }
 
-/** A piece placed by its centre: position, size, turn and fade all come from one pose per frame. */
-function usePlaced(p: MotionValue<number>, size: MotionValue<Plan>, base: number, aspect: number, at: (v: number, L: Plan) => Pose): Record<string, unknown> {
+/** A piece placed by its centre: position, size, turn and fade all come from one pose per frame. Phones skip the blur,
+    since a filter makes them redraw the whole piece on every frame. */
+function usePlaced(p: MotionValue<number>, size: MotionValue<Plan>, base: number, aspect: number, lite: boolean, at: (v: number, L: Plan) => Pose): Record<string, unknown> {
   const pose = useTransform(() => at(p.get(), size.get()));
+  const blur = useTransform(() => `blur(${(pose.get().blur ?? 0).toFixed(2)}px)`);
   return {
     x: useTransform(() => pose.get().cx),
     y: useTransform(() => pose.get().cy),
@@ -166,29 +169,22 @@ function usePlaced(p: MotionValue<number>, size: MotionValue<Plan>, base: number
     rotate: useTransform(() => pose.get().rotate ?? 0),
     rotateX: useTransform(() => pose.get().rotateX ?? 0),
     opacity: useTransform(() => pose.get().o ?? 1),
-    filter: useTransform(() => `blur(${(pose.get().blur ?? 0).toFixed(2)}px)`),
+    filter: lite ? "none" : blur,
     width: base, marginLeft: -base / 2, marginTop: -base / aspect / 2, transformPerspective: 1400
   };
 }
 
-/* ---------- the words: one step at a time, on a clock rather than the scroll ---------- */
+/* ---------- the words: one chapter at a time, on a clock rather than the scroll ---------- */
 const EASE = [0.22, 1, 0.36, 1] as const;
 const EASE_IN = [0.55, 0, 0.75, 0.2] as const;
-const soft = { opacity: 0, filter: "blur(10px)" };
-const clear = { opacity: 1, filter: "blur(0px)" };
-/** A chapter title in the spotlight. When it hands over, it shrinks and drops towards the footer, where it lands. */
-const spotTitle: Variants = {
-  enter: { ...soft, y: 28 },
-  show: { ...clear, y: 0, scale: 1, transition: { duration: 0.8, ease: EASE } },
-  leave: (handoff: boolean) => (handoff
-    ? { opacity: 0, y: "34vh", scale: 0.3, filter: "blur(2px)", transition: { duration: 0.6, ease: EASE_IN } }
-    : { ...soft, y: -16, transition: { duration: 0.35 } })
+/** A chapter's title and caption, as one: the last one fades quickly, then the next settles in with a small rise. */
+const spot: Variants = {
+  enter: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
+  leave: { opacity: 0, transition: { duration: 0.2, ease: "linear" } }
 };
-const spotLine: Variants = {
-  enter: { ...soft, y: 20 },
-  show: { ...clear, y: 0, transition: { duration: 0.9, delay: 0.22, ease: EASE } },
-  leave: { ...soft, y: -14, transition: { duration: 0.35 } }
-};
+// The qPad's first screen: a quiet trace under its greeting
+const HELLO = trace(0, 30, 600, 30, 14, 18);
 
 /** One story on the qPad. Stories change the way a tablet turns a page: the next slides in over the last,
     its photo travelling a little slower than its frame, while the last one slips back and dims. */
@@ -255,10 +251,26 @@ export default function QBandStory() {
   const heroRef = useRef<HTMLDivElement>(null);
   const copyRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  // Everything follows the scroll through one spring, so the whole scene moves with the same weight and settles
-  // softly when the scrolling stops, instead of stepping with every notch of the wheel.
-  const p = useSpring(scrollYProgress, { stiffness: 130, damping: 30, mass: 0.6, restDelta: 0.0002 });
+  const probeRef = useRef<HTMLDivElement>(null);
+  // How far through the story the scroll is, measured against the screen's smallest height, so a phone's toolbar
+  // sliding in or out never moves the scene
+  const { scrollY } = useScroll();
+  const geo = useMotionValue({ top: 0, span: 1 });
+  const raw = useTransform(() => clamp01((scrollY.get() - geo.get().top) / geo.get().span));
+  // With a mouse or trackpad everything follows the scroll through one spring, so the whole scene moves with the same
+  // weight and settles softly instead of stepping with every notch of the wheel. A finger already moves smoothly, so on
+  // touch screens the scene follows it directly, with nothing trailing behind.
+  const eased = useSpring(raw, { stiffness: 130, damping: 30, mass: 0.6, restDelta: 0.0002 });
+  const touch = useMotionValue(0);
+  const p = useTransform(() => { const r = raw.get(), e = eased.get(); return touch.get() ? r : e; });
+  const [lite, setLite] = useState(false);
+  useEffect(() => {
+    const q = window.matchMedia("(hover: none) and (pointer: coarse)");
+    const sync = () => { touch.set(q.matches ? 1 : 0); setLite(q.matches); };
+    sync();
+    q.addEventListener("change", sync);
+    return () => q.removeEventListener("change", sync);
+  }, [touch]);
 
   // The layout follows the viewport; until it is measured, a desktop guess keeps the server render sensible
   const [L, setL] = useState<Plan>(() => plan(1440, 900));
@@ -274,12 +286,20 @@ export default function QBandStory() {
   }, [ready]);
   const size = useMotionValue<Plan>(L);
   useEffect(() => {
-    const el = stage.current;
-    if (!el) return;
+    const el = stage.current, section = ref.current;
+    if (!el || !section) return;
+    let last = "";
     const sync = () => {
       const copy = copyRef.current, hero = heroRef.current;
+      // The layout is planned for the screen with its toolbars showing, and only changes when that does
+      const h = Math.min(el.clientHeight, probeRef.current?.offsetHeight || Infinity);
       const tallest = Math.max(0, ...Array.from(measureRef.current?.children ?? []).map((c) => (c as HTMLElement).offsetHeight));
-      const next = plan(el.clientWidth, el.clientHeight, (copy?.offsetTop ?? 0) + tallest, hero ? hero.offsetTop + hero.offsetHeight : undefined);
+      const title = hero ? hero.offsetTop + hero.offsetHeight : undefined;
+      geo.set({ top: section.getBoundingClientRect().top + window.scrollY, span: Math.max(1, section.offsetHeight - h) });
+      const key = [el.clientWidth, h, tallest, title, copy?.offsetTop].join();
+      if (key === last) return;
+      last = key;
+      const next = plan(el.clientWidth, h, (copy?.offsetTop ?? 0) + tallest, title);
       size.set(next); setL(next); setCopyH(tallest); setReady(true);
     };
     sync();
@@ -287,23 +307,21 @@ export default function QBandStory() {
     document.fonts?.ready.then(sync);
     const ro = new ResizeObserver(sync);
     ro.observe(el);
+    // Decode every picture ahead of time, so none of them holds up a frame the first time it turns into view
+    el.querySelectorAll("img").forEach((img) => { img.decode?.().catch(() => {}); });
     return () => ro.disconnect();
-  }, [size]);
+  }, [size, geo]);
 
-  // Which chapter the scroll is in (-1 while the title has the screen), and whether its title or its caption is up.
-  // Coming back up into a chapter goes straight to its caption.
+  // Which chapter the scroll is in (-1 while the title has the screen)
   const [chapter, setChapter] = useState(-1);
-  const [phase, setPhase] = useState<"title" | "line">("title");
   // Which way the band faces (an index into TURN), and whether night has come in far enough for light type
   const [turn, setTurn] = useState(0);
   const [night, setNight] = useState(false);
   useMotionValueEvent(p, "change", (v) => {
-    let i = -1;
-    CHAPTERS.forEach((c, k) => { if (v >= c.at) i = k; });
-    if (i !== chapter) {
-      setPhase(i < chapter ? "line" : "title");
-      setChapter(i);
-    } else if (i >= 0 && phase === "title" && v > CHAPTERS[i].at + HOLD_SCROLL) setPhase("line");
+    let i = chapter;
+    while (i + 1 < CHAPTERS.length && v > CHAPTERS[i + 1].at + SLACK) i++;
+    while (i >= 0 && v < CHAPTERS[i].at - SLACK) i--;
+    if (i !== chapter) setChapter(i);
     // The band turns a little past each turning point, so a scroll resting on one never makes it flicker
     let n = turn;
     while (n < TURNS.length && v > TURNS[n] + 0.003) n++;
@@ -312,21 +330,10 @@ export default function QBandStory() {
     const dark = v > T.night[0] + (T.night[1] - T.night[0]) * 0.35;
     if (dark !== night) setNight(dark);
   });
-  useEffect(() => {
-    if (chapter < 0 || phase !== "title") return;
-    const t = window.setTimeout(() => setPhase("line"), HOLD);
-    return () => window.clearTimeout(t);
-  }, [chapter, phase]);
-  // A title leaving for its own caption hands over to the footer; any other change simply clears
-  const shown = useRef(chapter);
-  const handoff = shown.current === chapter;
-  useEffect(() => { shown.current = chapter; }, [chapter]);
 
   const jump = (i: number) => {
-    const el = ref.current;
-    if (!el) return;
-    const top = el.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top: top + (CHAPTERS[i].at + 0.02) * (el.offsetHeight - window.innerHeight), behavior: "smooth" });
+    const { top, span } = geo.get();
+    window.scrollTo({ top: top + (CHAPTERS[i].at + 0.02) * span, behavior: "smooth" });
   };
 
   const angle: Angle = TURN[turn];
@@ -334,7 +341,7 @@ export default function QBandStory() {
   // The band: under the title, then closer and larger beside the words, one picture gliding the whole way; then down
   // under the brain, and an arc up to rest above the qPad (up eases faster than across, so the path curves). It stays
   // level throughout, and bows out before the hand-over.
-  const band = usePlaced(p, size, L.hero.w, BAND.w / BAND.h, (v, P) => {
+  const band = usePlaced(p, size, L.hero.w, BAND.w / BAND.h, lite, (v, P) => {
     const s = smooth(along(v, T.intro)), g = smooth(along(v, T.stage)), t = along(v, T.dock);
     const leave = smooth(along(v, [T.morph[0] - 0.035, T.morph[0] + 0.01]));
     const cx = mix(mix(P.intro.cx, P.hero.cx, s), P.stage.cx, g);
@@ -346,7 +353,7 @@ export default function QBandStory() {
     };
   });
   // The brain comes down out of the dark into focus above the band, and later rises away again
-  const brain = usePlaced(p, size, L.brain.w, BRAIN.w / BRAIN.h, (v, P) => {
+  const brain = usePlaced(p, size, L.brain.w, BRAIN.w / BRAIN.h, lite, (v, P) => {
     const a = along(v, T.brain), e = outCubic(a), b = smooth(along(v, T.lift));
     return {
       cx: P.brain.cx, cy: P.brain.cy - (1 - e) * P.h * 0.2 - b * P.h * 0.16, w: P.brain.w * mix(0.86, 1, e) * (1 + b * 0.06),
@@ -360,7 +367,7 @@ export default function QBandStory() {
   const light = { x: band.x as MotionValue<number>, y: band.y as MotionValue<number> };
   // The qPad: lifted up from below and tilted towards you as it comes, then it rides the hand-over into the photo,
   // fading as the photo's own qPad takes its place
-  const pad = usePlaced(p, size, L.on.w, PAD.w / PAD.h, (v, P) => {
+  const pad = usePlaced(p, size, L.on.w, PAD.w / PAD.h, lite, (v, P) => {
     if (v < T.morph[0]) {
       const t = along(v, T.arrive), e = outCubic(t);
       return { cx: P.on.cx, cy: P.on.cy + (1 - e) * P.h * 0.55, w: P.on.w * mix(0.86, 1, e), rotateX: 34 * (1 - e), o: clamp01(t * 2.2) };
@@ -389,6 +396,10 @@ export default function QBandStory() {
     const reach = Math.hypot(Math.max(c.x, P.w - c.x), Math.max(c.y, P.h - c.y)); // past the farthest corner
     return `${mix(reach * 1.15, -reach * 0.4, smooth(along(v, T.night))).toFixed(1)}px`;
   });
+  // On phones night falls as one fade instead, and its warm heart crosses to the qPad as a second fade, so the room
+  // is painted once and only its opacity changes as you scroll
+  const nightIn = useKeys(p, T.night, [0, 1]);
+  const nightOver = useKeys(p, T.dock, [0, 1]);
   const glow = useKeys(p, [T.wake[0], T.wake[1], T.morph[0], T.morph[0] + 0.06], [0, 1, 1, 0]);
   const draw = useKeys(p, T.signal, [1, 0]);
   const signalO = useKeys(p, [T.signal[0] - 0.01, T.signal[0], T.morph[0] - 0.03, T.morph[0]], [0, 1, 1, 0]);
@@ -401,21 +412,23 @@ export default function QBandStory() {
 
   // The brain's signals: each leaves its underside, spread across it as the sensors are spread across the band, and
   // curves down into its sensor
-  const bandA = BAND.w / BAND.h, stageH = L.stage.w / bandA, brainH = L.brain.w / (BRAIN.w / BRAIN.h);
-  const at = (x: number, y: number) => ({ x: L.stage.cx + (x - 0.5) * L.stage.w, y: L.stage.cy + (y - 0.5) * stageH });
-  const streams = SENSORS.map(([sx, sy]) => {
-    const t = at(sx, sy), u = ((sx - 0.511) / 0.257) * 0.62;
-    const o = { x: L.brain.cx + (u * L.brain.w) / 2, y: L.brain.cy + (brainH / 2) * Math.sqrt(1 - u * u) * 0.86 };
-    const k = (t.y - o.y) * 0.5;
-    return { ...t, d: `M${o.x.toFixed(1)} ${o.y.toFixed(1)} C${o.x.toFixed(1)} ${(o.y + k).toFixed(1)} ${t.x.toFixed(1)} ${(t.y - k).toFixed(1)} ${t.x.toFixed(1)} ${t.y.toFixed(1)}` };
-  });
-  const light3 = at(LIGHT3.x, LIGHT3.y);
-
-  // The band's signal drops from the light on its pod onto the qPad's left edge, clear of the glass
-  const dockH = L.dock.w / bandA, padH = L.on.w / (PAD.w / PAD.h);
-  const from = { x: L.dock.cx + (LED.x - 0.5) * L.dock.w, y: L.dock.cy + (LED.y - 0.5) * dockH };
-  const to = { x: L.on.cx - L.on.w * 0.446, y: L.on.cy - padH * 0.118 };
-  const d = trace(from.x, from.y, to.x, to.y, Math.max(3, Math.round(Math.hypot(to.x - from.x, to.y - from.y) / 42)), L.wide ? 14 : 10);
+  // The paths only change with the layout, so they are drawn once per layout rather than on every chapter change
+  const { streams, light3, from, to, d } = useMemo(() => {
+    const bandA = BAND.w / BAND.h, stageH = L.stage.w / bandA, brainH = L.brain.w / (BRAIN.w / BRAIN.h);
+    const at = (x: number, y: number) => ({ x: L.stage.cx + (x - 0.5) * L.stage.w, y: L.stage.cy + (y - 0.5) * stageH });
+    const streams = SENSORS.map(([sx, sy]) => {
+      const t = at(sx, sy), u = ((sx - 0.511) / 0.257) * 0.62;
+      const o = { x: L.brain.cx + (u * L.brain.w) / 2, y: L.brain.cy + (brainH / 2) * Math.sqrt(1 - u * u) * 0.86 };
+      const k = (t.y - o.y) * 0.5;
+      return { ...t, d: `M${o.x.toFixed(1)} ${o.y.toFixed(1)} C${o.x.toFixed(1)} ${(o.y + k).toFixed(1)} ${t.x.toFixed(1)} ${(t.y - k).toFixed(1)} ${t.x.toFixed(1)} ${t.y.toFixed(1)}` };
+    });
+    // The band's signal drops from the light on its pod onto the qPad's left edge, clear of the glass
+    const dockH = L.dock.w / bandA, padH = L.on.w / (PAD.w / PAD.h);
+    const from = { x: L.dock.cx + (LED.x - 0.5) * L.dock.w, y: L.dock.cy + (LED.y - 0.5) * dockH };
+    const to = { x: L.on.cx - L.on.w * 0.446, y: L.on.cy - padH * 0.118 };
+    const d = trace(from.x, from.y, to.x, to.y, Math.max(3, Math.round(Math.hypot(to.x - from.x, to.y - from.y) / 42)), L.wide ? 14 : 10);
+    return { streams, light3: at(LIGHT3.x, LIGHT3.y), from, to, d };
+  }, [L]);
 
   if (reduce) return <Still />;
 
@@ -423,13 +436,21 @@ export default function QBandStory() {
   const last = chapter === CHAPTERS.length - 1;
 
   return (
-    <section ref={ref} className={`q-bws ${ready ? "is-ready" : ""} ${night ? "is-night" : ""}`} aria-labelledby="bws-title">
+    <section ref={ref} className={`q-bws ${ready ? "is-ready" : ""} ${night ? "is-night" : ""} ${lite ? "is-lite" : ""}`} aria-labelledby="bws-title">
       <div ref={stage} className="q-bws__sticky">
+        <div ref={probeRef} className="q-bws__probe" aria-hidden="true" />
         <motion.div className="q-bws__light" style={light} aria-hidden="true" />
-        <motion.div className="q-bws__dusk" style={{ "--cx": duskX, "--cy": duskY, "--r": dim } as unknown as CSSProperties} aria-hidden="true" />
+        {lite ? (
+          <motion.div className="q-bws__dusk q-bws__dusk--fade" style={{ opacity: nightIn }} aria-hidden="true">
+            <i style={{ "--cx": `${L.stage.cx.toFixed(1)}px`, "--cy": `${((L.brain.cy + L.stage.cy) / 2).toFixed(1)}px` } as CSSProperties} />
+            <motion.i style={{ "--cx": `${L.on.cx.toFixed(1)}px`, "--cy": `${L.on.cy.toFixed(1)}px`, opacity: nightOver } as unknown as CSSProperties} />
+          </motion.div>
+        ) : (
+          <motion.div className="q-bws__dusk" style={{ "--cx": duskX, "--cy": duskY, "--r": dim } as unknown as CSSProperties} aria-hidden="true" />
+        )}
         <motion.div className="q-bws__glow" style={{ opacity: glow, left: L.on.cx, top: L.on.cy, width: L.on.w * 1.7, height: L.on.w * 1.3 }} aria-hidden="true" />
 
-        <motion.div className="q-bws__photo" style={{ width: L.F.w, x: photoX, y: photoY, scale: photoS, opacity: photoO, filter: photoBlur, borderRadius: photoR, transformOrigin: "0 0" }}>
+        <motion.div className="q-bws__photo" style={{ width: L.F.w, x: photoX, y: photoY, scale: photoS, opacity: photoO, filter: lite ? "none" : photoBlur, borderRadius: photoR, transformOrigin: "0 0" }}>
           <img src={COUPLE.src} alt="Two people on a bench after a morning walk, both in qBands, sharing a qPad" width={COUPLE.w} height={COUPLE.h} loading="lazy" />
         </motion.div>
 
@@ -466,7 +487,7 @@ export default function QBandStory() {
                 <motion.div className="q-bws__hello" style={{ opacity: hello, x: helloX }}>
                   <span className="q-bws__from"><i aria-hidden="true" />qBand is on</span>
                   <b>Good morning</b>
-                  <svg viewBox="0 0 600 60" aria-hidden="true"><path d={trace(0, 30, 600, 30, 14, 18)} /></svg>
+                  <svg viewBox="0 0 600 60" aria-hidden="true"><path d={HELLO} /></svg>
                 </motion.div>
                 {SCREENS.map((s) => <Screen key={s.id} p={p} s={s} />)}
                 <motion.span className="q-bws__bloom" style={{ opacity: bloom, scaleY: bloomS }} aria-hidden="true" />
@@ -486,8 +507,8 @@ export default function QBandStory() {
                 return (
                   <motion.div key={a} className="q-bws__view" initial={false} style={{ transformPerspective: 1100, "--src": `url(${ANGLES[a]})` } as unknown as CSSProperties}
                     animate={k === 0
-                      ? { opacity: 1, rotateY: 0, scale: 1, filter: "blur(0px)", visibility: "visible", transition: { duration: settled ? 0.85 : 0, delay: settled ? 0.3 : 0, ease: EASE } }
-                      : { opacity: 0, rotateY: k < 0 ? -24 : 24, scale: 0.96, filter: "blur(8px)", transition: { duration: settled ? 0.32 : 0, ease: EASE_IN }, transitionEnd: { visibility: "hidden" } }}>
+                      ? { opacity: 1, rotateY: 0, scale: 1, filter: lite ? "none" : "blur(0px)", visibility: "visible", transition: { duration: settled ? 0.85 : 0, delay: settled ? 0.3 : 0, ease: EASE } }
+                      : { opacity: 0, rotateY: k < 0 ? -24 : 24, scale: 0.96, filter: lite ? "none" : "blur(8px)", transition: { duration: settled ? 0.32 : 0, ease: EASE_IN }, transitionEnd: { visibility: "hidden" } }}>
                     <img src={ANGLES[a]} alt="" width={BAND.w} height={BAND.h} fetchPriority={a === "front" ? "high" : undefined} />
                     <i className="q-bws__sheen" />
                   </motion.div>
@@ -499,31 +520,31 @@ export default function QBandStory() {
 
         <div className="q-shell q-bws__words">
           <motion.div ref={heroRef} className="q-bws__hero" initial={false}
-            animate={chapter < 0 ? { ...clear, scale: 1 } : { opacity: 0, filter: "blur(12px)", scale: 0.97 }}
+            animate={chapter < 0 ? { opacity: 1, filter: lite ? "none" : "blur(0px)", scale: 1 } : { opacity: 0, filter: lite ? "none" : "blur(12px)", scale: 0.97 }}
             transition={{ duration: chapter < 0 ? 0.8 : 0.5, ease: EASE }}>
             <h1 id="bws-title" className="q-bws__title">{TITLE.lead} <em>{TITLE.accent}</em></h1>
           </motion.div>
 
-          {/* The spotlight: one chapter's title, then its caption. The words are written out for screen readers below. */}
+          {/* The spotlight: one chapter's title over its caption. The words are written out for screen readers below. */}
           <div ref={copyRef} className={`q-bws__copy ${night ? "" : "is-day"}`} style={L.wide && copyH ? { height: copyH } : undefined}>
-            <AnimatePresence custom={handoff}>
-              {c && phase === "title" && (
-                <motion.p key={`t${chapter}`} className="q-bws__spot-title" aria-hidden="true" custom={handoff}
-                  variants={spotTitle} initial="enter" animate="show" exit="leave">{c.title}</motion.p>
-              )}
-              {c && phase === "line" && (
-                <motion.div key={`l${chapter}`} className="q-bws__spot-line" variants={spotLine} initial="enter" animate="show" exit="leave">
-                  <p aria-hidden="true">{c.line}</p>
+            <AnimatePresence mode="wait" initial={false}>
+              {c && (
+                <motion.div key={chapter} className="q-bws__spot" variants={spot} initial="enter" animate="show" exit="leave">
+                  <p className="q-bws__spot-title" aria-hidden="true">{c.title}</p>
+                  <p className="q-bws__spot-line" aria-hidden="true">{c.line}</p>
                   {last && <Link className="q-btn q-btn--primary" href={ORDER.href}>{ORDER.label}</Link>}
                 </motion.div>
               )}
             </AnimatePresence>
-            {/* Every title and caption, laid out invisibly, so the devices can be kept clear of the tallest */}
+            {/* Every chapter, laid out invisibly, so the devices can be kept clear of the tallest */}
             <div ref={measureRef} className="q-bws__measure" aria-hidden="true">
-              {CHAPTERS.flatMap((m, i) => [
-                <p key={`t${i}`} className="q-bws__spot-title">{m.title}</p>,
-                <div key={`l${i}`} className="q-bws__spot-line"><p>{m.line}</p>{i === CHAPTERS.length - 1 && <span className="q-btn">{ORDER.label}</span>}</div>
-              ])}
+              {CHAPTERS.map((m, i) => (
+                <div key={m.title} className="q-bws__spot">
+                  <p className="q-bws__spot-title">{m.title}</p>
+                  <p className="q-bws__spot-line">{m.line}</p>
+                  {i === CHAPTERS.length - 1 && <span className="q-btn">{ORDER.label}</span>}
+                </div>
+              ))}
             </div>
           </div>
 
@@ -534,8 +555,7 @@ export default function QBandStory() {
           </div>
         </div>
 
-        {/* Where you are in the story, and a way to jump to any part of it. Each title comes to rest here once its
-            caption is up, so it is never on screen twice. */}
+        {/* Where you are in the story, and a way to jump to any part of it */}
         <motion.nav className="q-bws__rail" aria-label="qBand story" initial={false}
           animate={chapter >= 0 ? { opacity: 1, visibility: "visible" } : { opacity: 0, transitionEnd: { visibility: "hidden" } }}
           transition={{ duration: 0.6 }}>
@@ -546,14 +566,6 @@ export default function QBandStory() {
               </li>
             ))}
           </ol>
-          <span className="q-bws__now" aria-hidden="true">
-            <AnimatePresence>
-              {c && phase === "line" && (
-                <motion.span key={chapter} initial={{ opacity: 0, y: 10, filter: "blur(4px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, delay: 0.25, ease: EASE } }}
-                  exit={{ opacity: 0, transition: { duration: 0.25 } }}>{c.title}</motion.span>
-              )}
-            </AnimatePresence>
-          </span>
         </motion.nav>
         <motion.span className="q-bws__cue" initial={false} animate={{ opacity: chapter < 0 ? 1 : 0 }} transition={{ duration: 0.5 }} aria-hidden="true">Scroll<i /></motion.span>
       </div>

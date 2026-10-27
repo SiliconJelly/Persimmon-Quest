@@ -25,7 +25,7 @@ Next.js (App Router, `output: "export"`), React 18, TypeScript, framer-motion an
 
 ```
 .github/workflows/      build and publish to GitHub Pages
-docs/                   localization plan, Tally contact form kit
+docs/                   localization plan, Tally contact form kit, the emblem's source artwork
 public/
   pinterest-87cf3.html  Pinterest domain verification (must stay at the site root)
   media/                every picture and film the site shows (see below)
@@ -59,9 +59,9 @@ tests/                  integrity tests for the catalog and media
 | `site/qband-sage-duo` | The homepage story: Sage Duo from three angles, the brain, qPad with its screen off, and its screen photos |
 | `site/closing`, `site/day`, `site/material` | Homepage ending, the Duet page day strip, material stills |
 | `site/hero`, `site/people`, `site/partners`, `site/research` | Chronophotography, portraits for qPad screens, partner marks, research imagery |
-| `team`, `brand` | Team portraits and logo source artwork |
+| `team` | Team portraits |
 
-Raw photos and film originals stay outside the repo; `scripts/studio` reads them from `~/Downloads/down`.
+Only what the site serves lives here. Raw photos and film originals stay outside the repo; `scripts/studio` reads them from `~/Downloads/down` and writes the web versions into these folders.
 
 ## Marketing
 
@@ -76,5 +76,5 @@ The site will greet visitors in their own language, with prices in their currenc
 
 - Copy is plain and warm, written for older adults. No em dashes, and no punctuation in titles.
 - qBand is the word for our headbands; Sage Duo is the model in the Duet bundle.
-- Films and photos share one grade: muted colour, warm tint, lifted blacks and fine grain (`.q-grade` and `.q-grain` in `pq.css`).
+- Films and photos share one grade: muted colour and a warm tint, baked into the files by `scripts/studio` (no CSS filters on video, which iPhones can stop playing), with fine grain over stills (`.q-grain` in `pq.css`).
 - Prices in the catalog are placeholders until confirmed.

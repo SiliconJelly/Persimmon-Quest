@@ -1,6 +1,6 @@
 // The Persimmon Quest emblem: a four-petal persimmon calyx whose lower petal sweeps into the tail of a Q,
 // with a persimmon star at its centre. Petals take currentColor so the mark works on light and dark grounds.
-// Source artwork: public/media/brand/emblem-source.png
+// Source artwork: docs/emblem-source.png
 export const EMBLEM = {
   viewBox: "15 15 70 70",
   petals: [

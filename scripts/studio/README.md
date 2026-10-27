@@ -21,10 +21,10 @@ python3 -I closing.py ../..             # the homepage ending: Sage Duo and the 
 python3 -I day.py ../..                 # the Duet page's day strip: Sage Duo from a morning walk to an evening read
 python3 -I knit.py ../..                # the lookbook backdrop: feather jacquard and its sensor pod as a relief
 swiftc -O film.swift -o .cache/film && python3 -I film.py ../..   # the Duet page film: Sage Duo, circled and back
-FFMPEG=/path/to/ffmpeg python3 -I webfilm.py ../..              # every film for the web, with posters and phone cuts
+FFMPEG=/path/to/ffmpeg python3 -I webfilm.py ../.. [name ...]   # every film for the web (or just those named), with posters and phone cuts
 ```
 
 - `manifest.py` says which source photo becomes which product and colour.
 - `sweep.py` moves a model onto the house backdrop (#d9d1c7), keeping the original light and floor shadows, and holds the light house grade.
-- `webfilm.py` writes H.264 MP4 with the index first and no sound, a `.webp` poster per film, and a `-phone.mp4` cut for the films shown large on phones. Pages pass both to `AutoVideo`, which picks the phone cut on small screens and keeps the poster when a phone holds back autoplay.
+- `webfilm.py` writes H.264 MP4 with the index first and no sound, a `.webp` poster per film, and a `-phone.mp4` cut for the films shown large on phones. It trims a film from a longer original (the homepage silk is 5 seconds of `tailoor-cloth.mp4`) and bakes in the house grade, so no video needs a CSS filter. Pages pass both cuts to `AutoVideo`, which picks the phone cut on small screens, keeps the poster when a phone holds back autoplay, and starts the film on the next tap.
 - After adding a colour or product, add it to `src/app/catalog.ts` too; file names follow the list at the top of that file.

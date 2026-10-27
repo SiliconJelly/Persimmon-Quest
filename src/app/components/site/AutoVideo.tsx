@@ -57,8 +57,17 @@ export default function AutoVideo({ src, poster, phone, phoneMedia = "(max-width
       start: () => { if (!raf) { last = 0; raf = requestAnimationFrame(step); setPlaying(true); } },
       stop: () => { cancelAnimationFrame(raf); raf = 0; setPlaying(false); }
     };
-    // When a phone refuses to play (Low Power Mode, data saver), show the poster and leave the Play button to the viewer
-    const refused = () => { setPlaying(false); setReady(true); };
+    // When a phone refuses to play on its own (Low Power Mode, data saver), show the poster and try again on the
+    // viewer's next tap or keypress, which a phone always lets start a muted film
+    const retry = () => { off(); tryPlay(); };
+    const off = () => { window.removeEventListener("touchend", retry); window.removeEventListener("click", retry); window.removeEventListener("keydown", retry); };
+    const refused = () => {
+      setPlaying(false); setReady(true);
+      off();
+      window.addEventListener("touchend", retry, { passive: true });
+      window.addEventListener("click", retry);
+      window.addEventListener("keydown", retry);
+    };
     const tryPlay = () => {
       if (!visible || userPaused.current) return;
       if (pingPong) {
@@ -89,6 +98,7 @@ export default function AutoVideo({ src, poster, phone, phoneMedia = "(max-width
     v.addEventListener("playing", mark);
     return () => {
       cancelAnimationFrame(raf);
+      off();
       io.disconnect();
       v.removeEventListener("canplay", tryPlay);
       v.removeEventListener("loadeddata", mark);

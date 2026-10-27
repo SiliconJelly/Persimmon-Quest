@@ -126,7 +126,7 @@ export function Hero({ later = false }: { later?: boolean }) {
       <div className="q-hero__sticky" ref={stickyRef}>
         <motion.div className="q-hero__frame" style={reduce ? undefined : { clipPath: clip }}>
           <AutoVideo
-            className="q-hero__media q-grade"
+            className="q-hero__media"
             src="/media/film/drape.mp4"
             phone="/media/film/drape-phone.mp4"
             poster="/media/film/drape.webp"
@@ -135,7 +135,6 @@ export function Hero({ later = false }: { later?: boolean }) {
             showToggle={false}
           />
           <motion.div className="q-hero__veil" style={reduce ? undefined : { opacity: veil }} />
-          <span className="q-grain" aria-hidden="true" />
         </motion.div>
 
         <Title ref={titleRef} id="hero-title" className="q-display-xl q-hero__title" style={reduce ? undefined : { scale: titleScale }}>
@@ -302,14 +301,13 @@ export function Film() {
       <div className="q-film__sticky">
         <motion.div className="q-film__frame" style={reduce ? undefined : { clipPath: clip }}>
           <AutoVideo
-            className="q-film__video q-grade q-grade--soft"
+            className="q-film__video"
             src="/media/film/choreography.mp4"
             phone="/media/film/choreography-phone.mp4"
             poster="/media/film/choreography.webp"
             label="Persimmon Quest film: a dancer in grey activewear moving through a slow balance"
             showToggle={false}
           />
-          <span className="q-grain" aria-hidden="true" />
         </motion.div>
         <h2 id="film-title" className="q-film__lines">
           <motion.span className="q-film__line q-film__line--a" style={parting ? ({ x: leftX, "--o": linesO } as unknown as MotionStyle) : undefined}>Every age has</motion.span>{" "}
