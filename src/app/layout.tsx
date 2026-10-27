@@ -14,13 +14,15 @@ const hud = Geist_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "
 
 export const metadata: Metadata = {
   title: "Persimmon Quest | The long run, beautifully worn",
-  description: "Biosensing activewear, Brainwear and the qPad for active ageing. Cut for women and men, made to be worn every day."
+  description: "Sage Duo, our soft qBand EEG headband, and qPad One bring brain science into daily life, with biosensing activewear for active ageing.",
+  // Pinterest domain claim. The same code sits in /pinterest-87cf3.html at the site root; either one verifies the domain.
+  other: { "p:domain_verify": "87cf38651cf1920a8fc5fd24b1d6fba3" }
 };
 
 export const viewport: Viewport = { themeColor: "#f5f2ed", width: "device-width", initialScale: 1 };
 
 // Runs before paint: keeps a dismissed announcement strip hidden.
-const stripGate = `try{if(localStorage.getItem('pq-strip-preorder')==='hidden')document.documentElement.dataset.strip='hidden'}catch(e){}`;
+const stripGate = `try{if(localStorage.getItem('pq-strip-founding')==='hidden')document.documentElement.dataset.strip='hidden'}catch(e){}`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

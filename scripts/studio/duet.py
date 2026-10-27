@@ -1,6 +1,6 @@
-# Brainwear headbands and qPad tablets from the device renders in <PQ_PHOTOS>/headband and <PQ_PHOTOS>/tablet.
+# qBand headbands and qPad tablets from the device renders in <PQ_PHOTOS>/headband and <PQ_PHOTOS>/tablet.
 # Each render is staged on the studio sweep (still, cut, back and extra views), in-use photos become
-# shared scenes, and the homepage gets two tight cutouts for its Brainwear segment.
+# shared scenes.
 # usage: python3 -I duet.py <repo>
 # Some source names do not match their picture (two "walking shorts" and a "sock" are tablet backs); this list goes by the picture.
 import sys, os
@@ -16,7 +16,7 @@ RING, PAD, CLOSE = dict(fit=(0.8, 0.6), centre=(0.5, 0.5)), dict(fit=(0.86, 0.64
 
 # slug: colour: {view: (source, fit)}; "still" and "back" fill the catalogue's own fields, the rest are extra views
 DEVICES = {
-    'brainwear-duo': {'sage': {
+    'qband-sage-duo': {'sage': {
         'still': (HB + 'SAGE DUO woven EEG headband', RING),
         'back': (HB + 'Headband Rear Liner with Three Comb Pods', RING),
         'front': (HB + 'Sage Duo Front Elevation', dict(fit=(0.86, 0.5), centre=(0.5, 0.5))),
@@ -25,14 +25,14 @@ DEVICES = {
         'contacts': (HB + 'Sage Duo Inner Side Contact Assembly', CLOSE),
         'pod': (HB + 'Sage Four-Finger EEG Contact Pod', CLOSE),
     }},
-    'everyday-brainwear': {
+    'qband-everyday': {
         'oat': {'still': (HB + 'Oat leaf headband sensor arrangement', RING), 'inside': (HB + 'Oat Leaf Headband Inner Sensor Detail', RING)},
         'graphite': {'still': (HB + 'Graphite Loop EEG Headband', RING), 'inside': (HB + 'Graphite EEG Headband Sensor Layout', RING)},
         'rose': {'still': (HB + 'Rose Weave EEG Headband Concept', RING), 'inside': (HB + 'Rose Weave Interior Sensor Detail', RING)},
         'blue': {'still': (HB + 'Blue contour EEG wellness headband', RING), 'inside': (HB + 'Blue contour EEG headband render', RING)},
     },
     # The Arc has one render, so its Sage and Graphite editions are recoloured from the Ivory one (see tint below)
-    'brainwear-arc': {
+    'qband-arc': {
         'pearl': {'still': (HB + 'Ivory Arc EEG Headband(1)', RING), 'inside': (HB + 'Ivory Arc inner sensor detail', RING), 'combs': (HB + 'Ivory Arc EEG Headband(1)', COMBS)},
         'sage': {'still': (HB + 'Ivory Arc EEG Headband(1)', RING, (0.6, 0.63, 0.56)), 'inside': (HB + 'Ivory Arc inner sensor detail', RING, (0.6, 0.63, 0.56)), 'combs': (HB + 'Ivory Arc EEG Headband(1)', COMBS, (0.6, 0.63, 0.56))},
         'graphite': {'still': (HB + 'Ivory Arc EEG Headband(1)', RING, (0.27, 0.27, 0.285)), 'inside': (HB + 'Ivory Arc inner sensor detail', RING, (0.27, 0.27, 0.285)), 'combs': (HB + 'Ivory Arc EEG Headband(1)', COMBS, (0.27, 0.27, 0.285))},
@@ -80,8 +80,8 @@ SCENES = {
 
 # Card and gallery "in use" pictures, 4:5: slug/colour: (source, centre x, top y) as fractions of the photo
 CONTEXTS = {
-    ('brainwear-duo', 'sage'): (HB + 'Silver-haired man with Sage Duo and qPad', 0.5, 0.02),
-    ('everyday-brainwear', 'blue'): (HB + 'Silver-haired man in cobalt smartwear', 0.5, 0.02),
+    ('qband-sage-duo', 'sage'): (HB + 'Silver-haired man with Sage Duo and qPad', 0.5, 0.02),
+    ('qband-everyday', 'blue'): (HB + 'Silver-haired man in cobalt smartwear', 0.5, 0.02),
     ('qpad-one', 'ivory'): (HB + 'Sage Duo Greeting Practice at Home', 0.6, 0.0),
 }
 
@@ -134,15 +134,6 @@ def main():
     for (slug, colour), (src, cx, top) in CONTEXTS.items():
         write(window(rgb_of(src), cx, top), os.path.join(OUT, slug, f'{colour}-context.webp'), (960, 1200))
     print('contexts', len(CONTEXTS))
-
-    # Tight cutouts for the homepage segment, no sweep behind them
-    site = os.path.join(REPO, 'public/media/site/brainwear')
-    os.makedirs(site, exist_ok=True)
-    for name, src in {'duo': HB + 'SAGE DUO woven EEG headband', 'qpad': TB + 'Focus Garden tablet with breathing garden'}.items():
-        rgb, al = clean_cut(src + '.png')
-        hero_cut(rgb, al, os.path.join(site, name + '-hero.webp'), width=1200)
-    print('heroes')
-
 
 if __name__ == '__main__':
     main()

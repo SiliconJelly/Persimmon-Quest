@@ -111,7 +111,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           : <p id="size-hint" className="q-hint">Free exchanges for 60 days.</p>}
 
         <button type="button" className="q-btn q-btn--primary" style={{ width: "100%" }} onClick={onAdd}>Pre-order</button>
-        {product.ritual !== "rest" && <p className="q-hint">Pairs with the {ritual.plan} in <Link className="q-link" href="/pricing#premium">Quest View Premium</Link></p>}
+        {product.ritual !== "rest" && <p className="q-hint">Pairs with the {ritual.plan} in <Link className="q-link" href="/pricing#access">Quest View Access</Link></p>}
 
         {isWear(product.slug) && !stride && (() => {
           const cap = capacity(product.slug);

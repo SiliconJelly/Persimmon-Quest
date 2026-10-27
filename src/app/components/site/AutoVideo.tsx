@@ -5,7 +5,12 @@ import { useEffect, useRef, useState } from "react";
 
 type Props = {
   src: string;
+  /** A still shown until the film plays, and kept when a phone holds back autoplay (Low Power Mode, data saver). */
   poster: string;
+  /** A lighter cut for phones, framed the way the page crops the film there (scripts/studio/webfilm.py). */
+  phone?: string;
+  /** When the phone cut applies; defaults to phone widths. */
+  phoneMedia?: string;
   className?: string;
   rate?: number;
   label: string;
@@ -18,7 +23,7 @@ type Props = {
 };
 
 // Muted ambient loop: plays only while on screen, honours reduced motion, and always offers pause (WCAG 2.2.2).
-export default function AutoVideo({ src, poster, className, rate = 1, label, toggleClassName, showToggle = true, fadeIn = false, pingPong = false }: Props) {
+export default function AutoVideo({ src, poster, phone, phoneMedia = "(max-width: 767px)", className, rate = 1, label, toggleClassName, showToggle = true, fadeIn = false, pingPong = false }: Props) {
   const [ready, setReady] = useState(false);
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -33,7 +38,8 @@ export default function AutoVideo({ src, poster, className, rate = 1, label, tog
     v.defaultMuted = true;
     v.playbackRate = rate;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) userPaused.current = true;
+    // Standing still, the poster is the picture, so nothing waits to fade in
+    if (reduce) { userPaused.current = true; setReady(true); }
     let visible = false;
     // Ping-pong is driven frame by frame: the position follows a cosine, so each turn eases out and back in.
     let raf = 0, last = 0, clock = 0;
@@ -51,10 +57,16 @@ export default function AutoVideo({ src, poster, className, rate = 1, label, tog
       start: () => { if (!raf) { last = 0; raf = requestAnimationFrame(step); setPlaying(true); } },
       stop: () => { cancelAnimationFrame(raf); raf = 0; setPlaying(false); }
     };
+    // When a phone refuses to play (Low Power Mode, data saver), show the poster and leave the Play button to the viewer
+    const refused = () => { setPlaying(false); setReady(true); };
     const tryPlay = () => {
       if (!visible || userPaused.current) return;
-      if (pingPong) { v.pause(); drive.current!.start(); return; }
-      v.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+      if (pingPong) {
+        // iPhones load no video data until something plays, so one muted play unlocks the frames scrubbing needs
+        if (v.readyState < 2) { v.play().then(() => { v.pause(); drive.current!.start(); }).catch(refused); return; }
+        v.pause(); drive.current!.start(); return;
+      }
+      v.play().then(() => setPlaying(true)).catch(refused);
     };
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
@@ -98,7 +110,10 @@ export default function AutoVideo({ src, poster, className, rate = 1, label, tog
 
   return (
     <>
-      <video ref={ref} className={`${className ?? ""} ${fadeIn ? "q-fadein" : ""} ${ready ? "is-ready" : ""}`} src={src} poster={poster || undefined} muted loop={!pingPong} playsInline preload={fadeIn || pingPong ? "auto" : "metadata"} aria-label={label} />
+      <video ref={ref} className={`${className ?? ""} ${fadeIn ? "q-fadein" : ""} ${ready ? "is-ready" : ""}`} poster={poster || undefined} muted loop={!pingPong} playsInline preload={fadeIn || pingPong ? "auto" : "metadata"} aria-label={label}>
+        {phone && <source src={phone} media={phoneMedia} type="video/mp4" />}
+        <source src={src} type="video/mp4" />
+      </video>
       {showToggle && (
         <button type="button" className={toggleClassName ?? "q-media-toggle"} onClick={toggle} aria-label={playing ? `Pause ${label}` : `Play ${label}`}>
           {playing ? <Pause size={14} aria-hidden="true" /> : <Play size={14} aria-hidden="true" />}

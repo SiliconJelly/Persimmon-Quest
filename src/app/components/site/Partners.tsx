@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 // Where the people behind Persimmon Quest have studied, researched and worked.
 // Each mark is a flat silhouette from scripts/studio/logos.py, tinted by CSS so they all share one grey.
@@ -7,7 +7,6 @@ import type { CSSProperties } from "react";
 const MARKS = [
   { slug: "uw", name: "University of Washington", ratio: 7.44, density: 0.21 },
   { slug: "uc-davis", name: "UC Davis", ratio: 6.06, density: 0.55 },
-  { slug: "anthropic", name: "Anthropic", ratio: 8.89, density: 0.44 },
   { slug: "sanofi", name: "Sanofi", ratio: 1.26, density: 0.22 },
   { slug: "wyoming", name: "University of Wyoming", ratio: 0.75, density: 0.21 },
   { slug: "concordia", name: "Concordia University", ratio: 4.13, density: 0.17 },
@@ -42,9 +41,10 @@ function Marks({ hidden = false }: { hidden?: boolean }) {
 
 // The marks drift from right to left in one endless row: the set is drawn twice and the row slides by exactly one set.
 // Anyone who prefers reduced motion sees them standing still.
-export default function Partners() {
+/** "night" sits the strip on the dark band that runs from the qBand hero into the app section. Children sit centred under the marks. */
+export default function Partners({ tone = "light", children }: { tone?: "light" | "night"; children?: ReactNode }) {
   return (
-    <section className="q-partners" aria-labelledby="partners-title">
+    <section className={`q-partners ${tone === "night" ? "q-partners--night" : ""}`} aria-labelledby="partners-title">
       <h2 id="partners-title" className="q-partners__title">Built by industry leaders from</h2>
       <div className="q-partners__marquee">
         <div className="q-partners__track">
@@ -52,6 +52,7 @@ export default function Partners() {
           <Marks hidden />
         </div>
       </div>
+      {children && <div className="q-partners__foot">{children}</div>}
     </section>
   );
 }

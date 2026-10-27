@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { edits, productBySlug, products } from "../../catalog";
+import { RENAMED, edits, productBySlug, products } from "../../catalog";
 import ProductCard from "../../components/site/ProductCard";
 import ProductDetail from "./ProductDetail";
 import DeviceStory from "./DeviceStory";
 import { tabForProduct } from "../tabs";
 
 export const dynamicParams = false;
-export const generateStaticParams = () => products.map((p) => ({ slug: p.slug }));
+// Every product, plus its older slugs, so links shared before a rename still open the page
+export const generateStaticParams = () => [...products.map((p) => p.slug), ...Object.keys(RENAMED)].map((slug) => ({ slug }));
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;

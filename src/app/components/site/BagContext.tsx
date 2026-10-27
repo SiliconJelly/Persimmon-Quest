@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { products, RENAMED } from "../../catalog";
 import { type Addons, type BagLine, linePrice } from "../../sensors";
 
-// The bag holds real lines: garments with their size and added sensors, devices, the Duet bundle and Premium.
+// The bag holds real lines: garments with their size and added sensors, devices, the Duet bundle and Quest View Access.
 // Monarch OS is never sold through the bag; it starts with the pilot team.
 type NewLine =
   | { kind: "item"; slug: string; size?: string; color?: string; addons?: Addons; qty?: number }

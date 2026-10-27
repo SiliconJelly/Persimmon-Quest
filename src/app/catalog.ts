@@ -14,7 +14,7 @@
 
 export type RitualId = "walk" | "flow" | "rest" | "duet";
 
-/** The four routines Quest View Premium builds programs around. */
+/** The four routines Quest View Access builds programs around. */
 export type Ritual = { id: RitualId; name: string; plan: string };
 
 export const rituals: Ritual[] = [
@@ -290,26 +290,26 @@ export const products: Product[] = [
 
   /* ---------- Headband and qPad ---------- */
   product({
-    slug: "brainwear-duo", gender: "unisex", name: "Brainwear Duo", ritual: "duet", category: "Duet", price: 369000,
+    slug: "qband-sage-duo", gender: "unisex", name: "Sage Duo", ritual: "duet", category: "Duet", price: 369000,
     tags: ["device"],
     line: "Our everyday EEG headband, made to pair with qPad.",
     usage: "For yoga, tai chi, reading and calm minutes with qPad.",
     senses: ["Calm", "Focus", "Head motion"],
     fabric: "Woven sage band, two soft forehead pods, dry sensors and an adjustable strap", sizes: ["One size"],
     uses: [
-      use("water-rhythm", "Water Rhythm", "A gentle pool session, guided from qPad on the deck.", "Woman in a pool wearing Brainwear Duo, following Water Rhythm on qPad at the edge"),
-      use("seated-stretch", "Daily Movement", "Seated stretches, with qPad keeping the pace.", "Woman in a side stretch on a mat, wearing Brainwear Duo, with Daily Movement on qPad"),
-      use("calm-reading", "Reading Rhythm", "A calm read, with Brainwear following how settled you feel.", "Man reading The quiet garden on qPad while wearing Brainwear Duo"),
+      use("water-rhythm", "Water Rhythm", "A gentle pool session, guided from qPad on the deck.", "Woman in a pool wearing Sage Duo, following Water Rhythm on qPad at the edge"),
+      use("seated-stretch", "Daily Movement", "Seated stretches, with qPad keeping the pace.", "Woman in a side stretch on a mat, wearing Sage Duo, with Daily Movement on qPad"),
+      use("calm-reading", "Reading Rhythm", "A calm read, with your qBand following how settled you feel.", "Man reading The quiet garden on qPad while wearing Sage Duo"),
       use("tai-chi", "Tai chi", "Slow forms outdoors. The band stays put as you turn.", "Woman practising tai chi in a courtyard, wearing a headband"),
-      use("word-quest", "Word Quest", "Picture word games that keep language and memory busy.", "Woman wearing Brainwear Duo, tapping a Word Quest card on qPad"),
-      use("shared-rhythm", "Together", "Look back on the day's rhythm with someone you walk with.", "Couple on a bench, both wearing Brainwear Duo, looking at Today's Rhythm on qPad")
+      use("word-quest", "Word Quest", "Picture word games that keep language and memory busy.", "Woman wearing Sage Duo, tapping a Word Quest card on qPad"),
+      use("shared-rhythm", "Together", "Look back on the day's rhythm with someone you walk with.", "Couple on a bench, both wearing Sage Duo, looking at Today's Rhythm on qPad")
     ],
     specs: {
       Sage: {
-        hex: "#9ba68f", worn: "none", back: true, context: "Man in a sage polo wearing Brainwear Duo and holding qPad",
+        hex: "#9ba68f", worn: "none", back: true, context: "Man in a sage polo wearing Sage Duo and holding qPad",
         views: {
-          front: ["Front", "Brainwear Duo from the front: two soft pods on a woven sage band"],
-          side: ["Side", "Brainwear Duo from the side, with its adjustable strap"],
+          front: ["Front", "Sage Duo from the front: two soft pods on a woven sage band"],
+          side: ["Side", "Sage Duo from the side, with its adjustable strap"],
           liner: ["Forehead sensors", "The inside of the forehead pods, where the dry sensors sit"],
           contacts: ["Side contacts", "Close up of a woven side pod with four rounded contacts"],
           pod: ["Contact pod", "A four finger contact pod that reaches through hair"]
@@ -318,7 +318,7 @@ export const products: Product[] = [
     }
   }),
   product({
-    slug: "everyday-brainwear", gender: "unisex", name: "Everyday Brainwear", ritual: "duet", category: "Duet", price: 329000,
+    slug: "qband-everyday", gender: "unisex", name: "qBand Everyday", ritual: "duet", category: "Duet", price: 329000,
     tags: ["device"],
     line: "A soft woven band for focus and calm.",
     usage: "For cycling, strength work, music practice and the garden.",
@@ -341,7 +341,7 @@ export const products: Product[] = [
     }
   }),
   product({
-    slug: "brainwear-arc", gender: "unisex", name: "Brainwear Arc", ritual: "duet", category: "Duet", price: 299000,
+    slug: "qband-arc", gender: "unisex", name: "qBand Arc", ritual: "duet", category: "Duet", price: 299000,
     tags: ["device"],
     line: "Smooth shell pads on a woven strap, for longer sessions.",
     usage: "For seated sessions, reading and breathing practice.",
@@ -358,19 +358,19 @@ export const products: Product[] = [
     tags: ["device"],
     line: "Four keys. Every session.",
     usage: "For reading, word games, movement sessions and family calls.",
-    senses: ["Guided sessions", "Brainwear sessions", "Family check ins"],
+    senses: ["Guided sessions", "qBand sessions", "Family check ins"],
     fabric: "Four tactile keys, privacy shutter camera, stand and charging dock", sizes: ["Standard"],
     uses: [
-      use("word-quest", "Word Quest", "Tap a picture, say the word. Language games that grow with you.", "Woman wearing Brainwear Duo, tapping a Word Quest card on qPad"),
-      use("calm-reading", "Reading Rhythm", "Large, calm pages that turn at your pace.", "Man reading The quiet garden on qPad while wearing Brainwear Duo"),
-      use("seated-stretch", "Daily Movement", "Yoga, Water Moves and Pilates, one key away.", "Woman in a side stretch on a mat, wearing Brainwear Duo, with Daily Movement on qPad"),
+      use("word-quest", "Word Quest", "Tap a picture, say the word. Language games that grow with you.", "Woman wearing Sage Duo, tapping a Word Quest card on qPad"),
+      use("calm-reading", "Reading Rhythm", "Large, calm pages that turn at your pace.", "Man reading The quiet garden on qPad while wearing Sage Duo"),
+      use("seated-stretch", "Daily Movement", "Yoga, Water Moves and Pilates, one key away.", "Woman in a side stretch on a mat, wearing Sage Duo, with Daily Movement on qPad"),
       use("core-ball", "Follow along", "A coach on screen, at a pace that suits you.", "Man doing a seated core exercise with a ball, following a coach on qPad"),
-      use("shared-rhythm", "Together", "Look back on the day's rhythm with someone you walk with.", "Couple on a bench, both wearing Brainwear Duo, looking at Today's Rhythm on qPad"),
+      use("shared-rhythm", "Together", "Look back on the day's rhythm with someone you walk with.", "Couple on a bench, both wearing Sage Duo, looking at Today's Rhythm on qPad"),
       use("melody", "Music practice", "Melody Quest shows the notes as you play.", "Woman playing a keyboard at home, wearing a headband, with qPad on the music stand")
     ],
     specs: {
       Ivory: {
-        hex: "#efe7da", worn: "none", back: true, context: "Woman wearing Brainwear Duo, tapping a Word Quest card on qPad",
+        hex: "#efe7da", worn: "none", back: true, context: "Woman wearing Sage Duo, tapping a Word Quest card on qPad",
         views: {
           screen: ["Word Quest", "qPad One showing Word Quest, a picture word game"],
           keys: ["Four keys", "The four keys: Move, Calm, Rest and Your quest"]
@@ -384,7 +384,7 @@ export const products: Product[] = [
     tags: ["device"],
     line: "qPad in a soft grip frame, with a hand strap and four keys at your thumb.",
     usage: "For the garden, the kitchen or the sofa, held in one hand.",
-    senses: ["Guided sessions", "Brainwear sessions", "Family calls"],
+    senses: ["Guided sessions", "qBand sessions", "Family calls"],
     fabric: "Soft grip frame, woven hand strap, fold out stand, four tactile keys on the side", sizes: ["Standard"],
     uses: [
       use("strength-band", "Strength", "Stand it on the table and follow along with a band.", "Man in a blue polo stretching a resistance band, with qPad Grip on a side table")
@@ -403,7 +403,11 @@ export const products: Product[] = [
 ];
 
 /** Pieces that moved or merged, so older links and saved bags still land somewhere. */
-export const RENAMED: Record<string, string> = { "quest-hood-graphite": "quest-hood", "walk-set": "everyday-polo", "flow-set": "breather-top", "brainwear-sleep": "everyday-brainwear" };
+export const RENAMED: Record<string, string> = {
+  "quest-hood-graphite": "quest-hood", "walk-set": "everyday-polo", "flow-set": "breather-top",
+  // The headbands used to be called Brainwear; links to their old slugs still land on the right product
+  "brainwear-sleep": "qband-everyday", "brainwear-duo": "qband-sage-duo", "everyday-brainwear": "qband-everyday", "brainwear-arc": "qband-arc"
+};
 
 /* ---------- Pictures for a card or a product page ---------- */
 
@@ -466,7 +470,7 @@ export const edits: Edit[] = [
   {
     id: "breathe-better", label: "Breathe better", image: "/media/shop/edits/breathe-better.webp",
     alt: "Woman reaching into a side stretch in a garden, wearing the Sage Movement Hood",
-    slugs: ["breather-top", "breather-vest", "movement-hood", "brainwear-arc", "everyday-brainwear"]
+    slugs: ["breather-top", "breather-vest", "movement-hood", "qband-arc", "qband-everyday"]
   },
   {
     id: "signature-style", label: "Signature style", image: "/media/shop/edits/signature-style.webp",
@@ -478,7 +482,7 @@ export const edits: Edit[] = [
 /** Older ?ritual= links open the matching edit. */
 export const EDIT_FOR_RITUAL: Record<string, string> = { walk: "run-longer", flow: "stand-stronger", rest: "signature-style" };
 
-export type PlanId = "premium" | "duet" | "enterprise";
+export type PlanId = "access" | "duet" | "enterprise";
 
 export type Plan = {
   id: PlanId;
@@ -488,8 +492,12 @@ export type Plan = {
   /** Price shown large on the card; text so it can read "Custom" for enterprise. */
   price: string;
   unit?: string;
+  /** The plan this one builds on, so each list only shows what it adds. */
+  builds?: string;
   includes: string[];
   cta: { label: string; href: string };
+  /** One quiet line under the button, optionally a link. */
+  note?: { text: string; href?: string };
   ribbon?: string;
   tone?: "dark";
 };
@@ -500,29 +508,31 @@ export type Plan = {
  */
 export const FOUNDING_COHORT: { capacity?: number; eligibility?: string; benefits?: string[]; dates?: string } = {};
 
-// Prices are placeholders until pricing is confirmed. The bundle price matches the Duet page (both devices, less ₩89,000).
-// Ordered top to bottom: personal subscription, the bundle offer, then enterprise.
+// Prices are placeholders until pricing is confirmed. The bundle price is DUET_PRICE in sensors.ts.
+// Ordered left to right: the monthly plan, the founding member bundle, then enterprise.
 export const plans: Plan[] = [
   {
-    id: "premium", eyebrow: "For you", name: "Quest View Premium",
+    id: "access", eyebrow: "Monthly", name: "Quest View Access",
     line: "Your qPad, personalised. Programs, games and check ins shaped around how you move.",
     price: "₩24,000", unit: "/ month",
     includes: ["Personal Walk, Flow and Rest programs", "Large type apps made for qPad", "Weekly summary to share with family", "New sessions every month"],
-    cta: { label: "Get Premium", href: "/contact" }
+    cta: { label: "Get Access", href: "/contact" }, note: { text: "Runs on qPad One" }
   },
   {
-    id: "duet", eyebrow: "Duet bundle", name: "One year of Premium, included",
-    line: "Buy the Duet bundle, Brainwear headband with the qPad tablet, and Quest View Premium is yours free for a year.",
-    price: "₩699,000", unit: "bundle",
-    includes: ["Everyday Brainwear and qPad One", "12 months of Quest View Premium", "Set up at home with our team", "Free exchanges for 60 days"],
-    cta: { label: "Buy your bundle", href: "/duet" }, ribbon: "Best value"
+    id: "duet", eyebrow: "Duet bundle", name: "Founding member bundle",
+    line: "Sage Duo and qPad One with your first year of Access, all bundled for our founding members.",
+    price: "₩699,000", unit: "one time",
+    builds: "Everything in Access for 12 months, and",
+    includes: ["Sage Duo qBand", "qPad One tablet", "Set up at home with our team", "Free exchanges for 60 days"],
+    cta: { label: "Become a founding member", href: "/duet" }, note: { text: "We plan to ship by April 2027" }, ribbon: "Best value"
   },
   {
     id: "enterprise", eyebrow: "For silver towns", name: "Monarch OS",
     line: "The operating system for whole communities. Run Quest View across every resident, room and team.",
     price: "Custom", unit: "pricing",
+    builds: "Everything in Access, and",
     includes: ["Fleet management for every qPad", "Group programs and resident schedules", "Staff dashboard with family updates", "Data kept on your own site"],
-    cta: { label: "Talk to us", href: "/contact" }, tone: "dark"
+    cta: { label: "Talk to us", href: "/contact" }, note: { text: "How a pilot works", href: "/care-partners" }, tone: "dark"
   }
 ];
 

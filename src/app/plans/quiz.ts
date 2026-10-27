@@ -143,7 +143,7 @@ export const core: Question[] = [
   {
     id: "apps", chapter: "Your smart wear", kind: "multi", max: 3,
     title: "Which Duet experiences on qPad sound good to you?",
-    note: "Duet pairs the Brainwear headband with our dedicated qPad tablet. Choose up to 3.",
+    note: "Duet pairs Sage Duo, our qBand, with qPad One. Choose up to 3.",
     options: [
       { value: "relax", icon: "sleep", label: "Guided relaxation with the headband", reason: "guided relaxation" },
       { value: "games", icon: "games", label: "Focus and memory games", reason: "focus and memory games" },
@@ -209,7 +209,6 @@ export const invitation: Question[] = [
   }
 ];
 
-export const allQuestions = [...core, ...invitation];
 
 /* ---------- Rhythm slider: days a week ---------- */
 export const RHYTHM_MAX = 7;
@@ -244,7 +243,7 @@ export const profiles: Record<ProfileId, Profile> = {
   mindful: { id: "mindful", name: "The Mindful Mover", line: "Breath, stretch and ease, practised with care and on your own terms.", image: "/media/shop/edits/breathe-better.webp", ritual: "flow" },
   strength: { id: "strength", name: "The Strength Builder", line: "Stamina and strength, built steadily for the things you love.", image: "/media/shop/edits/stand-stronger.webp", ritual: "walk" },
   social: { id: "social", name: "The Social Explorer", line: "Moving with people, places and plans, and dressed for all of it.", image: "/media/shop/edits/signature-style.webp", ritual: "walk" },
-  gentle: { id: "gentle", name: "The Gentle Return", line: "Rebuilding at your own pace, with clothes that make every start easier.", image: "/media/shop/brainwear-duo/sage-context.webp", ritual: "flow" }
+  gentle: { id: "gentle", name: "The Gentle Return", line: "Rebuilding at your own pace, with clothes that make every start easier.", image: "/media/shop/qband-sage-duo/sage-context.webp", ritual: "flow" }
 };
 
 /* ---------- Helpers ---------- */
@@ -319,7 +318,7 @@ export type PlanResult =
   | { kind: "duet"; program: string }
   | { kind: "clothing" };
 
-export function recommendPlan(a: Answers, profile: Profile): { plan: PlanResult; brainwearPreview: boolean } {
+export function recommendPlan(a: Answers, profile: Profile): { plan: PlanResult; qbandPreview: boolean } {
   const program = rituals.find((r) => r.id === profile.ritual)!.plan;
   const tools = a.tools;
   const track = asList(a.track);
@@ -330,9 +329,9 @@ export function recommendPlan(a: Answers, profile: Profile): { plan: PlanResult;
 
   // Duet needs real intent for its apps or headband use, not curiosity alone.
   const duetIntent = apps.length >= 2 || (apps.length >= 1 && (track.includes("focus") || where.includes("headband")));
-  if (!noSensors && duetIntent && tools !== "clothing") return { plan: { kind: "duet", program }, brainwearPreview: false };
-  if (tools === "clothing") return { plan: { kind: "clothing" }, brainwearPreview: false };
-  return { plan: { kind: "premium", program }, brainwearPreview: !noSensors && (headbandCurious || track.includes("focus") || apps.length > 0) };
+  if (!noSensors && duetIntent && tools !== "clothing") return { plan: { kind: "duet", program }, qbandPreview: false };
+  if (tools === "clothing") return { plan: { kind: "clothing" }, qbandPreview: false };
+  return { plan: { kind: "premium", program }, qbandPreview: !noSensors && (headbandCurious || track.includes("focus") || apps.length > 0) };
 }
 
 /** A short plug-and-play summary of what their pods would track, for the result screen. */

@@ -3,7 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useInView } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { type RefObject, useEffect, useRef, useState } from "react";
 import { type Audience, lookFor, productBySlug } from "../../catalog";
 
 // The homepage lookbook: women and men side by side in one studio. Choosing a piece shows it worn.
@@ -85,7 +85,41 @@ function Panel({ who }: { who: Audience }) {
   );
 }
 
+/** The backdrop: our feather jacquard with a sensor pod tucked in its fold, multiplied into the section's own colour.
+    A soft light follows the pointer and raises the stitches where it falls; with no pointer it drifts on its own.
+    The relief comes from scripts/studio/knit.py, which also prints where the pod sits (73.0%, 51.9%). */
+function Knit({ section }: { section: RefObject<HTMLElement | null> }) {
+  const knit = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const s = section.current, k = knit.current;
+    if (!s || !k || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    let frame = 0, x = 0, y = 0;
+    const paint = () => {
+      frame = 0;
+      const r = k.getBoundingClientRect();
+      k.style.setProperty("--lx", `${(((x - r.left) / r.width) * 100).toFixed(1)}%`);
+      k.style.setProperty("--ly", `${(((y - r.top) / r.height) * 100).toFixed(1)}%`);
+    };
+    const move = (e: PointerEvent) => { x = e.clientX; y = e.clientY; k.classList.add("is-lit"); if (!frame) frame = requestAnimationFrame(paint); };
+    const leave = () => k.classList.remove("is-lit");
+    s.addEventListener("pointermove", move);
+    s.addEventListener("pointerleave", leave);
+    return () => { s.removeEventListener("pointermove", move); s.removeEventListener("pointerleave", leave); cancelAnimationFrame(frame); };
+  }, [section]);
+  return (
+    <div ref={knit} className="q-knit" aria-hidden="true">
+      <div className="q-knit__fabric">
+        <img className="q-knit__base" src="/media/site/material/knit.webp" width={1400} height={933} alt="" loading="lazy" />
+        <img className="q-knit__lit" src="/media/site/material/knit.webp" width={1400} height={933} alt="" loading="lazy" />
+      </div>
+      <span className="q-knit__light" />
+      <span className="q-knit__pod" />
+    </div>
+  );
+}
+
 export default function Lookbook() {
+  const section = useRef<HTMLElement>(null);
   const head = useRef<HTMLDivElement>(null);
   const inView = useInView(head, { once: true, margin: "0px 0px -18% 0px" });
   // The reveal is armed only when the heading starts below the fold, so nothing already on screen ever hides.
@@ -98,15 +132,20 @@ export default function Lookbook() {
   const stage = armed ? (inView ? "is-in" : "is-pending") : "";
 
   return (
-    <section className="q-lookbook" aria-labelledby="lookbook-title">
+    <section ref={section} className="q-lookbook" aria-labelledby="lookbook-title">
+      <Knit section={section} />
       <div ref={head} className={`q-shell q-lookbook__head ${stage}`}>
-        {/* Two lines fitted to one width; the question is carried by the italic turn, and spoken by screen readers */}
+        {/* Two lines fitted to one width, the second turning to italic */}
         <h2 id="lookbook-title" className="q-fit">
-          <span className="q-fit__mask q-fit__mask--1"><span className="q-fit__line">What if your clothes became</span></span>{" "}
-          <span className="q-fit__mask q-fit__mask--2"><span className="q-fit__line">your personal wellness coach</span></span>
-          <span className="q-sr">?</span>
+          <span className="q-fit__mask q-fit__mask--1"><span className="q-fit__line">Wearable wellness</span></span>{" "}
+          <span className="q-fit__mask q-fit__mask--2"><span className="q-fit__line">In your own style</span></span>
         </h2>
-        <p className="q-lead q-lookbook__sub">Welcome to your 2080s wardrobe. Customise your clothing, discover how your body works and choose what you look best on.</p>
+        {/* The clothes join the qBand and qPad people start with; the way in is the founding bundle */}
+        <div className="q-lookbook__sub">
+          <p className="q-lead">Choose your look. Personalize your sensors. Your clothes and qBand meet on qPad, in Quest View, with daily quests to keep your mind and body moving.</p>
+          <p className="q-lookbook__first">Be among the first to wear what comes next</p>
+          <Link className="q-btn q-btn--ink" href="/duet">Get early access</Link>
+        </div>
       </div>
       <div className="q-shell q-lookbook__pair">
         <Panel who="women" />

@@ -1,14 +1,15 @@
 import type { Product } from "../catalog";
 
-export type TabId = "all" | "women" | "men" | "shoes" | "accessories" | "devices";
+export type TabId = "all" | "activewear" | "women" | "men" | "shoes" | "accessories" | "devices";
 
 export const SHOP_TABS: { id: TabId; label: string }[] = [
   { id: "all", label: "All" },
+  { id: "activewear", label: "Activewear" },
   { id: "women", label: "Women" },
   { id: "men", label: "Men" },
   { id: "shoes", label: "Footwear" },
   { id: "accessories", label: "Accessories" },
-  { id: "devices", label: "Headband & qPad" }
+  { id: "devices", label: "qBand & qPad" }
 ];
 
 /** Reads the tab from ?c=, and still understands older ?gender= and ?category= links. */

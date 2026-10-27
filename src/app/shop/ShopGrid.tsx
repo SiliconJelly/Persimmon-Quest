@@ -10,6 +10,7 @@ const apparel: Product["category"][] = ["Tops", "Bottoms", "Outerwear"];
 
 function inTab(p: Product, tab: TabId) {
   if (tab === "all") return true;
+  if (tab === "activewear") return apparel.indexOf(p.category) > -1;
   if (tab === "women" || tab === "men") return apparel.indexOf(p.category) > -1 && (p.gender === tab || p.gender === "unisex");
   if (tab === "shoes") return p.category === "Shoes";
   if (tab === "accessories") return p.category === "Accessories";
@@ -23,7 +24,7 @@ const SHELVES: { title: string; test: (p: Product) => boolean; audience?: Audien
   { title: "Outerwear for both", test: (p) => p.category === "Outerwear" },
   { title: "Footwear", test: (p) => p.category === "Shoes" },
   { title: "Accessories", test: (p) => p.category === "Accessories" },
-  { title: "Headband & qPad", test: (p) => p.category === "Duet" }
+  { title: "qBand & qPad", test: (p) => p.category === "Duet" }
 ];
 
 const SORTS = [

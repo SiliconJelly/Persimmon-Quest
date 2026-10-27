@@ -9,6 +9,8 @@
   --c-blush: #ead8cc;
   --c-celadon: #d8ddd2;
   --c-studio: #d9d1c7; /* the studio sweep every product photo shares */
+  --c-film: #ede0d4; /* the warm peach of the brand film, carried into the cloth drift, Quest Stride and the closing */
+  --c-floor: #ebc09e; /* the Pilates studio floor, which spills into the lookbook below it */
   --c-ink: #171513;
   --c-ink-2: #4f4a44;
   --c-ink-3: #6e675f;
@@ -256,6 +258,8 @@ html[data-strip="hidden"] .q-strip { display: none; }
   font-family: var(--f-display); font-size: 44px; line-height: 1; color: var(--c-ink); text-decoration: none;
 }
 .q-menu a span { font-family: var(--f-mono); font-size: 14px; color: var(--c-ink-3); letter-spacing: 0.08em; }
+.q-menu .q-menu__more { display: flex; gap: 28px; margin-top: 20px; }
+.q-menu .q-menu__more a { padding: 10px 0; border: 0; min-height: 44px; font-family: var(--f-sans); font-size: 18px; color: var(--c-ink-2); }
 
 @keyframes q-bloom { to { opacity: 1; transform: none; } }
 @keyframes q-fade { to { opacity: 1; } }
@@ -288,7 +292,7 @@ html[data-strip="hidden"] .q-strip { display: none; }
 }
 @media (max-width: 899px) { .q-hero__story { width: auto; right: var(--gutter); font-size: clamp(19px, 4.6vw, 24px); } }
 .q-hero__line { display: block; opacity: var(--o, 0); }
-/* The second pair is the turn from fabric to body, so it sits a little apart */
+/* The second pair is the turn from the fabric to you, so it sits a little apart */
 .q-hero__line:nth-child(3) { margin-top: 18px; }
 /* Reduced motion: no scroll story, everything set in place over the film */
 .q-hero.is-still .q-hero__sticky { position: relative; height: auto; min-height: 100dvh; display: grid; align-content: start; gap: 40px; padding: calc(var(--nav-h) + 4vh) var(--gutter) 64px; box-sizing: border-box; }
@@ -300,6 +304,8 @@ html[data-strip="hidden"] .q-strip { display: none; }
 .q-weave > span { display: inline-block; animation: q-warp 1100ms var(--ease-out) both; }
 .q-weave > .is-weft { animation-name: q-weft; }
 .q-hero__two .q-weave > span { animation: none; }
+/* Later on the page, the title waits to weave until the film is in view */
+.q-hero:not(.is-live) .q-weave > span { animation-play-state: paused; }
 .q-weave__word { display: inline-block; opacity: var(--o, 1); }
 @keyframes q-warp { from { transform: translateY(150%); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes q-weft { from { transform: translateY(-150%); opacity: 0; } to { transform: none; opacity: 1; } }
@@ -314,16 +320,23 @@ html[data-strip="hidden"] .q-strip { display: none; }
 }
 
 /* ---------- Chronophotography sequence ---------- */
-.q-chrono { position: relative; height: 220vh; background: var(--c-bg); --chrono-size: clamp(40px, 5.8vw, 92px); --chrono-top: calc(var(--nav-h) + 8vh); }
-.q-chrono__sticky { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; display: grid; }
+.q-chrono { position: relative; height: 220vh; background: var(--c-bg); --chrono-size: clamp(32px, 4.8vw, 80px); --chrono-top: calc(var(--nav-h) + 8vh); }
+.q-chrono__sticky {
+  position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; display: grid;
+  /* What shows where the frames melt: the page above the wall, the floor below it */
+  background: linear-gradient(180deg, var(--c-bg) 30%, var(--c-floor) 70%);
+}
 /* Ghosted crossfade: the outgoing pose blurs and lingers faintly while the next one sharpens in. */
 .q-chrono__frame {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 75% 80%;
   opacity: 0; filter: blur(12px); transform: scale(1.015);
   transition: opacity 1100ms var(--ease-out), filter 1100ms var(--ease-out), transform 1100ms var(--ease-out);
+  /* No hard edge at either end: the wall rises out of the page, and the floor runs on into the lookbook */
+  --melt: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, 0.3) 4vh, rgba(0, 0, 0, 0.75) 9vh, #000 14vh, #000 calc(100% - 9vh), rgba(0, 0, 0, 0.5) calc(100% - 4vh), transparent 100%);
+  -webkit-mask-image: var(--melt); mask-image: var(--melt);
 }
 .q-chrono__frame.is-on { opacity: 1; filter: none; transform: none; }
-.q-chrono__line { font-family: var(--f-display); font-size: var(--chrono-size, clamp(40px, 5.8vw, 92px)); line-height: 1; letter-spacing: -0.02em; margin: 0; }
+.q-chrono__line { font-family: var(--f-display); font-size: var(--chrono-size, clamp(32px, 4.8vw, 80px)); line-height: 1.04; letter-spacing: -0.02em; margin: 0; }
 .q-chrono__line em { color: var(--c-bronze); }
 
 /* Captions swap strictly in sequence: the outgoing line blurs away first, then the incoming one resolves. */
@@ -344,10 +357,10 @@ html[data-strip="hidden"] .q-strip { display: none; }
    --s is the image's rendered scale under object-fit: cover, so these offsets track her on any screen. */
 .q-chrono__caption--thought { --s: max(calc(100vw / 1920), calc(100dvh / 1080)); }
 .q-thought__text {
-  /* Font size lives here so the edge clamp below can use em (half the line is about 4.6em wide). */
+  /* Font size lives here so the edge clamp below can use em (half the longer line is about 3.7em wide). */
   font-size: var(--chrono-size);
   position: absolute; top: var(--chrono-top);
-  left: max(calc(var(--gutter) + 4.6em), min(calc(75% - 81 * var(--s)), calc(100% - var(--gutter) - 4.6em)));
+  left: max(calc(var(--gutter) + 3.7em), min(calc(75% - 81 * var(--s)), calc(100% - var(--gutter) - 3.7em)));
   transform: translateX(-50%); width: max-content; max-width: calc(100% - 2 * var(--gutter)); text-align: center;
 }
 .q-thought__text .q-chrono__line { font-size: 1em; }
@@ -366,16 +379,6 @@ html[data-strip="hidden"] .q-strip { display: none; }
 }
 .q-rule { display: flex; align-items: center; gap: 16px; }
 .q-rule::after { content: ""; flex: 1; height: 1px; background: var(--c-hairline); }
-
-/* Stage: a product floating on a colour field (Duet page, Stride tag) */
-.q-stage {
-  position: relative; aspect-ratio: 4 / 3.4; border-radius: var(--radius-lg); overflow: hidden; background: var(--field, var(--c-stone));
-  isolation: isolate;
-}
-@media (max-width: 1023px) { .q-stage { aspect-ratio: 4 / 4.2; } }
-.q-stage__cut { position: absolute; inset: 6% 18%; width: 64%; height: 88%; object-fit: contain; filter: drop-shadow(0 30px 40px rgba(23,21,19,.18)); }
-.q-float { animation: q-float 6s ease-in-out infinite; }
-@keyframes q-float { 0%, 100% { transform: translateY(-6px); } 50% { transform: translateY(8px); } }
 
 /* ---------- Product tile: one studio sweep, so the worn photo can dissolve into the piece alone ---------- */
 .q-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 12px; }
@@ -498,20 +501,88 @@ html[data-strip="hidden"] .q-strip { display: none; }
 .q-cat:hover .q-cat__label { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 
 /* ---------- Lookbook: women and men side by side in one studio ---------- */
-.q-lookbook { padding-block: 72px 8px; }
+.q-lookbook { position: relative; isolation: isolate; overflow: clip; padding-block: 72px 8px; }
+.q-lookbook > .q-shell { position: relative; z-index: 1; }
+/* Straight after the Pilates scene, its floor glows on and settles into the page. The stops follow a smooth S curve,
+   so the warm floor thins out with no line where it meets the page. */
+.q-chrono + .q-lookbook {
+  --spill: clamp(520px, 86vh, 900px);
+  background: linear-gradient(180deg,
+    var(--c-floor) 0,
+    color-mix(in srgb, var(--c-floor) 96%, var(--c-bg)) calc(var(--spill) * 0.125),
+    color-mix(in srgb, var(--c-floor) 84%, var(--c-bg)) calc(var(--spill) * 0.25),
+    color-mix(in srgb, var(--c-floor) 68%, var(--c-bg)) calc(var(--spill) * 0.375),
+    color-mix(in srgb, var(--c-floor) 50%, var(--c-bg)) calc(var(--spill) * 0.5),
+    color-mix(in srgb, var(--c-floor) 32%, var(--c-bg)) calc(var(--spill) * 0.625),
+    color-mix(in srgb, var(--c-floor) 16%, var(--c-bg)) calc(var(--spill) * 0.75),
+    color-mix(in srgb, var(--c-floor) 4%, var(--c-bg)) calc(var(--spill) * 0.875),
+    var(--c-bg) var(--spill));
+}
+
+/* The knit behind the heading: a relief of our feather jacquard multiplied into the backdrop, so it takes the page's
+   own peach and cream. It is placed by its pod: --px and --py say where in the section the pod should sit. */
+@property --lx { syntax: "<percentage>"; inherits: true; initial-value: 73%; }
+@property --ly { syntax: "<percentage>"; inherits: true; initial-value: 52%; }
+.q-knit {
+  --kw: 160vw; --px: 80%; --py: 50px; --ramp: 0.1; --r: clamp(160px, 22vw, 340px);
+  position: absolute; left: calc(var(--px) - var(--kw) * 0.730); top: calc(var(--py) - var(--kw) * 0.346);
+  width: var(--kw); aspect-ratio: 1400 / 933; pointer-events: none;
+  animation: q-knit-drift 26s ease-in-out infinite alternate;
+}
+@media (min-width: 768px) { .q-knit { --kw: 96vw; --px: 76%; --py: 470px; --ramp: 0.2; } }
+@media (min-width: 1024px) { .q-knit { --kw: min(96vw, 1380px); --px: 50%; --py: 150px; } }
+.q-knit.is-lit { animation: none; transition: --lx 900ms var(--ease-out), --ly 900ms var(--ease-out); }
+/* Where the knit runs above the section it is cut off, so it fades in from the section's top edge instead */
+.q-knit__fabric, .q-knit__light {
+  --cut: calc(var(--kw) * 0.346 - var(--py));
+  -webkit-mask-image: linear-gradient(180deg, transparent var(--cut), #000 calc(var(--cut) + var(--kw) * var(--ramp)));
+  mask-image: linear-gradient(180deg, transparent var(--cut), #000 calc(var(--cut) + var(--kw) * var(--ramp)));
+}
+.q-knit__fabric { position: absolute; inset: 0; mix-blend-mode: multiply; animation: q-knit-breathe 18s ease-in-out infinite alternate; }
+.q-knit__fabric img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.q-knit__base { opacity: 0.42; }
+/* Where the light falls, the stitches stand out in full */
+.q-knit__lit {
+  -webkit-mask-image: radial-gradient(circle var(--r) at var(--lx) var(--ly), #000 15%, transparent 75%);
+  mask-image: radial-gradient(circle var(--r) at var(--lx) var(--ly), #000 15%, transparent 75%);
+}
+.q-knit__light { position: absolute; inset: 0; mix-blend-mode: soft-light; background: radial-gradient(circle calc(var(--r) * 0.9) at var(--lx) var(--ly), rgb(255 247 238 / 0.85), transparent 70%); }
+/* The pod, listening: a slow ring and a small light, the same orange as the qBand's */
+/* The overlay matches the fabric's box and breathes with it, so the ring and light stay on the pod */
+.q-knit__pod { position: absolute; inset: 0; animation: q-knit-breathe 18s ease-in-out infinite alternate; }
+.q-knit__pod::before {
+  content: ""; position: absolute; left: 73%; top: 51.9%; width: 11%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  border: 1.5px solid rgb(232 105 47 / 0.55); animation: q-knit-ring 3.2s ease-out infinite;
+}
+.q-knit__pod::after {
+  content: ""; position: absolute; left: 75.8%; top: 58.3%; width: 7px; height: 7px; translate: -50% -50%; border-radius: 50%;
+  background: #ff8a4c; box-shadow: 0 0 10px 2px rgb(255 120 60 / 0.7); animation: q-knit-blink 3.2s ease-in-out infinite;
+}
+@keyframes q-knit-drift { 0% { --lx: 28%; --ly: 38%; } 50% { --lx: 52%; --ly: 64%; } 100% { --lx: 74%; --ly: 50%; } }
+@keyframes q-knit-breathe { from { transform: scale(1); } to { transform: scale(1.035) translate(-0.6%, 0.4%); } }
+@keyframes q-knit-ring { 0% { transform: scale(0.55); opacity: 0; } 25% { opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+@keyframes q-knit-blink { 0%, 100% { opacity: 0.35; } 18% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  /* Standing still, the light rests on the pod */
+  .q-knit, .q-knit__fabric, .q-knit__pod, .q-knit__pod::before, .q-knit__pod::after { animation: none; }
+  .q-knit { --lx: 70%; --ly: 52%; }
+  .q-knit.is-lit { transition: none; }
+}
 @media (min-width: 768px) { .q-lookbook { padding-top: 96px; } }
 @media (min-width: 1280px) { .q-lookbook { padding-top: 136px; } }
 .q-lookbook__head { display: grid; gap: 24px; margin-bottom: 40px; }
 @media (min-width: 1024px) { .q-lookbook__head { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); column-gap: 64px; align-items: end; margin-bottom: 64px; } }
-.q-lookbook__sub { max-width: 34ch; }
+.q-lookbook__sub { display: grid; gap: 20px; justify-items: start; max-width: 34ch; }
+/* The invitation, in the display face, with the way in right under it */
+.q-lookbook__first { margin: 8px 0 4px; font-family: var(--f-display); font-size: clamp(22px, 1.9vw, 28px); line-height: 1.2; letter-spacing: -0.01em; color: var(--c-ink); text-wrap: balance; }
 @media (min-width: 1024px) { .q-lookbook__sub { padding-bottom: 0.4em; } }
 
-/* Fitted headline: each line sized from its own measured width (in em), so both lines span the column exactly.
-   The first line is a touch larger because its words run narrower. Container units keep it true at every width. */
+/* Fitted headline: each line sized from its own measured width (in em, plus a little air), so both lines span the
+   column exactly. Container units keep it true at every width. */
 .q-fit { container-type: inline-size; margin: 0; font-family: var(--f-display); font-weight: 400; line-height: 1; letter-spacing: -0.02em; color: var(--c-ink); }
 .q-fit__mask { display: block; clip-path: inset(-0.2em -0.3em -0.18em -0.1em); }
-.q-fit__mask--1 { font-size: calc(100cqw / 9.43); }
-.q-fit__mask--2 { font-size: calc(100cqw / 10.25); font-style: italic; color: var(--c-bronze); margin-top: 0.02em; }
+.q-fit__mask--1 { font-size: calc(100cqw / 6.01); }
+.q-fit__mask--2 { font-size: calc(100cqw / 6.07); font-style: italic; color: var(--c-bronze); margin-top: 0.02em; }
 .q-fit__line { display: block; width: max-content; white-space: nowrap; }
 /* Reveal: the lines rise out of their own masks, then the welcome note settles in beside or below them */
 .q-lookbook__head.is-pending .q-fit__line { transform: translateY(130%); }
@@ -594,6 +665,9 @@ html[data-strip="hidden"] .q-strip { display: none; }
   .q-partners__list[aria-hidden] { display: none; }
   .q-partners__marquee { -webkit-mask-image: none; mask-image: none; }
 }
+.q-partners--night { background: #1d1b19; padding-block: 32px 56px; }
+.q-partners--night .q-partners__title { color: #b9b0a4; }
+.q-partners--night .q-partners__mark { background: #9c9489; }
 @media (forced-colors: active) {
   .q-partners__mark { forced-color-adjust: none; background: CanvasText; }
 }
@@ -623,9 +697,10 @@ html[data-strip="hidden"] .q-strip { display: none; }
 .q-keys__cap { width: 40px; height: 40px; border-radius: 11px; box-shadow: inset 0 -3px 0 rgba(23, 21, 19, 0.16), 0 2px 6px rgba(23, 21, 19, 0.12); }
 @media (min-width: 900px) { .q-keys { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 72px; } }
 
-.q-research { display: grid; gap: 40px; scroll-margin-top: calc(var(--nav-h) + 24px); }
-.q-research__intro { display: grid; gap: 18px; align-content: start; justify-items: start; }
-.q-research__intro .q-hint { max-width: 44ch; color: var(--c-ink-3); }
+/* The research block on device pages (its own name, so it never touches the /research page) */
+.q-evidence { display: grid; gap: 40px; scroll-margin-top: calc(var(--nav-h) + 24px); }
+.q-evidence__intro { display: grid; gap: 18px; align-content: start; justify-items: start; }
+.q-evidence__intro .q-hint { max-width: 44ch; color: var(--c-ink-3); }
 .q-studies { list-style: none; padding: 0; margin: 0; display: grid; gap: 24px; }
 .q-studies li { display: grid; gap: 6px; padding-bottom: 22px; border-bottom: 1px solid var(--c-hairline); }
 .q-studies li:last-child { border-bottom: 0; padding-bottom: 0; }
@@ -634,113 +709,254 @@ html[data-strip="hidden"] .q-strip { display: none; }
 .q-studies__where b { color: var(--c-ink); margin-right: 6px; }
 .q-studies__cite { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; width: fit-content; color: var(--c-bronze); font-size: 15px; text-underline-offset: 3px; }
 @media (min-width: 960px) {
-  .q-research { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 72px; }
-  .q-research__intro { position: sticky; top: calc(var(--nav-h) + 32px); }
+  .q-evidence { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 72px; }
+  .q-evidence__intro { position: sticky; top: calc(var(--nav-h) + 32px); }
 }
 
-/* ---------- Brainwear: hanji above, the app's night below, and one brain signal crossing the horizon ---------- */
-.q-bw { --bw-night: #1d1b19; --bw-glow: #e8692f; --bw-cream: #f3eee6; background: var(--c-bg); }
-.q-bw__head { display: grid; gap: 20px; padding-block: 24px 8px; }
-.q-bw__title {
-  margin: 0; font-family: var(--f-display); font-weight: 400; color: var(--c-ink);
-  font-size: clamp(40px, 5.2vw, 76px); line-height: 0.98; letter-spacing: -0.015em; max-width: 12ch; text-wrap: balance;
+/* ---------- Cloth drift: hanji into the film's peach, with a ribbon of silk melting through both ---------- */
+/* The band is exactly as tall as the cloth, whose edges are already feathered, so nothing is ever cut.
+   It reaches up into the shop's bottom margin, and its blend lands on the film's own peach. */
+.q-drift {
+  --cw: clamp(640px, 100vw, 1280px);
+  position: relative; z-index: 1; overflow-x: clip;
+  height: calc(var(--cw) * 891 / 1800); margin-top: calc(-1 * clamp(40px, 5vw, 96px));
+  background: linear-gradient(180deg,
+    var(--c-bg) 0,
+    color-mix(in srgb, var(--c-film) 10%, var(--c-bg)) 20%,
+    color-mix(in srgb, var(--c-film) 28%, var(--c-bg)) 35%,
+    color-mix(in srgb, var(--c-film) 50%, var(--c-bg)) 50%,
+    color-mix(in srgb, var(--c-film) 72%, var(--c-bg)) 65%,
+    color-mix(in srgb, var(--c-film) 90%, var(--c-bg)) 80%,
+    var(--c-film) 100%);
 }
-.q-bw__aside { display: grid; gap: 22px; justify-items: start; align-content: end; }
-.q-bw__lead { margin: 0; font-size: 19px; line-height: 1.6; color: var(--c-ink-2); max-width: 40ch; }
-.q-bw__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; }
+.q-drift__cloth { position: absolute; top: 0; left: 50%; width: var(--cw); max-width: none; height: auto; margin-left: calc(var(--cw) / -2); }
 
-/* The horizon: hanji, apricot, persimmon, then the night the app section begins with */
-.q-bw__horizon {
-  position: relative; overflow: hidden;
-  background:
-    radial-gradient(42% 46% at 50% 62%, color-mix(in srgb, var(--bw-glow) 42%, transparent), transparent 72%),
-    linear-gradient(180deg, var(--c-bg) 0%, #f2e5d7 22%, #e3b893 42%, #a8583a 60%, #3c271f 78%, var(--bw-night) 92%);
+/* ---------- qBand story: the band, the brain it listens to, a qPad that wakes, and two people sharing it ----------
+   One pinned scroll. QBandStory.tsx moves the pieces; this sets how they look. */
+.q-bws { --bw-night: #1d1b19; --bw-glow: #e8692f; --bw-cream: #f3eee6; position: relative; height: 740vh; background: var(--bw-night); }
+@media (min-width: 900px) { .q-bws { height: 840vh; } }
+/* The first screens are a warm studio, the same sweep the headband is photographed on, so the type and the band sit in
+   one room; its light follows the band. Night closes in over it later. */
+.q-bws__sticky {
+  position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden;
+  background: radial-gradient(130% 95% at 50% 30%, #e2dacf 0%, #d8cec2 55%, #cabfb2 100%);
 }
-.q-bw__stage { position: relative; width: min(100% - 2 * var(--gutter), 1180px); margin-inline: auto; aspect-ratio: 1000 / 980; }
-.q-bw__band, .q-bw__pad { position: absolute; height: auto; filter: drop-shadow(0 26px 30px rgba(29, 27, 25, 0.35)); }
-.q-bw__band { left: 2%; top: 2%; width: 62%; z-index: 2; }
-.q-bw__pad { right: 0; top: 42%; width: 80%; z-index: 1; }
-.q-bw__signal { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; overflow: visible; pointer-events: none; }
-.q-bw__signal--wide { display: none; }
-.q-bw__trace {
-  fill: none; stroke: var(--c-persimmon); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
-  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--bw-glow) 70%, transparent));
-  stroke-dasharray: 1; stroke-dashoffset: 1;
+.q-bws__light {
+  position: absolute; left: 0; top: 0; z-index: 0; width: 150vmax; height: 150vmax; margin: -75vmax 0 0 -75vmax; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 250, 243, 0.7), rgba(255, 250, 243, 0.24) 42%, transparent); pointer-events: none; will-change: transform;
 }
-.q-bw__pulse { fill: none; stroke: #fff4ea; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 3 97; stroke-dashoffset: 100; opacity: 0; filter: drop-shadow(0 0 8px #fff); }
-.q-bw__node { fill: #fff; stroke: var(--bw-glow); stroke-width: 3; opacity: 0; transform-box: fill-box; transform-origin: center; }
-.q-bw__horizon.is-live .q-bw__trace { animation: q-bw-draw 1.6s var(--ease-out) 0.25s forwards; }
-.q-bw__horizon.is-live .q-bw__node { animation: q-bw-node 0.5s var(--ease-out) forwards; }
-.q-bw__horizon.is-live .q-bw__node--end { animation-delay: 1.6s; }
-.q-bw__horizon.is-live .q-bw__pulse { opacity: 1; animation: q-bw-pulse 2.8s linear 1.9s infinite; }
-@keyframes q-bw-draw { to { stroke-dashoffset: 0; } }
-@keyframes q-bw-node { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
-@keyframes q-bw-pulse { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+.q-bws__band, .q-bws__brain, .q-bws__pad, .q-bws__photo { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+.q-bws__band img, .q-bws__brain img, .q-bws__pad img, .q-bws__photo img { display: block; width: 100%; height: auto; }
+/* Nothing is placed until the viewport is measured. Then the band surfaces and floats, level: it rises and falls very
+   slowly, sways a few degrees either way while it leans a little closer, and a soft light slides across it as it turns,
+   like a model on a turntable. Its shadow tightens as it rises. Its three angles are stacked on one frame, and the one
+   it faces shows. */
+.q-bws:not(.is-ready) .q-bws__band, .q-bws:not(.is-ready) .q-bws__brain, .q-bws:not(.is-ready) .q-bws__pad, .q-bws:not(.is-ready) .q-bws__photo { visibility: hidden; }
+.q-bws__band { z-index: 3; }
+.q-bws__float { perspective: 1400px; }
+.q-bws__turn { position: relative; transform: rotateX(4deg); }
+.q-bws__view + .q-bws__view { position: absolute; inset: 0; }
+.q-bws__sheen {
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 248, 238, 0.85) 46%, rgba(255, 248, 238, 0.85) 52%, transparent 68%) 100% 0 / 260% 100% no-repeat;
+  -webkit-mask: var(--src) center / 100% 100% no-repeat; mask: var(--src) center / 100% 100% no-repeat;
+}
+/* One rise and fall for everything that floats (the band, the brain, the qPad and the signals between them), so they
+   move as one and the signals never come apart from what they join */
+.q-bws.is-ready .q-bws__float { animation: q-bws-in 1600ms var(--ease-out) 200ms both, q-bws-bob 5s ease-in-out infinite alternate; }
+.q-bws.is-ready .q-bws__bob { animation: q-bws-bob 5s ease-in-out infinite alternate; }
+.q-bws.is-ready .q-bws__turn { animation: q-bws-sway 15s ease-in-out infinite alternate, q-bws-near 7.5s ease-in-out infinite alternate; }
+.q-bws.is-ready .q-bws__sheen { animation: q-bws-sheen 15s ease-in-out infinite alternate; }
+.q-bws__band::after {
+  content: ""; position: absolute; z-index: -1; left: 14%; right: 14%; bottom: -5%; height: 16%; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(29, 27, 25, 0.26), transparent);
+}
+.q-bws.is-ready .q-bws__band::after { animation: q-bws-fade 1600ms var(--ease-out) 200ms both, q-bws-shadow 5s ease-in-out infinite alternate; }
+@keyframes q-bws-in { from { opacity: 0; scale: 0.94; } }
+@keyframes q-bws-bob { to { translate: 0 -1.4vh; } }
+@keyframes q-bws-sway { from { rotate: y -6deg; } to { rotate: y 6deg; } }
+@keyframes q-bws-near { to { translate: 0 0 36px; } }
+@keyframes q-bws-sheen { to { background-position: 0 0; } }
+@keyframes q-bws-fade { from { opacity: 0; } }
+@keyframes q-bws-shadow { to { transform: scale(0.84); opacity: 0.6; } }
 
-/* Night: the three steps, strung on the same signal line */
-.q-bw__night { background: var(--bw-night); color: var(--bw-cream); padding-block: 8px 72px; }
-.q-bw__beats { list-style: none; margin: 0; display: grid; gap: 28px; position: relative; }
-.q-bw__beats li { position: relative; padding-left: 28px; }
-.q-bw__beats li::before {
-  content: ""; position: absolute; left: 0; top: 9px; width: 9px; height: 9px; border-radius: 50%;
-  background: var(--bw-glow); box-shadow: 0 0 12px var(--bw-glow);
+/* The brain: warm porcelain in the dark, lit from within along its folds, the light flowing down towards the band */
+.q-bws__brain { z-index: 3; }
+.q-bws__brain::before {
+  content: ""; position: absolute; inset: -30% -55%; z-index: -1; border-radius: 50%; opacity: var(--fire, 0);
+  background: radial-gradient(closest-side, rgba(232, 105, 47, 0.3), rgba(232, 105, 47, 0.09) 55%, transparent);
 }
-.q-bw__beats li:not(:last-child)::after {
-  content: ""; position: absolute; left: 4px; top: 26px; bottom: -22px; width: 1px;
-  background: linear-gradient(var(--bw-glow), color-mix(in srgb, var(--bw-glow) 10%, transparent));
+.q-bws__bob { position: relative; }
+.q-bws__fire {
+  position: absolute; inset: 0; overflow: hidden; opacity: var(--fire, 0); background: rgba(242, 132, 70, 0.45);
+  -webkit-mask: var(--folds) center / 100% 100% no-repeat; mask: var(--folds) center / 100% 100% no-repeat;
 }
-.q-bw__beats h3 { margin: 0 0 8px; font-family: var(--f-display); font-weight: 400; font-size: 30px; line-height: 1.05; color: var(--bw-cream); }
-.q-bw__beats p { margin: 0; font-size: 17px; line-height: 1.6; color: #cfc7bb; max-width: 34ch; }
+.q-bws__fire::after {
+  content: ""; position: absolute; left: 0; right: 0; top: -100%; height: 200%;
+  background: repeating-linear-gradient(180deg, transparent 0, transparent 8%, rgba(255, 176, 120, 0.95) 11.5%, #fff7ec 12.5%, rgba(255, 176, 120, 0.95) 13.5%, transparent 17%, transparent 25%);
+  animation: q-bws-flow 3.2s linear infinite;
+}
+@keyframes q-bws-flow { to { transform: translateY(50%); } }
+/* Its signals: drawn down to the sensors, then sparks run along them and each sensor brightens as one arrives */
+.q-bws__sparks { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; overflow: visible; pointer-events: none; }
+.q-bws__stream { fill: none; stroke: rgba(242, 140, 82, 0.8); stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 1; filter: drop-shadow(0 0 5px rgba(232, 105, 47, 0.85)); }
+.q-bws__spark { fill: none; stroke: #fff4ea; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 6 94; animation: q-bws-pulse 1.9s linear infinite both; filter: drop-shadow(0 0 6px #ffcfa8); }
+.q-bws__sensor {
+  fill: #fff3e6; transform-box: fill-box; transform-origin: center; animation: q-bws-blink 1.9s ease-in-out infinite both;
+  filter: drop-shadow(0 0 5px var(--bw-glow)) drop-shadow(0 0 12px rgba(232, 105, 47, 0.7));
+}
+@keyframes q-bws-blink { 0%, 100% { opacity: 0.45; transform: scale(0.75); } 50% { opacity: 1; transform: scale(1.2); } }
+.q-bws__pad { z-index: 2; filter: drop-shadow(0 34px 44px rgba(0, 0, 0, 0.5)); }
+.q-bws__photo { z-index: 1; overflow: hidden; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.5); }
+/* The room dims around the qPad: night closes in from the edges, warm near the screen */
+.q-bws__dusk {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; --edge: 34vmax;
+  background: radial-gradient(circle at var(--cx) var(--cy), #5c3121 0, #2d1f18 36vmax, var(--bw-night) 72vmax);
+  -webkit-mask-image: radial-gradient(circle at var(--cx) var(--cy), transparent var(--r), #000 calc(var(--r) + var(--edge)));
+  mask-image: radial-gradient(circle at var(--cx) var(--cy), transparent var(--r), #000 calc(var(--r) + var(--edge)));
+}
+.q-bws__glow {
+  position: absolute; z-index: 0; translate: -50% -50%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(232, 105, 47, 0.5), rgba(232, 105, 47, 0.16) 55%, transparent);
+}
 
-@media (min-width: 600px) {
-  .q-bw__stage { aspect-ratio: 1000 / 380; }
-  .q-bw__band { left: 3%; top: 20%; width: 37%; }
-  .q-bw__pad { right: 2%; top: 8%; width: 38%; }
-  .q-bw__signal--wide { display: block; }
-  .q-bw__signal--tall { display: none; }
+/* The signal from the band's sensors to the qPad */
+.q-bws__signal { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; overflow: visible; pointer-events: none; }
+.q-bws__trace { fill: none; stroke: var(--bw-glow); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; filter: drop-shadow(0 0 6px rgba(232, 105, 47, 0.7)); }
+.q-bws__pulse { fill: none; stroke: #fff4ea; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 3 97; animation: q-bws-pulse 2.6s linear infinite; filter: drop-shadow(0 0 8px #fff); }
+.q-bws__node { fill: #fff; stroke: var(--bw-glow); stroke-width: 3; }
+@keyframes q-bws-pulse { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+
+/* The screen is drawn flat at 1000 x 640, then scaled to the tablet and laid onto its glass */
+.q-bws__glass { position: absolute; left: 0; top: 0; width: 1000px; height: 640px; transform-origin: 0 0; transform: scale(var(--k)) var(--glass); pointer-events: none; }
+.q-bws__display { position: absolute; inset: 2.4% 2.2% 10.5% 2.2%; border-radius: 18px; overflow: hidden; }
+.q-bws__display::after { content: ""; position: absolute; inset: 0; z-index: 3; background: linear-gradient(125deg, rgba(255, 255, 255, 0.13), transparent 36%); pointer-events: none; }
+.q-bws__hello {
+  position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; gap: 26px; text-align: center;
+  color: var(--bw-cream); background: radial-gradient(85% 95% at 50% 62%, #3d2b21, #151311);
 }
-@media (min-width: 960px) {
-  .q-bw__head { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: end; column-gap: 64px; padding-block: 40px 16px; }
-  .q-bw__night { padding-block: 16px 96px; }
+.q-bws__hello b { font-family: var(--f-display); font-weight: 400; font-size: 104px; line-height: 1; }
+.q-bws__hello svg { width: 62%; height: auto; overflow: visible; }
+.q-bws__hello path { fill: none; stroke: var(--bw-glow); stroke-width: 3; stroke-linecap: round; filter: drop-shadow(0 0 6px rgba(232, 105, 47, 0.8)); }
+.q-bws__from { display: inline-flex; align-items: center; gap: 12px; font-size: 26px; color: #efe5d8; }
+.q-bws__from i { flex: none; width: 12px; height: 12px; border-radius: 50%; background: var(--bw-glow); box-shadow: 0 0 14px var(--bw-glow); }
+.q-bws__screen { position: absolute; inset: 0; margin: 0; overflow: hidden; }
+.q-bws__screen img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.9) sepia(0.06) contrast(1.02); }
+.q-bws__screen figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 140px 48px 40px; display: grid; gap: 12px; justify-items: start;
+  color: #fff; background: linear-gradient(180deg, transparent, rgba(20, 16, 13, 0.8));
 }
-@media (min-width: 900px) {
-  .q-bw__beats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; padding-top: 28px; }
-  .q-bw__beats li { padding-left: 0; padding-top: 30px; }
-  .q-bw__beats li::before { top: -4px; }
-  .q-bw__beats li:not(:last-child)::after {
-    left: 9px; right: -48px; top: 0; bottom: auto; width: auto; height: 1px;
-    background: linear-gradient(90deg, var(--bw-glow), color-mix(in srgb, var(--bw-glow) 14%, transparent));
-  }
+.q-bws__screen b { font-family: var(--f-display); font-weight: 400; font-size: 70px; line-height: 1; }
+.q-bws__read { font-size: 28px; color: #f1e7db; }
+.q-bws__shade { position: absolute; inset: 0; z-index: 2; background: #000; pointer-events: none; }
+.q-bws__bloom { position: absolute; inset: 0; z-index: 4; background: radial-gradient(62% 54% at 50% 50%, #fff7ee, rgba(255, 238, 222, 0.6) 45%, transparent 78%); }
+
+/* The words sit over everything; only the order button takes clicks */
+.q-bws__words { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+/* The first screen: the title in two voices, centred above the band */
+.q-bws__hero { position: absolute; left: var(--gutter); right: var(--gutter); top: calc(var(--nav-h) + 3vh); text-align: center; color: var(--c-ink); }
+.q-bws__title { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(36px, min(calc((100vw - 2 * var(--gutter)) / 5.8), 12vh), 200px); line-height: 0.92; letter-spacing: -0.03em; white-space: nowrap; }
+.q-bws__title em { display: block; font-style: italic; letter-spacing: -0.02em; color: var(--c-bronze); }
+/* The spotlight: a chapter's title, then its caption, in the display face. On top on phones, in a column beside the
+   devices on wide screens. Ink in the studio, cream once night has come in. */
+/* Title and caption share one cell, so one can leave while the next arrives without either pushing the other */
+.q-bws__copy { position: absolute; left: var(--gutter); right: var(--gutter); top: calc(var(--nav-h) + 20px); display: grid; align-items: start; color: var(--bw-cream); transition: color 800ms var(--ease-out); }
+.q-bws__copy > * { grid-area: 1 / 1; }
+.q-bws__copy.is-day { color: var(--c-ink); }
+.q-bws__spot-title { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(52px, 6vw, 104px); line-height: 0.95; letter-spacing: -0.02em; max-width: 9em; text-wrap: balance; transform-origin: 0 100%; }
+.q-bws__spot-line { display: grid; gap: 28px; justify-items: start; pointer-events: auto; }
+.q-bws__spot-line p { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(21px, 2.2vw, 36px); line-height: 1.22; max-width: 30ch; text-wrap: pretty; }
+.q-bws__measure, .q-bws__measure > * { position: absolute; left: 0; right: 0; top: 0; visibility: hidden; pointer-events: none; }
+@media (min-width: 720px) and (min-aspect-ratio: 21/20) {
+  .q-bws__title { font-size: clamp(56px, min(8.4vw, 12.5vh), 180px); }
+  .q-bws__copy { top: 50%; right: auto; width: min(36vw, 560px); translate: 0 -50%; align-items: center; }
+  .q-bws__spot-line p { max-width: 22ch; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .q-bw__trace { stroke-dashoffset: 0; animation: none !important; }
-  .q-bw__node { opacity: 1; animation: none !important; }
-  .q-bw__pulse { display: none; }
+
+/* The rail: one mark per chapter, the current one drawn longer, each a way to jump there */
+.q-bws { --rail: var(--c-ink); }
+.q-bws.is-night { --rail: var(--bw-cream); }
+.q-bws__rail { position: absolute; z-index: 6; left: 50%; bottom: 8px; translate: -50% 0; display: flex; flex-direction: column-reverse; align-items: center; gap: 0; color: var(--rail); transition: color 600ms var(--ease-out); }
+.q-bws__rail ol { display: flex; list-style: none; margin: 0; padding: 0; }
+.q-bws__rail button { display: grid; place-items: center; width: 32px; height: 44px; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; }
+.q-bws__rail button i { display: block; width: 14px; height: 2px; border-radius: 2px; background: currentColor; opacity: 0.32; transition: width 500ms var(--ease-out), opacity 500ms var(--ease-out); }
+.q-bws__rail button[aria-current] i { width: 26px; opacity: 1; }
+.q-bws__rail button:hover i { opacity: 0.7; }
+.q-bws__rail button:focus-visible { outline: 2px solid currentColor; outline-offset: -6px; border-radius: 8px; }
+/* Where each chapter's title comes to rest once its caption is up */
+.q-bws__now { display: grid; min-height: 1.15em; font-family: var(--f-display); font-size: clamp(19px, 1.6vw, 24px); line-height: 1.15; white-space: nowrap; }
+.q-bws__now > span { grid-area: 1 / 1; }
+.q-bws__cue { position: absolute; z-index: 6; right: var(--gutter); bottom: 20px; display: grid; justify-items: center; gap: 8px; font-size: 13px; color: var(--c-ink-2); pointer-events: none; }
+.q-bws__cue i { display: block; width: 1px; height: 36px; background: linear-gradient(currentColor, transparent); transform-origin: top; animation: q-bws-cue 2.2s var(--ease-out) infinite; }
+@keyframes q-bws-cue { 0% { transform: scaleY(0); } 55% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+@media (min-width: 720px) and (min-aspect-ratio: 21/20) {
+  .q-bws__rail { left: var(--gutter); bottom: 22px; translate: none; margin-left: -9px; flex-direction: row; gap: 14px; }
+  .q-bws__cue { right: auto; left: 50%; translate: -50% 0; }
 }
+
+/* Less motion: the same story in order, standing still */
+.q-bws--still { height: auto; background: var(--c-bg); padding-block: calc(var(--nav-h) + 32px) 72px; }
+.q-bws__flow { display: grid; gap: 48px; }
+.q-bws--still .q-bws__chapter { display: grid; gap: 12px; justify-items: start; color: var(--c-ink); }
+.q-bws--still .q-bws__title { white-space: normal; }
+.q-bws__beat { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(34px, 4vw, 60px); line-height: 1.02; letter-spacing: -0.01em; }
+.q-bws__line { margin: 0; font-size: clamp(18px, 1.4vw, 22px); line-height: 1.55; max-width: 40ch; color: var(--c-ink-2); }
+.q-bws__links { display: flex; flex-wrap: wrap; gap: 12px 28px; }
+.q-bws--still .q-bws__chapter img { width: 100%; max-width: 760px; height: auto; border-radius: 16px; margin-top: 12px; }
 
 /* ---------- Quest View app: a dark stage with three coded phone screens ---------- */
 .q-app {
-  --qa-ember: #e8692f; --qa-jade: #5cc39a; --qa-cream: #f3eee6;
-  position: relative; overflow: hidden; color: var(--qa-cream);
-  background:
-    radial-gradient(60% 55% at 72% 46%, rgba(232, 105, 47, 0.32), transparent 70%),
-    radial-gradient(50% 60% at 10% 100%, rgba(138, 97, 66, 0.25), transparent 70%),
-    #1d1b19;
-  padding-block: 88px 72px;
+  --qa-ember: #e8692f; --qa-jade: #5cc39a; --qa-cream: #f3eee6; --qa-night: #1d1b19;
+  --stage-h: clamp(560px, 62vw, 760px);
+  position: relative; overflow: hidden; color: var(--qa-cream); padding-top: 88px;
+  background: var(--qa-night);
 }
 .q-app .q-display { color: var(--qa-cream); }
 .q-app .q-display em { color: #d9a77f; }
-.q-app .q-lead { color: #cfc7bb; }
-.q-app__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; align-items: center; }
-@media (min-width: 1000px) { .q-app__grid { grid-template-columns: 5fr 7fr; gap: 32px; } }
-.q-app__copy { display: grid; gap: 24px; align-content: center; }
-.q-app__points { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 18px; }
-.q-app__points li { display: grid; gap: 2px; padding-left: 20px; border-left: 2px solid rgba(232, 105, 47, 0.6); }
-.q-app__points b { font-weight: 600; font-size: 19px; }
-.q-app__points span { color: #cfc7bb; font-size: 17px; }
+.q-app__head { display: grid; gap: 20px; margin-bottom: 24px; }
+.q-app__intro { display: grid; gap: 8px; align-content: end; }
+.q-app__intro .q-lead { color: #cfc7bb; max-width: 30ch; }
+.q-app__soon { margin: 0; font-size: 16px; color: #a9a196; }
+@media (min-width: 960px) { .q-app__head { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: end; column-gap: 64px; } }
+
+/* Dawn: night at the top of the stage, an ember glow behind the phones, hanji by the time the captions begin */
+.q-app__dawn {
+  background:
+    radial-gradient(38% 42% at 50% 44%, rgba(232, 105, 47, 0.34), transparent 70%) top / 100% var(--stage-h) no-repeat,
+    linear-gradient(180deg, var(--qa-night) 0%, var(--qa-night) 22%, #3a281f 40%, #8f583d 57%, #d9b597 74%, #eee1d3 88%, var(--c-bg) 100%) top / 100% var(--stage-h) no-repeat,
+    var(--c-bg);
+}
+.q-app__beats { list-style: none; margin: 0; padding: 28px 0 0; display: grid; gap: 24px; color: var(--c-ink); }
+.q-app__beats h3 { margin: 0 0 6px; font-family: var(--f-display); font-weight: 400; font-size: clamp(26px, 2.4vw, 32px); line-height: 1.05; }
+.q-app__beats p { margin: 0; color: var(--c-ink-2); line-height: 1.55; max-width: 32ch; }
+@media (min-width: 1000px) {
+  /* each caption sits under its own phone: rhythm, today, family */
+  .q-app__beats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; text-align: center; }
+  .q-app__beats p { margin-inline: auto; }
+}
+
+/* Day: the light the fabric film begins in */
+.q-app__day { background: var(--c-bg); color: var(--c-ink); }
+.q-app__daygrid { display: grid; gap: 8px; padding-block: 64px 96px; }
+.q-app__real { display: grid; gap: 14px; }
+.q-app__realtitle { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.04; max-width: 16ch; }
+.q-app__real p { margin: 0; font-size: 19px; line-height: 1.6; color: var(--c-ink-2); max-width: 46ch; }
+@media (min-width: 960px) { .q-app__real { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: end; column-gap: 64px; } }
+.q-app__day .q-launch { margin-top: 48px; border-top-color: var(--c-hairline); }
+.q-app__day .q-launch__title { color: var(--c-ink); }
+.q-app__day .q-launch__copy p { color: var(--c-ink-2); }
+.q-app__day .q-launch__form { background: #fff; box-shadow: inset 0 0 0 1px var(--c-hairline); }
+.q-app__day .q-launch__form:focus-within { box-shadow: inset 0 0 0 2px var(--c-persimmon); }
+.q-app__day .q-launch__form input { color: var(--c-ink); }
+.q-app__day .q-launch__form input::placeholder { color: var(--c-ink-3); }
+.q-app__day .q-launch__btn { background: var(--c-persimmon); box-shadow: 0 10px 24px rgba(184, 67, 26, 0.22); }
+.q-app__day .q-launch__btn:focus-visible { outline-color: var(--c-ink); }
+.q-app__day .q-launch__done { color: var(--c-ink); background: rgba(29, 107, 88, 0.1); }
+.q-app__day .q-launch__done svg { color: var(--c-jade); }
+.q-app__day .q-launch__alt { color: var(--c-ink-2); }
 
 /* Three phones: the home screen in front, rhythm and family behind */
-.q-app__stage { position: relative; height: clamp(560px, 62vw, 760px); }
+.q-app__stage { position: relative; height: var(--stage-h); }
 .qa-phone {
   position: absolute; margin: 0; width: clamp(230px, 22vw, 320px); aspect-ratio: 9 / 19.5; border-radius: 15% / 7%;
   padding: 2.6%; box-sizing: border-box; background: linear-gradient(145deg, #3a3633, #121110 60%, #2b2826);
@@ -752,7 +968,7 @@ html[data-strip="hidden"] .q-strip { display: none; }
 .qa-phone--left { left: 22%; top: 46%; transform: translate(-50%, -50%) scale(0.86) rotate(-6deg); z-index: 1; filter: brightness(0.72); }
 .qa-phone--right { left: 78%; top: 54%; transform: translate(-50%, -50%) scale(0.86) rotate(6deg); z-index: 1; filter: brightness(0.72); }
 @media (max-width: 999px) {
-  .q-app__stage { height: 640px; }
+  .q-app { --stage-h: 640px; }
   .qa-phone { width: min(280px, 64vw); }
   .qa-phone--left { left: 16%; }
   .qa-phone--right { left: 84%; }
@@ -884,21 +1100,23 @@ html[data-strip="hidden"] .q-strip { display: none; }
 @media (min-width: 1000px) { .q-launch__alt { grid-column: 2; } }
 
 /* ---------- Stride drop (shoe) ---------- */
-.q-stride { position: relative; background: var(--c-sand); overflow: hidden; }
-.q-stride__year {
-  position: absolute; inset: auto 0 -0.12em; text-align: center; pointer-events: none; user-select: none;
-  font-family: var(--f-display); font-size: clamp(160px, 34vw, 560px); line-height: 0.8; letter-spacing: -0.04em;
-  color: transparent; -webkit-text-stroke: 1.5px color-mix(in srgb, var(--c-bronze) 55%, transparent);
+/* Quest Stride has no ground of its own: it sits on the finale's peach, and the closing silk rises up behind it */
+/* Words first, then the scan with the pre-order right below it. Side by side on wide screens, the scan on the right. */
+.q-stride__grid { position: relative; display: grid; gap: 40px; grid-template-areas: "copy" "stage" "actions"; }
+.q-stride__copy { grid-area: copy; }
+.q-stride__stage { grid-area: stage; }
+.q-stride__actions { grid-area: actions; margin-top: -16px; }
+@media (min-width: 1024px) {
+  .q-stride__grid { grid-template-columns: 2fr 3fr; grid-template-areas: "copy stage" "copy actions"; column-gap: 64px; row-gap: 24px; align-items: start; }
+  .q-stride__copy { align-self: center; }
+  .q-stride__actions { margin-top: 0; }
 }
-.q-stride__grid { position: relative; display: grid; gap: 40px; align-items: center; }
-@media (min-width: 1024px) { .q-stride__grid { grid-template-columns: 3fr 2fr; gap: 64px; } }
 .q-stride__stage { position: relative; aspect-ratio: 5 / 4; border-radius: var(--radius-lg); overflow: hidden; background: #dcd8e0; isolation: isolate; }
 @media (min-width: 768px) { .q-stride__stage { aspect-ratio: 4 / 3; } }
 /* The scan with the house grade, played slowly forward and back */
 .q-stride__scan { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.84) sepia(0.12) contrast(1.04) brightness(1.02); animation: q-drift 26s ease-in-out infinite alternate; }
 /* A slow, continuous push-in under the slowed film keeps the motion fluid between frames */
 @keyframes q-drift { from { transform: scale(1.02) translate3d(0, 0, 0); } to { transform: scale(1.1) translate3d(-1.5%, -1%, 0); } }
-.q-stride__toggle { position: absolute; right: 16px; bottom: 16px; z-index: 2; }
 /* A small glass label that sits back so the film leads; the pulse marks it as live sensing */
 .q-stride__badge {
   position: absolute; left: 16px; bottom: 16px; z-index: 2; display: inline-flex; align-items: center; gap: 10px;
@@ -909,8 +1127,6 @@ html[data-strip="hidden"] .q-strip { display: none; }
 .q-stride__badge i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: #e8692f; box-shadow: 0 0 0 0 rgba(232, 105, 47, 0.6); animation: q-live 2.4s ease-out infinite; }
 @keyframes q-live { 70% { box-shadow: 0 0 0 7px rgba(232, 105, 47, 0); } 100% { box-shadow: 0 0 0 0 rgba(232, 105, 47, 0); } }
 @media (min-width: 768px) { .q-stride__badge { left: 20px; bottom: 20px; max-width: calc(100% - 180px); } }
-/* On phones the pause control moves to the top corner so the label keeps the bottom edge */
-@media (max-width: 767px) { .q-stride__toggle { top: 12px; right: 12px; bottom: auto; } }
 @media (prefers-reduced-motion: reduce) { .q-stride__badge i { animation: none; } .q-stride__scan { animation: none !important; } }
 .q-stride__copy { display: grid; gap: 24px; }
 .q-specs { list-style: none; margin: 8px 0 0; padding: 0; border-top: 1px solid color-mix(in srgb, var(--c-ink) 18%, transparent); }
@@ -924,27 +1140,6 @@ html[data-strip="hidden"] .q-strip { display: none; }
 /* ---------- Plans ---------- */
 .q-plans { display: grid; gap: 20px; }
 @media (min-width: 1024px) { .q-plans { grid-template-columns: repeat(3, 1fr); } }
-.q-plan {
-  display: grid; gap: 20px; align-content: start; padding: 32px; border-radius: var(--radius-lg);
-  background: var(--c-surface); border: 1px solid var(--c-hairline); position: relative;
-}
-.q-plan--featured { border-color: var(--c-ink); }
-.q-plan__price { font-family: var(--f-display); font-size: 48px; line-height: 1; }
-.q-plan__price small { font-family: var(--f-sans); font-size: 17px; color: var(--c-ink-2); margin-left: 6px; }
-.q-plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.q-plan li { display: flex; gap: 10px; align-items: flex-start; }
-.q-plan li svg { flex: none; margin-top: 4px; color: var(--c-jade); }
-.q-plan__ribbon { position: absolute; top: -14px; left: 32px; background: var(--c-persimmon); color: #fff; padding: 6px 12px; border-radius: 999px; }
-.q-plan--featured { border-color: var(--c-persimmon); box-shadow: inset 0 0 0 1px var(--c-persimmon); }
-.q-plan--dark { background: var(--c-graphite); border-color: var(--c-graphite); color: var(--c-bg); }
-.q-plan--dark .q-body, .q-plan--dark .q-plan__price small { color: #cfc8bd; }
-.q-plan--dark li svg { color: #5fbfa4; }
-.q-plan--dark .q-mono--bronze { color: var(--c-bronze-soft); }
-.q-plan__cta { margin-top: auto; justify-self: start; }
-.q-plan { display: flex; flex-direction: column; } /* CTA pins to the bottom so the three cards align */
-.q-plan__kit { display: flex; align-items: center; gap: 8px; }
-.q-plan__kit img { width: 96px; height: 96px; object-fit: contain; background: var(--c-celadon); border-radius: 12px; padding: 6px; box-sizing: border-box; }
-.q-plan__kit span { font-size: 24px; color: var(--c-ink-3); }
 
 /* ---------- Closing + footer ---------- */
 .q-closing { text-align: center; display: grid; justify-items: center; gap: 32px; }
@@ -956,6 +1151,15 @@ html[data-strip="hidden"] .q-strip { display: none; }
 .q-footer__brand { grid-column: 1 / -1; display: grid; gap: 16px; align-content: start; }
 .q-footer__brand p { margin: 0; max-width: 30ch; color: #d6cfc4; font-size: 20px; }
 .q-footer__mono { width: 44px; height: 44px; }
+/* Follow us: two outlined pills under the brand line, filling in light on hover */
+.q-footer .q-footer__social { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.q-footer .q-footer__social a {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px 0 15px; border-radius: 999px;
+  border: 1px solid #4a4642; color: #e9e4dc; font-size: 15px; font-weight: 500;
+  transition: background-color var(--d-fast) var(--ease-out), color var(--d-fast) var(--ease-out), border-color var(--d-fast) var(--ease-out);
+}
+.q-footer .q-footer__social a:hover { background: #e9e4dc; border-color: #e9e4dc; color: var(--c-graphite); text-decoration: none; }
+.q-footer .q-footer__social a:focus-visible { outline: 2px solid #e9a379; outline-offset: 3px; }
 @media (min-width: 700px) { .q-footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1024px) {
   .q-footer__grid { grid-template-columns: 5fr repeat(3, 2fr); }
@@ -975,7 +1179,6 @@ html[data-strip="hidden"] .q-strip { display: none; }
 .q-footer__base { margin-top: clamp(28px, 4vw, 48px); padding-top: 24px; border-top: 1px solid #3a3734; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 32px; }
 .q-footer__legal { margin: 0; font-size: 15px; font-weight: 600; color: #e9e4dc; white-space: nowrap; }
 .q-footer__statement { margin: 0; font-size: 15px; line-height: 1.6; color: #bfb7ab; }
-
 
 /* ---------- Page heads (shop, plans, duet) ---------- */
 .q-pagehead { padding-top: calc(var(--nav-h) + 56px); padding-bottom: 40px; display: grid; gap: 20px; }
@@ -1145,9 +1348,159 @@ html[data-strip="hidden"] .q-strip { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .q-step, .q-intro-step, .q-result, .q-result__portrait { animation: none; } }
 
-/* Duet page */
-.q-duet-hero { display: grid; gap: 32px; align-items: center; }
-@media (min-width: 1024px) { .q-duet-hero { grid-template-columns: 5fr 7fr; } }
+/* Duet page: the landing. A warm studio sweep runs edge to edge under the nav; the promise sits left, and the two
+   devices sit right on the same floor, joined by the light that wakes the tablet. */
+.q-duo {
+  --duo-glow: #e8692f;
+  position: relative; isolation: isolate; overflow: hidden;
+  padding: calc(var(--nav-h) + 40px) 0 72px;
+  background:
+    radial-gradient(42% 52% at 74% 50%, rgb(232 140 92 / 0.2), transparent 72%),
+    linear-gradient(180deg, var(--c-bg) 0%, #f2e7dd 44%, #ebdacb 84%, var(--c-bg) 100%);
+}
+.q-duo__grid { display: grid; gap: 28px; grid-template-areas: "head" "stage" "body"; }
+.q-duo__head { grid-area: head; display: grid; gap: 20px; }
+.q-duo__head .q-display-xl { font-size: clamp(54px, 6.6vw, 112px); }
+.q-duo__body { grid-area: body; display: grid; gap: 28px; justify-items: start; }
+.q-duo__body .q-lead { max-width: 30ch; }
+@media (min-width: 1024px) {
+  .q-duo { padding-bottom: 96px; min-height: min(100svh, 980px); box-sizing: border-box; display: grid; align-items: center; }
+  .q-duo__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-areas: "head stage" "body stage"; column-gap: clamp(28px, 3.4vw, 56px); row-gap: 36px; align-items: end; }
+  .q-duo__body { align-self: start; }
+}
+/* Shorter laptop screens: everything tightens a step so the button stays in the first view */
+@media (min-width: 1024px) and (max-height: 820px) {
+  .q-duo { padding-top: calc(var(--nav-h) + 20px); padding-bottom: 56px; }
+  .q-duo__grid { row-gap: 22px; }
+  .q-duo__head { gap: 14px; }
+  .q-duo__head .q-display-xl { font-size: clamp(52px, 5.8vw, 92px); }
+  .q-duo__body { gap: 20px; }
+  .q-duo__price { padding-top: 18px; }
+}
+
+/* Three wins, each a word or two beside its mark */
+.q-duo__wins { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px 28px; }
+.q-duo__wins li { display: inline-flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 500; color: var(--c-ink); }
+.q-duo__wins svg { flex: none; color: var(--c-persimmon); }
+
+/* The price: the figure in the display face, what it covers underneath */
+.q-duo__price { display: grid; gap: 8px; padding-top: 24px; border-top: 1px solid rgb(23 21 19 / 0.12); width: min(100%, 460px); }
+.q-duo__price p { margin: 0; }
+.q-duo__price .q-tabular { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; font-size: 17px; color: var(--c-ink-3); }
+.q-duo__price b { font-family: var(--f-display); font-weight: 400; font-size: clamp(40px, 3.4vw, 52px); line-height: 1; letter-spacing: -0.02em; color: var(--c-ink); }
+.q-duo__save { align-self: center; padding: 4px 11px; border-radius: 999px; background: #e2eee8; color: var(--c-jade); font-size: 14px; font-weight: 600; }
+
+/* One button and one link, given room so they read as two choices */
+.q-duo__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 28px; }
+.q-duo__more { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+
+/* The stage: a fixed 1000 x 700 frame, so the light's path lines up with both devices at any size */
+.q-duo__stage { grid-area: stage; position: relative; aspect-ratio: 1000 / 700; width: 100%; }
+@media (min-width: 1024px) { .q-duo__stage { align-self: center; width: auto; margin-right: calc(var(--gutter) * -0.5); } }
+.q-duo__stage::before {
+  /* The tablet's own light, which spreads when its screen wakes */
+  content: ""; position: absolute; z-index: -1; left: 46%; top: 2%; width: 56%; height: 74%; border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(240 160 110 / 0.45), transparent);
+  filter: blur(20px); animation: q-duo-fade 1.6s var(--ease-out) 1.7s both;
+}
+.q-duo__pad { position: absolute; left: 43%; top: 8.6%; width: 56%; overflow: hidden; filter: drop-shadow(0 30px 34px rgb(80 46 24 / 0.2)); }
+.q-duo__pad img { display: block; width: 100%; height: auto; }
+.q-duo__band { position: absolute; left: 1%; top: 44.4%; width: 47%; height: auto; filter: drop-shadow(0 24px 22px rgb(80 46 24 / 0.22)); }
+.q-duo__floor { position: absolute; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgb(70 42 24 / 0.28), transparent); }
+.q-duo__floor--pad { left: 47%; top: 74%; width: 50%; height: 7%; }
+.q-duo__floor--band { left: 4%; top: 82%; width: 42%; height: 8%; }
+
+/* The light: drawn out of the band, then a spark runs along it again and again */
+.q-duo__signal { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.q-duo__trace { fill: none; stroke: var(--duo-glow); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; filter: drop-shadow(0 0 6px rgb(232 105 47 / 0.7)); animation: q-duo-draw 1.1s var(--ease-out) 0.5s forwards; }
+.q-duo__spark { fill: none; stroke: #fff4ea; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 4 96; stroke-dashoffset: 100; opacity: 0; filter: drop-shadow(0 0 8px #fff); animation: q-duo-spark 2.4s linear 1.6s infinite; }
+.q-duo__node { fill: #fff; stroke: var(--duo-glow); stroke-width: 3; animation: q-duo-fade 0.5s ease-out 0.4s both; }
+.q-duo__node--end { animation-delay: 1.5s; }
+@keyframes q-duo-draw { to { stroke-dashoffset: 0; } }
+@keyframes q-duo-spark { 0% { stroke-dashoffset: 100; opacity: 1; } 90% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes q-duo-fade { from { opacity: 0; } }
+
+/* The screen, laid out at 1000 x 640 and fitted to the glass (--k is set from the drawn width) */
+.q-duo__glass { position: absolute; left: 0; top: 0; width: 1000px; height: 640px; transform-origin: 0 0; transform: scale(var(--k, 0.36)) var(--glass); pointer-events: none; }
+.q-duo__screen {
+  position: absolute; inset: 2.4% 2.2% 10.5% 2.2%; border-radius: 18px; overflow: hidden;
+  display: grid; align-content: end; gap: 10px; padding: 46px 52px;
+  background: radial-gradient(60% 80% at 72% 42%, #6f7f68 0%, #3f4b3f 52%, #232a24 100%);
+  color: #f3ece2; animation: q-duo-wake 1.4s var(--ease-out) 1.6s both;
+}
+.q-duo__screen::after { content: ""; position: absolute; inset: 0; background: linear-gradient(125deg, rgb(255 255 255 / 0.13), transparent 36%); }
+.q-duo__screen b { position: relative; font-family: var(--f-display); font-weight: 400; font-size: 86px; line-height: 1; letter-spacing: -0.01em; }
+.q-duo__sub { position: relative; font-size: 28px; color: #d8d0c4; }
+.q-duo__status { position: absolute; left: 52px; top: 42px; display: inline-flex; align-items: center; gap: 12px; font-size: 26px; color: #efe5d8; }
+.q-duo__status i { width: 12px; height: 12px; border-radius: 50%; background: var(--duo-glow); box-shadow: 0 0 14px var(--duo-glow); }
+/* A breathing circle: in for four seconds, out for four */
+.q-duo__breath { position: absolute; right: 9%; top: 15%; width: 300px; height: 300px; }
+.q-duo__breath i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgb(243 236 226 / 0.5); animation: q-duo-breathe 8s ease-in-out 2.4s infinite; }
+.q-duo__breath i:nth-child(2) { inset: 16%; border-color: rgb(243 236 226 / 0.35); animation-delay: 2.6s; }
+.q-duo__breath i:nth-child(3) { inset: 32%; border: 0; background: radial-gradient(closest-side, rgb(255 226 200 / 0.9), rgb(232 140 92 / 0.35)); animation-delay: 2.8s; }
+@keyframes q-duo-wake { from { opacity: 0; filter: brightness(1.8); } 40% { opacity: 1; } }
+@keyframes q-duo-breathe { 0%, 100% { transform: scale(0.78); } 50% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .q-duo__stage::before, .q-duo__node, .q-duo__screen, .q-duo__breath i { animation: none; }
+  .q-duo__trace { animation: none; stroke-dashoffset: 0; }
+  .q-duo__spark { display: none; }
+}
+
+/* A day with Sage Duo: one roll of frames drifting right to left, each a moment, a person and what it sensed.
+   The set is drawn twice and the roll slides by exactly one set, so it never ends. */
+.q-roll-section { padding: 16px 0 104px; }
+.q-roll__head { display: grid; gap: 20px; margin-bottom: 44px; }
+@media (min-width: 1024px) {
+  .q-roll__head { grid-template-columns: minmax(0, 1fr) minmax(0, 34rem); column-gap: 64px; align-items: end; }
+  .q-roll__head .q-lead { max-width: 36ch; }
+}
+.q-roll { --h: clamp(340px, 33vw, 480px); --gap: clamp(12px, 1.2vw, 18px); }
+.q-roll__window {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+.q-roll__track { display: flex; width: max-content; animation: q-roll 100s linear infinite; }
+.q-roll.is-paused .q-roll__track, .q-roll__window:hover .q-roll__track { animation-play-state: paused; }
+@keyframes q-roll { to { transform: translate3d(-50%, 0, 0); } }
+.q-roll__set { display: flex; gap: var(--gap); list-style: none; margin: 0; padding: 0 var(--gap) 0 0; }
+.q-roll__frame { position: relative; flex: none; height: var(--h); aspect-ratio: 4 / 5; border-radius: 22px; overflow: hidden; background: var(--c-studio); }
+.q-roll__frame.is-wide { aspect-ratio: 4 / 3; }
+.q-roll__frame img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.q-roll__frame::after { content: ""; position: absolute; inset: 38% 0 0; background: linear-gradient(180deg, transparent, rgb(22 17 13 / 0.66)); pointer-events: none; }
+.q-roll__time {
+  position: absolute; z-index: 1; left: 16px; top: 16px; padding: 7px 11px; border-radius: 999px;
+  background: rgb(245 242 237 / 0.88); backdrop-filter: blur(6px);
+  font: 500 13px/1 var(--f-mono); letter-spacing: 0.06em; color: var(--c-ink);
+}
+.q-roll__cap { position: absolute; z-index: 1; left: 18px; right: 18px; bottom: 18px; display: grid; gap: 4px; justify-items: start; color: #fbf6ef; }
+.q-roll__who { font-size: 14px; font-weight: 500; color: rgb(251 246 239 / 0.84); }
+.q-roll__cap b { font-family: var(--f-display); font-weight: 400; font-size: clamp(26px, 2.2vw, 32px); line-height: 1.05; letter-spacing: -0.01em; }
+.q-roll__signals { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+/* Signal tags, shared by the day strip and the research page: what was sensed, coloured by where it came from */
+.q-sig {
+  display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px 6px 9px; border-radius: 999px;
+  background: rgb(23 21 19 / 0.44); border: 1px solid rgb(255 255 255 / 0.16); backdrop-filter: blur(8px);
+  color: #fbf6ef; font-size: 13px; font-weight: 500; line-height: 1;
+}
+.q-sig i, .q-roll__dot { flex: none; width: 8px; height: 8px; border-radius: 50%; }
+/* The three sources, one colour each: the band, the clothes and shoes, and Quest View where they meet */
+.q-sig--band i, .q-roll__dot--band { background: #ec7b3d; box-shadow: 0 0 8px rgb(236 123 61 / 0.75); }
+.q-sig--body i, .q-roll__dot--body { background: #7fb08f; }
+.q-sig--view i, .q-roll__dot--view { border-radius: 2px; background: #f4ead9; box-shadow: inset 0 0 0 1.5px rgb(23 21 19 / 0.35); }
+.q-roll__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; margin-top: 28px; }
+.q-roll__key { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: 16px; color: var(--c-ink-2); }
+.q-roll__key li { display: inline-flex; align-items: center; gap: 10px; }
+.q-roll__key b { font-weight: 600; color: var(--c-ink); }
+@media (prefers-reduced-motion: reduce) {
+  /* Standing still, the day wraps into rows */
+  .q-roll { --h: clamp(240px, 24vw, 320px); }
+  .q-roll__track { animation: none; width: auto; display: block; }
+  .q-roll__window { -webkit-mask-image: none; mask-image: none; }
+  .q-roll__set { flex-wrap: wrap; justify-content: center; padding: 0 var(--gutter); }
+  .q-roll__set[aria-hidden] { display: none; }
+  .q-roll__toggle { display: none; }
+}
 .q-split { display: grid; gap: 20px; }
 @media (min-width: 900px) { .q-split { grid-template-columns: 1fr 1fr; } }
 .q-feature { display: grid; gap: 12px; padding-top: 20px; border-top: 1px solid var(--c-hairline); }
@@ -1355,7 +1708,7 @@ button.qpad__key:hover { filter: brightness(1.04); }
 .qf--calm { background: radial-gradient(70% 90% at 25% 55%, rgba(129, 148, 170, 0.5), transparent 60%), #15171b; }
 .qf--rest { background: radial-gradient(80% 70% at 80% 10%, rgba(92, 84, 128, 0.45), transparent 60%), #121116; }
 .qf--quest { background: radial-gradient(60% 90% at 18% 40%, rgba(232, 105, 47, 0.5), transparent 65%), #1a1513; }
-.qf--clock, .qf--night { align-items: center; justify-content: center; background: #0f0e0d; }
+.qf--night { align-items: center; justify-content: center; background: #0f0e0d; }
 .qf--family { padding: 0; }
 .qf-top { display: flex; justify-content: space-between; align-items: center; font-size: calc(16 * var(--u)); color: #b5ada2; }
 .qf-brand { display: inline-flex; align-items: center; gap: calc(8 * var(--u)); font-family: var(--f-display); font-size: calc(22 * var(--u)); color: #f3eee6; }
@@ -1720,7 +2073,7 @@ button.qpad__key:hover { filter: brightness(1.04); }
 .q-research__toc { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
 .q-research__toc a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid var(--c-hairline); background: var(--c-surface); color: var(--c-ink); text-decoration: none; font-weight: 500; }
 .q-research__toc a:hover { border-color: var(--c-ink); }
-.q-research__list { display: grid; gap: 120px; padding-block: 48px 120px; }
+.q-research__list { display: grid; gap: 120px; padding-block: 120px; }
 @media (max-width: 767px) { .q-research__list { gap: 80px; } }
 .q-rcase { display: grid; gap: 36px; align-items: center; scroll-margin-top: 96px; }
 @media (min-width: 1000px) {
@@ -1738,6 +2091,66 @@ button.qpad__key:hover { filter: brightness(1.04); }
 .q-rcase__facts div { display: grid; gap: 4px; padding-top: 14px; border-top: 1px solid var(--c-hairline); }
 .q-rcase__facts dt { font-weight: 600; }
 .q-rcase__facts dd { margin: 0; color: var(--c-ink-2); }
+/* Where each direction starts: one published finding by another team, with the link to read it */
+.q-rcase__built { display: grid; gap: 4px; margin-top: 6px; padding: 16px 18px; border-radius: 16px; background: var(--c-surface); border: 1px solid var(--c-hairline); }
+.q-rcase__built p { margin: 0; font-size: 16px; line-height: 1.55; color: var(--c-ink-2); }
+.q-rcase__built b { margin-right: 6px; color: var(--c-ink); }
+/* The arrow stays with the last word when a long citation wraps */
+.q-cite { display: inline-block; padding-block: 6px; color: var(--c-bronze); font-size: 15px; font-weight: 500; line-height: 1.4; text-underline-offset: 3px; }
+.q-cite svg { display: inline; vertical-align: -2px; margin-left: 2px; }
+.q-cite:hover { color: var(--c-ink); }
+
+/* Persimmon AI: a dark band between the film and the directions. One loop to follow, then brain, body and mind. */
+.q-ai { margin-top: clamp(64px, 8vw, 112px); padding-block: clamp(80px, 10vw, 144px); background: #1d1b19; color: #f3ece2; scroll-margin-top: var(--nav-h); }
+.q-ai__head { display: grid; gap: 24px; }
+@media (min-width: 1024px) { .q-ai__head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 64px; align-items: end; } }
+.q-ai .q-display { color: #fbf6ef; }
+.q-ai .q-display em { color: #e9a379; }
+.q-ai .q-lead { max-width: 42ch; color: #cfc8bd; }
+.q-ai__loop { position: relative; list-style: none; margin: 72px 0 0; padding: 0; display: grid; gap: 32px; }
+/* The thread that runs through the four steps: down the side on phones, across on wider screens */
+.q-ai__loop::before { content: ""; position: absolute; left: 21px; top: 22px; bottom: 22px; width: 1.5px; background: linear-gradient(180deg, #ec7b3d, rgb(236 123 61 / 0.15)); }
+.q-ai__loop li { position: relative; display: grid; gap: 8px; align-content: start; padding-left: 68px; }
+.q-ai__step {
+  position: absolute; left: 0; top: 0; z-index: 1; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  background: #1d1b19; border: 1.5px solid #ec7b3d; color: #fbf6ef; font: 500 15px/1 var(--f-mono);
+}
+.q-ai__loop h3 { margin: 6px 0 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(26px, 2.2vw, 32px); line-height: 1.05; color: #fbf6ef; }
+.q-ai__loop p { margin: 0; line-height: 1.55; color: #cfc8bd; max-width: 34ch; }
+@media (min-width: 900px) {
+  .q-ai__loop { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+  .q-ai__loop::before { left: 22px; right: 22px; top: 21px; bottom: auto; width: auto; height: 1.5px; background: linear-gradient(90deg, #ec7b3d, rgb(236 123 61 / 0.15)); }
+  .q-ai__loop li { padding-left: 0; padding-top: 64px; }
+}
+.q-ai__pillars { list-style: none; margin: 72px 0 0; padding: 0; display: grid; gap: 16px; }
+@media (min-width: 900px) { .q-ai__pillars { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.q-ai__pillar { --accent: #ec7b3d; display: grid; gap: 10px; align-content: start; padding: 28px; border-radius: 24px; background: #272421; border: 1px solid rgb(255 255 255 / 0.08); box-shadow: inset 0 3px 0 var(--accent); }
+.q-ai__pillar--body { --accent: #7fb08f; }
+.q-ai__pillar--view { --accent: #f4ead9; }
+.q-ai__pillar .q-h3 { color: #fbf6ef; }
+.q-ai__label { margin: 10px 0 0; font-size: 14px; font-weight: 600; color: #b9b0a4; }
+.q-ai__sigs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.q-ai__offer { margin: 0; font-size: 17px; line-height: 1.55; color: #ece5da; }
+.q-ai__note { margin: 36px 0 0; font-size: 15px; color: #a9a196; }
+
+/* Research you can check: each group's name stays in view beside its studies on wide screens */
+.q-proof { padding-block: 24px 120px; scroll-margin-top: var(--nav-h); }
+.q-proof__head { display: grid; gap: 20px; margin-bottom: 24px; }
+@media (min-width: 1024px) { .q-proof__head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 64px; align-items: end; } }
+.q-proof__group { display: grid; gap: 28px; margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--c-hairline); }
+@media (min-width: 1024px) {
+  .q-proof__group { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: 64px; }
+  .q-proof__grouphead { position: sticky; top: calc(var(--nav-h) + 32px); align-self: start; }
+}
+.q-proof__grouphead { display: grid; gap: 10px; }
+.q-proof__grouphead p { margin: 0; max-width: 36ch; color: var(--c-ink-2); }
+.q-proof__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+@media (min-width: 700px) { .q-proof__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.q-proof__list li { display: flex; flex-direction: column; gap: 10px; padding: 24px; border-radius: 20px; background: var(--c-surface); border: 1px solid var(--c-hairline); }
+.q-proof__list p { margin: 0; line-height: 1.55; color: var(--c-ink-2); }
+.q-proof__list .q-cite { margin-top: auto; align-self: flex-start; }
+.q-proof__where { font-size: 15px; }
+.q-proof__where b { margin-right: 6px; color: var(--c-ink); }
 .q-research__join { background: var(--c-stone); padding-block: 112px; scroll-margin-top: 72px; }
 .q-research__joinhead { display: grid; gap: 18px; margin-bottom: 48px; max-width: 46rem; }
 .q-research__ways { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
@@ -1809,33 +2222,38 @@ button.qpad__key:hover { filter: brightness(1.04); }
 /* ======================================================================
    The film: two lines part as the brand film opens to full bleed
    ====================================================================== */
-.q-film { position: relative; height: 280vh; background: var(--c-bg); }
+.q-film { position: relative; height: 280vh; background: var(--c-film); }
 .q-film__sticky { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
 .q-film__frame { position: absolute; inset: 0; overflow: hidden; background: #e9e1d8; will-change: clip-path; }
+/* Pinned at full bleed, the film's floor melts into the peach on an eased curve, long enough that the stage's front
+   edge is gone before the frame ends, so the film hands over to the research below without a line */
+.q-film:not(.is-portrait):not(.is-still) .q-film__frame {
+  --melt: linear-gradient(180deg, #000 calc(100% - 26vh), rgba(0, 0, 0, 0.86) calc(100% - 21vh), rgba(0, 0, 0, 0.62) calc(100% - 15vh), rgba(0, 0, 0, 0.36) calc(100% - 10vh), rgba(0, 0, 0, 0.14) calc(100% - 5.5vh), rgba(0, 0, 0, 0.03) calc(100% - 2vh), transparent 100%);
+  -webkit-mask-image: var(--melt); mask-image: var(--melt);
+}
 .q-film__video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.q-film__scrim { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(23, 21, 19, 0.6) 0%, rgba(23, 21, 19, 0) 42%); opacity: var(--scrim, 0.85); }
-.q-film__toggle { position: absolute; right: 16px; bottom: 16px; z-index: 3; }
 .q-film__lines { position: absolute; inset: 0; z-index: 2; margin: 0; pointer-events: none; font-family: var(--f-display); font-weight: 400; font-size: clamp(42px, 7.4vw, 128px); line-height: 0.95; letter-spacing: -0.02em; color: var(--c-ink); }
 .q-film__line { position: absolute; display: block; opacity: var(--o, 1); }
 .q-film__line--a { top: 8%; left: var(--gutter); }
 .q-film__line--b { bottom: 8%; right: var(--gutter); text-align: right; max-width: calc(100% - 2 * var(--gutter)); }
 .q-film__line em { font-style: italic; color: var(--c-bronze); }
-.q-film__caption { position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: clamp(72px, 10vh, 112px); display: grid; gap: 20px; justify-items: start; opacity: var(--o, 0); }
-.q-film__caption p { margin: 0; max-width: 18ch; font-family: var(--f-display); font-size: clamp(30px, 3.6vw, 56px); line-height: 1.05; color: #fff; text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25); }
 /* Reduced motion: lines, then the film, then the caption, all in place */
+/* Portrait screens: no pinning. The film sits in the page as a poster, its full 16:9 frame (so the whole
+   Persimmon Quest lettering shows) between the two lines, and its window opens as it scrolls into view. */
+.q-film.is-portrait { height: auto; padding-block: 56px 64px; --band: calc(100vw * 9 / 16); --lane: clamp(64px, 15vw, 120px); }
+.q-film.is-portrait .q-film__sticky { position: relative; height: calc(var(--band) + 2 * var(--lane)); overflow: visible; }
+.q-film.is-portrait .q-film__frame { inset: auto 0; top: var(--lane); height: var(--band); }
+.q-film.is-portrait .q-film__line--a { top: auto; bottom: calc(var(--band) + var(--lane) + 10px); }
+.q-film.is-portrait .q-film__line--b { bottom: auto; top: calc(var(--lane) + var(--band) + 8px); }
 .q-film.is-still { height: auto; padding-block: 72px; }
 .q-film.is-still .q-film__sticky { position: relative; height: auto; display: grid; gap: 24px; }
 .q-film.is-still .q-film__lines { position: relative; inset: auto; padding-inline: var(--gutter); }
 .q-film.is-still .q-film__line { position: relative; inset: auto; text-align: left; }
 .q-film.is-still .q-film__frame { position: relative; aspect-ratio: 16 / 9; }
-.q-film.is-still .q-film__caption { position: relative; inset: auto; opacity: 1; }
-.q-film.is-still .q-film__caption p { color: var(--c-ink); text-shadow: none; }
-.q-film.is-still .q-film__caption .q-btn--light { background: var(--c-ink); color: #f5f2ed; }
 
 /* ======================================================================
    Pricing
    ====================================================================== */
-.q-pricing .q-pagehead { display: grid; gap: 18px; }
 .q-compare { overflow-x: auto; border-radius: 20px; background: var(--c-surface); }
 .q-compare:focus-visible { outline: 3px solid var(--c-persimmon); outline-offset: 4px; }
 .q-compare table { width: 100%; min-width: 680px; border-collapse: collapse; font-size: 17px; }
@@ -1848,9 +2266,109 @@ button.qpad__key:hover { filter: brightness(1.04); }
 .q-compare tbody th { font-weight: 500; color: var(--c-ink-2); width: 34%; }
 .q-compare td svg { color: var(--c-jade); vertical-align: middle; }
 .q-compare td .q-compare__no { color: var(--c-ink-3); }
-.q-pricing__note { margin: 16px 0 0; color: var(--c-ink-3); font-size: 16px; }
-.q-pricing__help { margin-top: 72px; padding: 32px; border-radius: 24px; background: var(--c-stone); display: grid; gap: 12px; justify-items: start; }
-.q-pricing__help p { margin: 0; color: var(--c-ink-2); }
+.q-compare th.q-compare__pick { background: #f7e9de; }
+.q-compare td.q-compare__pick { background: #fdf7f2; }
+.q-pricing__note { margin: 0; color: var(--c-ink-3); font-size: 16px; }
+
+/* The page: a centred head under warm light, three plans, the partner marks, then the details */
+.q-pricing { position: relative; isolation: isolate; padding-bottom: 128px; }
+/* Persimmon light pooling behind the title and the bundle, the way the brand film is lit */
+.q-pricing::before {
+  content: ""; position: absolute; z-index: -1; inset: 0 0 auto; height: min(1200px, 150vh); pointer-events: none;
+  background:
+    radial-gradient(34% 30% at 50% 52%, rgb(226 132 86 / 0.24), transparent 72%),
+    radial-gradient(70% 48% at 50% 18%, var(--c-film), transparent 78%);
+}
+.q-pricing__head { padding-top: calc(var(--nav-h) + 64px); padding-bottom: 56px; display: grid; justify-items: center; gap: 18px; text-align: center; }
+.q-pricing__head .q-lead { max-width: 46ch; }
+.q-pricing__sales { margin: 6px 0 0; font-size: 17px; color: var(--c-ink-2); }
+.q-pricing__sales .q-link { display: inline-flex; align-items: center; gap: 4px; margin-left: 4px; }
+.q-pricing .q-partners { background: transparent; padding-block: 96px 0; }
+.q-pricing__compare { display: grid; gap: 28px; padding-top: 112px; }
+.q-pricing__faq { display: grid; gap: 28px; max-width: 900px; padding-top: 112px; }
+.q-pricing__faq .q-acc summary { font-size: 18px; gap: 16px; }
+.q-pricing__faq .q-acc__body p { margin: 0; font-size: 18px; line-height: 1.6; max-width: 62ch; }
+.q-pricing__help { display: grid; justify-items: center; gap: 22px; padding-top: 128px; text-align: center; }
+.q-pricing__help .q-lead { max-width: 36ch; }
+
+/* ---------- Plan cards: one quiet structure, read across like a table ---------- */
+.q-tiers { display: grid; gap: 20px; max-width: 620px; margin-inline: auto; }
+.q-tier {
+  --pad: 24px;
+  position: relative; display: flex; flex-direction: column; gap: 18px; padding: var(--pad);
+  border-radius: 24px; background: var(--c-surface); border: 1px solid var(--c-hairline);
+}
+.q-tier__head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.q-tier__eyebrow { font: 500 14px/1.3 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-bronze); }
+.q-tier__ribbon { margin-left: auto; padding: 5px 12px; border-radius: 999px; background: var(--c-persimmon); color: #fff; font: 600 14px/1.2 var(--f-sans); }
+.q-tier__name { flex-basis: 100%; margin: 4px 0 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(30px, 2.5vw, 36px); line-height: 1.05; letter-spacing: -0.015em; }
+.q-tier__price { margin: 0; display: flex; flex-wrap: wrap; align-items: flex-end; align-content: flex-start; gap: 12px 10px; font-family: var(--f-display); font-size: clamp(46px, 4vw, 58px); line-height: 1; letter-spacing: -0.02em; }
+/* The unit and the bundle's saving share one row, which drops under the figure when the card is narrow.
+   On wide cards they stack beside the figure, so every price row keeps one height */
+.q-tier__unit { display: grid; grid-auto-flow: column; align-items: center; justify-content: start; gap: 10px; font: 400 16px/1.2 var(--f-sans); letter-spacing: 0; color: var(--c-ink-3); }
+@media (min-width: 1280px) { .q-tier__unit { grid-auto-flow: row; justify-items: start; gap: 6px; } }
+.q-tier__unit small { font-size: inherit; }
+.q-tier__save { padding: 3px 9px; border-radius: 999px; background: #e2eee8; color: var(--c-jade); font-size: 14px; font-weight: 600; }
+.q-tier__line { margin: 0; font-size: 17px; line-height: 1.55; color: var(--c-ink-2); }
+.q-tier__list { display: grid; gap: 14px; align-content: start; padding-top: 20px; border-top: 1px solid var(--c-hairline); }
+.q-tier__builds { margin: 0; font-size: 16px; font-weight: 600; }
+.q-tier__list ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.q-tier__list li { display: flex; gap: 10px; align-items: flex-start; font-size: 17px; line-height: 1.45; }
+.q-tier__list li svg { flex: none; margin-top: 3px; color: var(--c-jade); }
+.q-tier__foot { display: grid; gap: 12px; justify-items: center; padding-top: 8px; }
+.q-tier__foot .q-btn { width: 100%; }
+.q-tier__note { display: inline-flex; align-items: center; gap: 4px; min-height: 24px; margin: 0; font-size: 15px; color: var(--c-ink-3); text-decoration: none; }
+a.q-tier__note:hover { color: var(--c-ink); text-decoration: underline; text-underline-offset: 3px; }
+/* Narrow cards (phones, and three across on small laptops) keep each button label on one line */
+@media (max-width: 419px), (min-width: 1024px) and (max-width: 1279px) {
+  .q-tier__foot .q-btn { padding-inline: 16px; font-size: 16px; }
+}
+
+/* The bundle: what is in the box, on the studio sweep, lit warm from below */
+.q-tier--featured { border: 1.5px solid var(--c-persimmon); box-shadow: 0 40px 80px -48px rgb(184 67 26 / 0.55); }
+.q-tier__stage {
+  position: relative; aspect-ratio: 16 / 10; margin: calc(var(--pad) * -1) calc(var(--pad) * -1) 0;
+  border-radius: 22px 22px 0 0; overflow: hidden;
+  background:
+    radial-gradient(60% 46% at 50% 88%, rgb(232 150 102 / 0.38), transparent 72%),
+    linear-gradient(180deg, #efe4da 0%, var(--c-film) 58%, #e6d2c1 100%);
+}
+.q-tier__stage img { position: absolute; height: auto; filter: drop-shadow(0 22px 22px rgb(90 50 25 / 0.22)); }
+.q-tier__qpad { width: 46%; right: 11%; top: 8%; }
+.q-tier__band { width: 48%; left: 9%; bottom: 5%; transition: transform var(--d-base) var(--ease-out); }
+.q-tier--featured:hover .q-tier__band { transform: translateY(-6px) rotate(-1.5deg); }
+
+/* Monarch OS: the same card at night */
+.q-tier--dark { background: var(--c-graphite); border-color: var(--c-graphite); color: var(--c-bg); }
+.q-tier--dark .q-tier__eyebrow { color: var(--c-bronze-soft); }
+.q-tier--dark .q-tier__line, .q-tier--dark .q-tier__price small, .q-tier--dark .q-tier__note { color: #cfc8bd; }
+.q-tier--dark a.q-tier__note:hover { color: #fff; }
+.q-tier--dark .q-tier__list { border-top-color: rgb(255 255 255 / 0.14); }
+.q-tier--dark .q-tier__list li svg { color: #5fbfa4; }
+
+@media (min-width: 1024px) {
+  /* One subgrid: the bundle's stage takes the first row, and every card lines up its name, price, list and button */
+  .q-tiers { max-width: none; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto auto auto 1fr auto; column-gap: 16px; row-gap: 18px; }
+  .q-tier { --pad: 28px; grid-row: 2 / -1; display: grid; grid-template-rows: subgrid; padding-top: 0; }
+  .q-tier--featured { grid-row: 1 / -1; }
+  .q-tier__head { padding-top: 26px; }
+  .q-tier__stage { margin-top: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .q-tier__band { transition: none; }
+  .q-tier--featured:hover .q-tier__band { transform: none; }
+}
+
+/* A small note under the partner marks: what a founding member makes possible */
+.q-partners__foot { display: flex; justify-content: center; padding: 32px var(--gutter) 0; }
+.q-founding-note {
+  display: inline-flex; align-items: flex-start; gap: 10px; max-width: 620px; margin: 0; padding: 12px 18px;
+  border-radius: 18px; background: var(--c-surface); border: 1px solid var(--c-hairline);
+  font-size: 15px; line-height: 1.5; color: var(--c-ink-2); text-align: left;
+}
+@media (min-width: 720px) { .q-founding-note { max-width: none; border-radius: 999px; padding-inline: 16px 22px; } }
+.q-founding-note svg { flex: none; margin-top: 2px; color: var(--c-persimmon); }
+.q-founding-note b { margin-right: 4px; font-weight: 600; color: var(--c-ink); }
 .q-plans-link { margin: 40px 0 0; }
 
 /* ======================================================================
@@ -1865,28 +2383,94 @@ button.qpad__key:hover { filter: brightness(1.04); }
 }
 .q-stride__stage .q-grain { z-index: 0; }
 
-/* Closing: the silk returns to bookend the hero */
-.q-closing-band { position: relative; overflow: hidden; isolation: isolate; padding-block: clamp(96px, 16vw, 200px); }
-.q-closing-band__silk { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
-.q-closing-band::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(70% 70% at 50% 50%, rgba(245, 242, 237, 0.86), rgba(245, 242, 237, 0.55) 70%, rgba(245, 242, 237, 0.35)); }
-.q-closing-band .q-grain { z-index: -1; }
+/* ---------- The finale: Quest Stride and the closing panel on one peach ground ----------
+   The film's peach runs on unbroken, and a single silk (with its veil and grain) rises out of it behind the shoe,
+   on one eased curve, so there is no edge anywhere between the two sections. */
+.q-finale { position: relative; isolation: isolate; background: var(--c-film); }
+/* Research, between the film and Quest Stride: on the same peach ground, so the film's floor, the case studies and the
+   shoe read as one stretch. The carousel is one dark screen set into that ground, aligned with the words above it,
+   rather than a band that cuts across the page. */
+.q-cases { background: var(--c-film); }
+.q-cases .q-rule::after { background: rgba(138, 97, 66, 0.22); }
+.q-cases .q-stories { width: calc(min(100%, 1440px) - 2 * var(--gutter)); margin: 0 auto; }
+.q-cases .q-stories__track {
+  border-radius: clamp(22px, 2.6vw, 36px);
+  box-shadow: inset 0 0 0 1px rgba(255, 244, 232, 0.06), 0 1px 0 rgba(255, 255, 255, 0.5), 0 50px 90px -40px rgba(70, 42, 22, 0.55), 0 18px 36px -24px rgba(70, 42, 22, 0.35);
+}
+.q-closing-band { --rise: clamp(320px, 60vh, 620px); position: relative; padding-block: clamp(96px, 16vw, 200px); }
+.q-closing-band__cloth {
+  position: absolute; left: 0; right: 0; bottom: 0; top: calc(-1 * var(--rise)); z-index: -1; overflow: hidden; pointer-events: none;
+  --rise-in: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, 0.1) calc(var(--rise) * 0.25), rgba(0, 0, 0, 0.32) calc(var(--rise) * 0.45), rgba(0, 0, 0, 0.62) calc(var(--rise) * 0.7), rgba(0, 0, 0, 0.9) calc(var(--rise) * 0.95), #000 calc(var(--rise) * 1.2));
+  -webkit-mask-image: var(--rise-in); mask-image: var(--rise-in);
+}
+.q-closing-band__cloth img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* A veil in the same peach and hanji keeps the folds tone on tone and the words easy to read */
+.q-closing-band__cloth::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(75% 60% at 50% 58%, rgba(245, 240, 234, 0.84), rgba(241, 232, 223, 0.58) 65%, rgba(237, 224, 212, 0.36));
+}
+.q-closing-band__cloth .q-grain { z-index: 1; }
+/* The ending: a quest in two levels, as two matching cards on the silk. Each opens on its signature piece from three
+   angles, then the level, the offer, what it includes, and the price beside its button. The whole card is the link; on
+   hover it lifts and the three angles lean in one after another. */
+.q-closing__lead { margin-top: -12px; }
+.q-paths { list-style: none; margin: 8px 0 0; padding: 0; width: 100%; max-width: 1120px; display: grid; gap: 20px; text-align: left; }
+@media (min-width: 900px) { .q-paths { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; } }
+.q-path {
+  --tone: var(--c-persimmon); --tone-ink: var(--c-persimmon-press);
+  position: relative; display: flex; flex-direction: column; padding: 12px 12px clamp(22px, 2.4vw, 28px); border-radius: 28px;
+  background: color-mix(in srgb, #fbf8f3 94%, transparent); border: 1px solid color-mix(in srgb, var(--c-hairline) 80%, #fff);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 34px 70px -42px rgba(70, 42, 22, 0.42);
+  transition: transform 600ms var(--ease-out), box-shadow 600ms var(--ease-out);
+}
+.q-path--wear { --tone: var(--c-bronze); --tone-ink: var(--c-bronze); }
+.q-path:hover { transform: translateY(-6px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 46px 80px -40px rgba(70, 42, 22, 0.5); }
+.q-path:has(.q-path__go:focus-visible) { outline: 2px solid var(--c-ink); outline-offset: 4px; }
+.q-tri { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; border-radius: 18px; overflow: hidden; background: var(--c-studio); }
+.q-tri img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; transition: transform 1100ms var(--ease-out); }
+.q-path:hover .q-tri img { transform: scale(1.06); }
+.q-path:hover .q-tri img:nth-child(2) { transition-delay: 90ms; }
+.q-path:hover .q-tri img:nth-child(3) { transition-delay: 180ms; }
+.q-path__body { flex: 1; display: flex; flex-direction: column; gap: 14px; padding: 22px clamp(10px, 1.4vw, 16px) 0; }
+.q-path__level { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0; }
+.q-path__step { display: inline-flex; align-items: center; gap: 8px; font: 500 13px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-ink-3); }
+.q-path__step::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--tone); }
+.q-path__badge { padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 500; color: var(--tone-ink); background: color-mix(in srgb, var(--tone) 12%, transparent); }
+.q-path__title { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(34px, 3.3vw, 48px); line-height: 1; letter-spacing: -0.02em; }
+.q-path__line { margin: 0; font-size: 18px; line-height: 1.55; color: var(--c-ink-2); max-width: 40ch; }
+.q-path__perks { list-style: none; margin: 2px 0 0; padding: 0; display: grid; gap: 10px; }
+.q-path__perks li { display: flex; align-items: flex-start; gap: 10px; font-size: 18px; line-height: 1.4; color: var(--c-ink); }
+.q-path__perks svg { flex: none; margin-top: 2px; color: var(--tone); }
+.q-path__foot { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--c-hairline); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.q-path__price { margin: 0; display: grid; gap: 4px; }
+.q-path__price b { font-family: var(--f-display); font-weight: 400; font-size: clamp(28px, 2.4vw, 34px); line-height: 1; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.q-path__price span { font-size: 16px; color: var(--c-ink-3); }
+.q-path__go::after { content: ""; position: absolute; inset: 0; border-radius: 28px; }
+.q-path__note { margin: 0; font-size: 16px; color: var(--c-ink-3); }
+@media (prefers-reduced-motion: reduce) { .q-path, .q-path:hover, .q-path:hover .q-tri img { transform: none; transition: none; } }
 
 /* Duet: the headband film */
-.q-duetfilm { display: grid; gap: 28px; padding-block: 24px 96px; }
-.q-duetfilm__frame { position: relative; overflow: hidden; border-radius: 28px; background: #1c1a18; aspect-ratio: 1266 / 638; }
-.q-duetfilm__video { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* The Sage Duo film: as wide as the page in its own 16:9, never taller than most of the screen, so the whole frame and
+   the line under it can be taken in at once. On phones it closes to a square around her head, which sits just right of
+   centre in the film. */
+.q-duetfilm { display: grid; gap: 28px; padding-block: 24px 88px; }
+.q-duetfilm__frame { position: relative; overflow: hidden; border-radius: 28px; background: #847d75; aspect-ratio: 16 / 9; width: min(100%, 136vh); justify-self: center; }
+.q-duetfilm__video { width: 100%; height: 100%; object-fit: cover; object-position: 53% 50%; display: block; }
+@media (max-width: 639px) { .q-duetfilm__frame { aspect-ratio: 1; border-radius: 20px; } }
 .q-duetfilm__toggle { position: absolute; right: 16px; bottom: 16px; z-index: 2; }
-.q-duetfilm__line { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(34px, 4.4vw, 68px); line-height: 1.02; letter-spacing: -0.02em; max-width: 18ch; }
+.q-duetfilm__line { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(34px, 4.4vw, 68px); line-height: 1.02; letter-spacing: -0.02em; width: min(100%, 136vh); justify-self: center; text-wrap: balance; }
 .q-duetfilm__line em { font-style: italic; color: var(--c-bronze); }
 
 /* Research: the white matter film */
-.q-research__film { position: relative; overflow: hidden; margin: 8px var(--gutter) 0; border-radius: 32px; background: #f7f3ee; aspect-ratio: 16 / 9; max-height: 78vh; }
-@media (min-width: 1440px) { .q-research__film { margin-inline: auto; max-width: calc(1440px - 2 * var(--gutter)); } }
+/* The Persimmon AI film: always the whole frame, as large as the screen allows below the nav, centred. Its title sits in
+   the middle of the picture, so nothing is ever laid over it. Phones get a closer cut around the title. */
+.q-research__film {
+  position: relative; overflow: hidden; margin: 16px auto 0; border-radius: 28px; background: #fdfaf6; aspect-ratio: 16 / 9;
+  width: min(calc(100% - 2 * var(--gutter)), calc((100svh - var(--nav-h) - 80px) * 16 / 9), calc(1440px - 2 * var(--gutter)));
+}
 .q-research__video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .q-research__toggle { position: absolute; right: 16px; bottom: 16px; z-index: 2; }
-.q-research__filmline { position: absolute; left: clamp(20px, 4vw, 48px); bottom: clamp(20px, 4vw, 48px); z-index: 2; margin: 0; max-width: 16ch; font-family: var(--f-display); font-size: clamp(26px, 3.4vw, 52px); line-height: 1.04; color: var(--c-ink); }
-.q-research__filmline em { font-style: italic; color: var(--c-persimmon); }
-@media (max-width: 599px) { .q-research__film { aspect-ratio: 4 / 5; } }
+@media (max-width: 599px) { .q-research__film { aspect-ratio: 4 / 5; width: calc(100% - 2 * var(--gutter)); border-radius: 20px; } }
 
 /* Research: bronze rings beside the invitation */
 .q-research__join .q-shell { position: relative; }
@@ -1950,3 +2534,134 @@ button.qpad__key:hover { filter: brightness(1.04); }
 .q-stride-fig figcaption { font-size: 14px; color: var(--c-ink-3); }
 .q-stride-figs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 @media (max-width: 420px) { .q-stride-facts, .q-stride-figs { grid-template-columns: 1fr; } }
+
+/* ---------- Team: a point of view first, then the people behind it ---------- */
+.q-team { padding-bottom: clamp(72px, 9vw, 120px); }
+.q-team__head { gap: 24px; padding-bottom: 48px; }
+.q-team__head .q-lead { max-width: 44ch; }
+/* Three convictions in the display face, read as one line on wide screens, split by hairlines */
+.q-team__beliefs { list-style: none; margin: 0; padding: 0; display: grid; border-block: 1px solid var(--c-hairline); }
+.q-team__beliefs li { padding: 22px 0; font-family: var(--f-display); font-size: clamp(26px, 2.6vw, 38px); line-height: 1.08; letter-spacing: -0.02em; color: var(--c-ink); }
+.q-team__beliefs li + li { border-top: 1px solid var(--c-hairline); }
+.q-team__beliefs li:nth-child(2) { font-style: italic; color: var(--c-bronze); }
+@media (min-width: 900px) {
+  .q-team__beliefs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .q-team__beliefs li { padding: 30px 28px 30px 0; }
+  .q-team__beliefs li + li { border-top: 0; border-left: 1px solid var(--c-hairline); padding-left: 28px; }
+}
+.q-team__people { display: grid; gap: 20px; margin-top: clamp(48px, 6vw, 80px); }
+@media (min-width: 900px) { .q-team__people { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; } }
+.q-team__people > .reveal { display: flex; }
+.q-person {
+  width: 100%; display: flex; flex-direction: column; padding: clamp(24px, 3vw, 40px); border-radius: 28px;
+  background: #fbf8f3; border: 1px solid var(--c-hairline); box-shadow: 0 30px 60px -44px rgba(70, 42, 22, 0.4);
+}
+.q-person__head { display: flex; align-items: center; gap: 24px; }
+.q-person__head img { flex: none; width: 120px; height: 120px; border-radius: 50%; object-fit: cover; }
+.q-person__head h2 { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(34px, 3.2vw, 46px); line-height: 1; letter-spacing: -0.02em; }
+.q-person__head p { margin: 8px 0 0; font-size: 16px; font-weight: 500; color: var(--c-bronze); }
+.q-person__bio { margin-top: 28px; display: grid; gap: 14px; }
+.q-person__bio p { margin: 0; font-size: 18px; line-height: 1.6; color: var(--c-ink-2); max-width: 52ch; }
+.q-person__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-block: 28px; }
+.q-person__tags span { padding: 7px 14px; border-radius: 999px; font-size: 14px; color: var(--c-ink-2); border: 1px solid var(--c-hairline); }
+.q-person__links { display: flex; flex-wrap: wrap; gap: 8px 28px; padding-top: 20px; border-top: 1px solid var(--c-hairline); }
+.q-person__links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 16px; color: var(--c-ink); }
+.q-person__links a:hover { color: var(--c-persimmon); }
+@media (max-width: 599px) { .q-person__head img { width: 88px; height: 88px; } }
+.q-team__notes { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; margin-top: clamp(64px, 8vw, 104px); padding-top: 40px; border-top: 1px solid var(--c-hairline); }
+.q-team__notes > div { display: grid; gap: 16px; }
+
+/* ---------- For silver towns: one story for operators, from why to a pilot ---------- */
+.q-care { --care-gap: clamp(88px, 11vw, 160px); }
+.q-care h3 { margin: 0; font-family: var(--f-display); font-weight: 400; letter-spacing: -0.01em; }
+.q-care__hero { display: grid; gap: 40px; align-items: center; padding-top: calc(var(--nav-h) + 48px); }
+@media (min-width: 1024px) { .q-care__hero { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 56px; min-height: calc(100vh - 40px); } }
+.q-care__intro h1 { font-size: clamp(52px, 5.6vw, 96px); }
+.q-care__intro { display: grid; gap: 24px; justify-items: start; }
+.q-care__intro .q-lead { max-width: 40ch; }
+.q-care__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; }
+.q-care__heroimg img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 50%; border-radius: 28px; }
+@media (max-width: 1023px) { .q-care__heroimg img { aspect-ratio: 4 / 3; } }
+
+/* Why: the headline and the one number that matters, then the three things operators feel every week */
+.q-care__why { display: grid; gap: 40px; margin-top: var(--care-gap); }
+@media (min-width: 1024px) { .q-care__why { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 64px; align-items: end; } }
+.q-care__whyhead { display: grid; gap: 20px; }
+.q-care__fact { display: grid; gap: 12px; padding: 28px; border-radius: 24px; background: var(--c-film); }
+.q-care__fact b { font-family: var(--f-display); font-weight: 400; font-size: clamp(64px, 7vw, 104px); line-height: 0.9; letter-spacing: -0.03em; color: var(--c-bronze); }
+.q-care__fact p { margin: 0; font-size: 18px; line-height: 1.55; color: var(--c-ink-2); }
+.q-care__points { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--c-hairline); }
+@media (min-width: 1024px) { .q-care__points { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.q-care__points li { display: grid; gap: 10px; padding: 28px 0; border-bottom: 1px solid var(--c-hairline); }
+@media (min-width: 1024px) { .q-care__points li { padding: 32px 32px 32px 0; border-bottom: 0; } .q-care__points li + li { padding-left: 32px; border-left: 1px solid var(--c-hairline); } }
+.q-care__points h3 { font-size: clamp(26px, 2.2vw, 32px); line-height: 1.1; }
+.q-care__points p, .q-care__loop p, .q-care__steps p, .q-scene p { margin: 0; font-size: 18px; line-height: 1.55; color: var(--c-ink-2); }
+
+/* A day: four real scenes in a row, each cropped to its resident */
+.q-care__day { margin-top: var(--care-gap); padding-block: clamp(72px, 9vw, 120px); background: var(--c-film); }
+.q-care__dayhead { display: grid; gap: 20px; margin-bottom: 48px; }
+.q-care__scenes { list-style: none; margin: 0; padding: 0; display: grid; gap: 32px 20px; }
+@media (min-width: 640px) { .q-care__scenes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .q-care__scenes { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.q-scene { display: grid; gap: 10px; align-content: start; }
+.q-scene img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 20px; margin-bottom: 8px; }
+.q-scene .q-mono { color: var(--c-bronze); }
+.q-scene h3 { font-size: clamp(26px, 2vw, 30px); line-height: 1.1; }
+
+/* How it works: the reading scene beside the loop, then the way into each product */
+.q-care__how { display: grid; gap: 40px; align-items: center; margin-top: var(--care-gap); }
+@media (min-width: 1024px) { .q-care__how { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 64px; } }
+.q-care__howimg img { display: block; width: 100%; aspect-ratio: 5 / 4; object-fit: cover; object-position: 40% 50%; border-radius: 28px; }
+.q-care__howcopy { display: grid; gap: 20px; justify-items: start; }
+.q-care__loop { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 22px; counter-reset: loop; }
+.q-care__loop li { display: grid; gap: 6px; padding-left: 28px; position: relative; }
+.q-care__loop li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 10px; height: 10px; border-radius: 50%; background: var(--c-persimmon); }
+.q-care__loop li + li::after { content: ""; position: absolute; left: 4px; top: -18px; height: 18px; border-left: 2px dotted var(--c-hairline); }
+.q-care__loop h3 { font-size: clamp(24px, 2vw, 28px); line-height: 1.15; }
+.q-care__more { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 8px; }
+.q-care__system { display: grid; gap: 12px; margin-top: 56px; }
+@media (min-width: 900px) { .q-care__system { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } }
+.q-care__item {
+  display: grid; grid-template-columns: 88px 1fr auto; align-items: center; gap: 18px; padding: 14px 20px 14px 14px; border-radius: 20px;
+  background: #fbf8f3; border: 1px solid var(--c-hairline); color: var(--c-ink); transition: transform 400ms var(--ease-out), box-shadow 400ms var(--ease-out);
+}
+.q-care__item:hover { transform: translateY(-3px); box-shadow: 0 24px 40px -30px rgba(70, 42, 22, 0.45); }
+.q-care__item:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 3px; }
+.q-care__itemimg { display: grid; place-items: center; width: 88px; height: 88px; border-radius: 14px; background: var(--c-studio); overflow: hidden; }
+.q-care__itemimg img { width: 84%; height: 84%; object-fit: contain; }
+.q-care__itemtext { display: grid; gap: 4px; }
+.q-care__itemtext b { font-family: var(--f-display); font-weight: 400; font-size: 24px; line-height: 1.1; }
+.q-care__itemtext span { font-size: 16px; line-height: 1.4; color: var(--c-ink-2); }
+.q-care__item svg { color: var(--c-ink-3); }
+@media (prefers-reduced-motion: reduce) { .q-care__item, .q-care__item:hover { transform: none; transition: none; } }
+
+/* For your team, beside the promises that come first */
+.q-care__value { display: grid; gap: 40px; margin-top: var(--care-gap); }
+@media (min-width: 1024px) { .q-care__value { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: start; } }
+.q-care__value > div:first-child { display: grid; gap: 20px; }
+.q-care__checks { margin-top: 8px; }
+.q-care__checks li { font-size: 18px; color: var(--c-ink); }
+.q-care__checks svg { color: var(--c-persimmon); }
+.q-care__trust { display: grid; gap: 16px; padding: clamp(24px, 3vw, 36px); border-radius: 24px; background: var(--c-graphite); color: #efe8de; }
+.q-care__trust h3 { font-size: clamp(30px, 2.6vw, 38px); line-height: 1.05; color: #f6f1ea; }
+.q-care__trust p { margin: 0; font-size: 18px; line-height: 1.55; color: #cfc6ba; }
+.q-care__trust .q-care__checks li { color: #efe8de; }
+.q-care__trust .q-care__checks svg { color: var(--c-bronze-soft); }
+
+/* The pilot: four numbered steps, because they happen in this order */
+.q-care__pilot { display: grid; gap: 20px; margin-top: var(--care-gap); }
+.q-care__steps { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--c-hairline); }
+@media (min-width: 900px) { .q-care__steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.q-care__steps li { display: grid; gap: 10px; align-content: start; padding: 28px 24px 28px 0; border-bottom: 1px solid var(--c-hairline); }
+@media (min-width: 900px) { .q-care__steps li { border-bottom: 0; } .q-care__steps li + li { padding-left: 24px; border-left: 1px solid var(--c-hairline); } }
+.q-care__steps span { font: 500 14px/1 var(--f-mono); letter-spacing: 0.08em; color: var(--c-persimmon); }
+.q-care__steps h3 { font-size: clamp(26px, 2vw, 30px); line-height: 1.1; }
+
+.q-care__faq { display: grid; gap: 28px; margin-top: var(--care-gap); max-width: 900px; }
+.q-care__faq .q-acc summary { font-size: 18px; }
+.q-care__faq .q-acc__body p { margin: 0; font-size: 18px; line-height: 1.6; max-width: 62ch; }
+
+/* The way in: a warm band before the dark footer, one button to technical sales */
+.q-care__cta { margin-top: var(--care-gap); padding-block: clamp(80px, 10vw, 140px); background: var(--c-film); text-align: center; }
+.q-care__cta .q-shell { display: grid; gap: 24px; justify-items: center; }
+.q-care__cta .q-lead { max-width: 46ch; }

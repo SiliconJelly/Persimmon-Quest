@@ -18,7 +18,7 @@ const BEATS: { key: QKey; title: string; line: string; face: React.ReactNode; la
   },
   {
     key: "calm", title: "Press Calm. Breathe with it.",
-    line: "Put on Brainwear and follow the circle. The headband reads your brain activity and simply tells you when your mind has settled.",
+    line: "Put on your qBand and follow the circle. The headband reads your brain activity and simply tells you when your mind has settled.",
     face: <CalmFace />, label: "Calm screen: breathing circle, mind moving from busy to settling to settled, 6 minutes 40 left."
   },
   {
@@ -195,14 +195,14 @@ function MindSection() {
         <Reveal className="qv-mind__intro">
           <div className="qv-mind__copy">
             <h2 id="mind-title" className="q-display">Your brain, <em>in plain words.</em></h2>
-            <p className="q-lead">Put on Brainwear and sit back. qPad turns your brain activity into a simple map and a sentence anyone can read, then makes calm a game worth coming back to.</p>
+            <p className="q-lead">Put on your qBand and sit back. qPad turns your brain activity into a simple map and a sentence anyone can read, then makes calm a game worth coming back to.</p>
             <ol className="qv-words">
               <li><b>Settling</b><span>Your thoughts are slowing down.</span></li>
               <li><b>Focused</b><span>Attention is steady and clear.</span></li>
               <li><b>Deep rest</b><span>Your body recovers through the night.</span></li>
             </ol>
           </div>
-          <img className="qv-mind__photo" src="/media/site/people/buri-seated.webp" alt="An older Korean woman wearing Brainwear, seated beside her qPad on a small table" width={1350} height={900} loading="lazy" />
+          <img className="qv-mind__photo" src="/media/site/people/buri-seated.webp" alt="An older Korean woman wearing a qBand, seated beside her qPad on a small table" width={1350} height={900} loading="lazy" />
         </Reveal>
         <div className="qv-mind__pads">
           <Reveal className="qv-mind__pad">
@@ -226,12 +226,12 @@ function MindSection() {
   );
 }
 
-/* ---------- Every way in: keys, touch, voice, or hands-free with Brainwear ---------- */
+/* ---------- Every way in: keys, touch, voice, or hands-free with your qBand ---------- */
 const WAYS = [
   { icon: Hand, title: "Touch", line: "Large buttons on a bright screen." },
   { icon: MousePointerClick, title: "Four keys", line: "Raised, colour coded, easy to find by feel." },
   { icon: Mic, title: "Voice", line: "Ask for your walk, a song or a call." },
-  { icon: Brain, title: "Hands-free", line: "With Brainwear, choose with a moment of focus." }
+  { icon: Brain, title: "Hands-free", line: "With your qBand, choose with a moment of focus." }
 ];
 
 function Access() {
@@ -239,7 +239,7 @@ function Access() {
     <section id="access" className="qv-section q-shell" aria-labelledby="access-title">
       <Reveal className="qv-center qv-head">
         <h2 id="access-title" className="q-display">Every way <em>in.</em></h2>
-        <p className="q-lead">Four keys for most days. For anyone who needs it, touch, voice and Brainwear open qPad without lifting a hand.</p>
+        <p className="q-lead">Four keys for most days. For anyone who needs it, touch, voice and qBand open qPad without lifting a hand.</p>
       </Reveal>
       <ul className="qv-ways">
         {WAYS.map(({ icon: Icon, title, line }) => (
@@ -249,14 +249,14 @@ function Access() {
       <div className="qv-stories">
         <Reveal className="qv-story">
           <div className="qv-story__media">
-            <AutoVideo src="/media/case-study/8e04c71fd9e9ca3efeab1f4cb1d0a9c5648f8165.webm" poster="" label="A wheelchair user replying to messages hands-free" className="qv-story__video" toggleClassName="q-media-toggle qv-story__toggle" />
+            <AutoVideo src="/media/film/hands-free-reply.mp4" poster="/media/film/hands-free-reply.webp" label="A wheelchair user replying to messages hands-free" className="qv-story__video" toggleClassName="q-media-toggle qv-story__toggle" />
           </div>
           <h3>Replies without lifting a hand.</h3>
-          <p>Messages from family appear on qPad. With Brainwear, a moment of focus picks the reply.</p>
+          <p>Messages from family appear on qPad. With your qBand, a moment of focus picks the reply.</p>
         </Reveal>
         <Reveal delay={0.08} className="qv-story">
           <div className="qv-story__media">
-            <AutoVideo src="/media/case-study/b6c5689843811e72292b6cb775bc8f15ed57ff1b.webm" poster="" label="A wheelchair user sharing a proud moment with his daughter through qPad" className="qv-story__video" toggleClassName="q-media-toggle qv-story__toggle" />
+            <AutoVideo src="/media/film/proud-moment.mp4" poster="/media/film/proud-moment.webp" label="A wheelchair user sharing a proud moment with his daughter through qPad" className="qv-story__video" toggleClassName="q-media-toggle qv-story__toggle" />
           </div>
           <h3>Never left out of the moment.</h3>
           <p>Calls, events and celebrations stay within reach, whatever your mobility.</p>
@@ -271,7 +271,7 @@ const CASES: { id: string; title: string; line: string; face: React.ReactNode; b
   { id: "aqua", title: "Water aerobics", line: "From the poolside table, qPad calls each set in big type with a steady beat.", face: <AquaFace />, bg: "qv-case--pool", pairs: [{ name: "Movement Hood", slug: "movement-hood" }] },
   { id: "flow", title: "Pilates and yoga", line: "Breath counts and gentle cues, while your leggings notice when your core is working.", face: <FlowFace />, bg: "qv-case--flow", pairs: [{ name: "Movement Leggings", slug: "movement-leggings" }, { name: "Breather Top", slug: "breather-top" }] },
   { id: "sleep", title: "Sleep", line: "A dim clock all night. A kind sentence about your rest by morning.", face: <NightFace />, bg: "qv-case--sleep", pairs: [{ name: "Movement Tank", slug: "movement-tank" }] },
-  { id: "calm", title: "Meditation", line: "Follow the breathing circle as Brainwear shows your mind settling.", face: <CalmFace />, bg: "qv-case--calm", pairs: [{ name: "Everyday Brainwear", slug: "everyday-brainwear" }] },
+  { id: "calm", title: "Meditation", line: "Follow the breathing circle as your qBand shows your mind settling.", face: <CalmFace />, bg: "qv-case--calm", pairs: [{ name: "qBand Everyday", slug: "qband-everyday" }] },
   { id: "walk", title: "The morning walk", line: "Steps and steadiness from your clothes, ready on qPad when you get home.", face: <MoveFace />, bg: "qv-case--walk", pairs: [{ name: "Everyday Polo", slug: "everyday-polo" }, { name: "Quest Stride", slug: "quest-stride" }] },
   { id: "photo", title: "A frame for family", line: "Between sessions, qPad shows the photos your family shares.", face: <PhotoFace />, bg: "qv-case--photo", pairs: [] }
 ];
@@ -317,7 +317,7 @@ export default function QuestViewStory() {
           <p className="qv-hero__lead">Wellness for the long run. All in one place.</p>
         </div>
         <div className="qv-hero__device">
-          <QPad active="quest" label="Quest View morning screen: good morning Monica, a gentle day ahead, polo, Brainwear and Quest Stride connected.">
+          <QPad active="quest" label="Quest View morning screen: good morning Monica, a gentle day ahead, polo, qBand and Quest Stride connected.">
             <MorningFace />
           </QPad>
         </div>
@@ -370,15 +370,15 @@ export default function QuestViewStory() {
       <section id="together" className="qv-section q-shell" aria-labelledby="together-title">
         <Reveal className="qv-center qv-head">
           <h2 id="together-title" className="q-display">All wellness. <em>One place.</em></h2>
-          <p className="q-lead">Your clothes, Brainwear and phone all feed one quiet layer on qPad, which turns what it senses into a day that suits you.</p>
+          <p className="q-lead">Your clothes, qBand and phone all feed one quiet layer on qPad, which turns what it senses into a day that suits you.</p>
         </Reveal>
         <div className="qv-layers">
           <Reveal className="qv-layer">
             <p className="qv-layer__name">Sense</p>
             <div className="qv-layer__sketches">
-              {["everyday-polo", "everyday-brainwear", "quest-stride"].map((s) => <img key={s} src={`/media/shop/${s}/sketch.webp`} alt="" />)}
+              {["everyday-polo", "qband-everyday", "quest-stride"].map((s) => <img key={s} src={`/media/shop/${s}/sketch.webp`} alt="" />)}
             </div>
-            <p>Smart clothes, Brainwear and the Quest View phone app</p>
+            <p>Smart clothes, qBand and the Quest View phone app</p>
           </Reveal>
           <span className="qv-layers__arrow" aria-hidden="true"><ArrowRight /></span>
           <Reveal delay={0.08} className="qv-layer qv-layer--core">
@@ -417,10 +417,10 @@ export default function QuestViewStory() {
       {/* 8. Close */}
       <section className="qv-close" aria-labelledby="close-title">
         <div className="q-shell qv-close__grid">
-        <img className="qv-close__photo" src="/media/site/people/buri-holding.webp" alt="An older Korean woman wearing Brainwear, smiling as she holds her qPad" width={880} height={1100} loading="lazy" />
+        <img className="qv-close__photo" src="/media/site/people/buri-holding.webp" alt="An older Korean woman wearing a qBand, smiling as she holds her qPad" width={880} height={1100} loading="lazy" />
         <Reveal className="qv-head qv-close__copy">
           <h2 id="close-title" className="q-display">Quest View comes with <em>every qPad.</em></h2>
-          <p className="q-lead">Premium adds personal Walk, Flow and Rest programs, new sessions every month and the weekly family note. With Duet, your first year is included. Every piece of smart wear you add gives it more to understand.</p>
+          <p className="q-lead">Access adds personal Walk, Flow and Rest programs, new sessions every month and the weekly family note. With Duet, your first year is included. Every piece of smart wear you add gives it more to understand.</p>
           <div className="qv-close__actions">
             <Link className="q-btn q-btn--primary" href="/plans">Find your plan</Link>
             <Link className="q-link" href="/duet">Meet Duet</Link>

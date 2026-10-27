@@ -243,18 +243,18 @@ function Invite({ headingRef, onYes, onNo, onBack }: { headingRef: React.RefObje
 function Result({ answers, headingRef, onRestart }: { answers: Answers; headingRef: React.RefObject<HTMLHeadingElement>; onRestart: () => void }) {
   const { primary, secondary, why } = scoreProfiles(answers);
   const picks = pickProducts(answers);
-  const { plan, brainwearPreview } = recommendPlan(answers, primary);
-  const premium = plans.find((p) => p.id === "premium")!;
+  const { plan, qbandPreview } = recommendPlan(answers, primary);
+  const access = plans.find((p) => p.id === "access")!;
   const duet = plans.find((p) => p.id === "duet")!;
   const testing = answers.shape === "clothing" || answers.shape === "tech" || answers.shape === "both";
-  const brainwear = productBySlug("everyday-brainwear")!;
+  const qband = productBySlug("qband-sage-duo")!;
   const tracking = trackingSummary(answers);
 
   const founding = <Founding key="founding" />;
   const newsletter = (
     <section key="news" className="q-optin" aria-labelledby="news-title">
       <span className="q-mono q-mono--bronze">Newsletter</span>
-      <h3 id="news-title" className="q-h3">Get your weekly quest.</h3>
+      <h3 id="news-title" className="q-h3">Get your weekly quest</h3>
       <p className="q-body">Stories, gentle routines and first looks at new pieces. This is a newsletter subscription only, through Substack.</p>
       <SubstackSignup />
     </section>
@@ -299,22 +299,22 @@ function Result({ answers, headingRef, onRestart }: { answers: Answers; headingR
         <span className="q-mono q-mono--bronze">Your plan</span>
         {plan.kind === "clothing" && (
           <>
-            <h3 id="plan-title" className="q-h2">Clothing, beautifully done.</h3>
+            <h3 id="plan-title" className="q-h2">Clothing beautifully done</h3>
             <p className="q-lead">No app, no notifications. Just pieces made to feel good, wherever your day goes.</p>
             <Link className="q-btn q-btn--ink" href="/shop">Shop the collection <ArrowRight size={18} aria-hidden="true" /></Link>
           </>
         )}
         {plan.kind === "premium" && (
           <>
-            <h3 id="plan-title" className="q-h2">{premium.name}</h3>
-            <p className="q-lead">Start with the {plan.program}, shaped around your answers. {premium.price}{premium.unit ? ` ${premium.unit}` : ""}.</p>
-            <Link className="q-btn q-btn--ink" href={premium.cta.href}>{premium.cta.label} <ArrowRight size={18} aria-hidden="true" /></Link>
+            <h3 id="plan-title" className="q-h2">{access.name}</h3>
+            <p className="q-lead">Start with the {plan.program}, shaped around your answers. {access.price}{access.unit ? ` ${access.unit}` : ""}.</p>
+            <Link className="q-btn q-btn--ink" href={access.cta.href}>{access.cta.label} <ArrowRight size={18} aria-hidden="true" /></Link>
           </>
         )}
         {plan.kind === "duet" && (
           <>
-            <h3 id="plan-title" className="q-h2">The Duet bundle, with a year of Premium</h3>
-            <p className="q-lead">Brainwear and qPad together, starting with the {plan.program}. {duet.price} {duet.unit}.</p>
+            <h3 id="plan-title" className="q-h2">{duet.name}</h3>
+            <p className="q-lead">Sage Duo and qPad One together, with a year of Access, starting with the {plan.program}. {duet.price} {duet.unit}.</p>
             <Link className="q-btn q-btn--ink" href={duet.cta.href}>{duet.cta.label} <ArrowRight size={18} aria-hidden="true" /></Link>
           </>
         )}
@@ -324,10 +324,10 @@ function Result({ answers, headingRef, onRestart }: { answers: Answers; headingR
             <p className="q-body">Pods tuned for {tracking.labels.length > 1 ? `${tracking.labels.slice(0, -1).join(", ")} and ${tracking.labels[tracking.labels.length - 1]}` : tracking.labels[0]}. {tracking.setup}</p>
           </div>
         )}
-        {brainwearPreview && (
-          <Link href={`/shop/${brainwear.slug}`} className="q-preview">
-            <img src={brainwear.cut} alt="" />
-            <span><b>Curious about the headband?</b><br /><span className="q-hint">Meet Everyday Brainwear, a soft band for focus and calm.</span></span>
+        {qbandPreview && (
+          <Link href={`/shop/${qband.slug}`} className="q-preview">
+            <img src={qband.cut} alt="" />
+            <span><b>Curious about the headband?</b><br /><span className="q-hint">Meet Sage Duo, the qBand for focus and calm.</span></span>
             <ArrowRight size={18} aria-hidden="true" />
           </Link>
         )}

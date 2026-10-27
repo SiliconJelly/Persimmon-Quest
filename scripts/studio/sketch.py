@@ -31,7 +31,7 @@ def sketch(src, dst, fill=0.1):
 R = sys.argv[1] + '/public/media/shop/'
 BASE = {'breather-top': 'cornflower', 'movement-tank': 'sage', 'everyday-polo': 'mist', 'walking-shorts': 'sage', 'breather-vest': 'mist',
         'quest-hood': 'pine', 'movement-hood': 'sage', 'quest-stride': 'mist', 'everyday-socks': 'silver', 'everyday-gloves': 'pearl',
-        'grip-gloves': 'slate', 'brainwear-duo': 'sage', 'everyday-brainwear': 'oat', 'brainwear-arc': 'pearl', 'qpad-one': 'ivory', 'qpad-grip': 'ivory'}
+        'grip-gloves': 'slate', 'qband-sage-duo': 'sage', 'qband-everyday': 'oat', 'qband-arc': 'pearl', 'qpad-one': 'ivory', 'qpad-grip': 'ivory'}
 ONLY = set(sys.argv[2:])  # optional: redraw just these slugs
 for slug, c in BASE.items():
     if ONLY and slug not in ONLY: continue

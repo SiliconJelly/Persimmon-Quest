@@ -90,7 +90,7 @@ export function MorningFace() {
           <p className="qf-text">Your quest is ready when you are.</p>
         </div>
         <div className="qf-devices">
-          {["Polo", "Brainwear", "Quest Stride"].map((d) => <span key={d}><i />{d}</span>)}
+          {["Polo", "qBand", "Quest Stride"].map((d) => <span key={d}><i />{d}</span>)}
         </div>
       </div>
     </div>
@@ -127,7 +127,7 @@ export function CalmFace() {
       <div className="qf-split">
         <div className="qf-breath" aria-hidden="true"><span /><span /><span /><b>Breathe in</b></div>
         <div className="qf-stack">
-          <p className="qf-kicker">Brainwear is listening</p>
+          <p className="qf-kicker">qBand is listening</p>
           <p className="qf-big">Your mind is settling.</p>
           <ol className="qf-states">
             <li className="is-past">Busy</li>
@@ -169,15 +169,6 @@ export function QuestFace() {
         <p className="qf-text">20 minutes by the river, then a short calm session.</p>
         <div className="qf-actions"><span className="qf-btn"><Play aria-hidden="true" />Start</span><span className="qf-btn qf-btn--quiet">Not today</span></div>
       </div>
-    </div>
-  );
-}
-
-export function ClockFace({ time = "10:09", note = "Thursday, 14 November" }: { time?: string; note?: string }) {
-  return (
-    <div className="qf qf--clock">
-      <p className="qf-clock">{time}</p>
-      <p className="qf-text">{note}</p>
     </div>
   );
 }
@@ -279,7 +270,7 @@ export function BrainMapFace({ eyes }: { eyes: Eyes }) {
   );
 }
 
-/* ---------- Lantern: a calm game played with Brainwear ---------- */
+/* ---------- Lantern: a calm game played with your qBand ---------- */
 export function LanternFace() {
   return (
     <div className="qf qf--lantern">

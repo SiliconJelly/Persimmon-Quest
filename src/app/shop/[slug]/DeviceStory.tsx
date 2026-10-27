@@ -1,11 +1,12 @@
 import { ArrowUpRight, Check, Plus } from "lucide-react";
 import Link from "next/link";
 import type { Product } from "../../catalog";
+import { HEADBAND_STUDIES } from "../../components/site/ResearchCases";
 
-// Headbands and qPads: how people use them, what each key does, and the research behind Brainwear.
-// The studies below used other teams' headbands. They show what headband EEG can do, never Brainwear's own results.
+// Headbands and qPads: how people use them, what each key does, and the research behind qBand.
+// The studies below used other teams' headbands. They show what headband EEG can do, never qBand's own results.
 
-const isHeadband = (p: Product) => p.slug.indexOf("brainwear") > -1;
+const isHeadband = (p: Product) => p.slug.indexOf("qband") > -1;
 const isPad = (p: Product) => p.slug.indexOf("qpad") === 0;
 
 /* ---------- Toggles beside the pre-order button ---------- */
@@ -40,8 +41,8 @@ export function DeviceDetails({ product }: { product: Product }) {
           <div className="q-acc__body">
             <p style={{ margin: 0 }}>
               {grip
-                ? "Fold out the stand, or slip your hand under the strap and hold it like a book. Pair your Brainwear once; after that, one key starts each session."
-                : "Set it on its dock, choose your language and pair your Brainwear once. After that, one key starts each session, and it charges while it rests."}
+                ? "Fold out the stand, or slip your hand under the strap and hold it like a book. Pair your qBand once; after that, one key starts each session."
+                : "Set it on its dock, choose your language and pair your qBand once. After that, one key starts each session, and it charges while it rests."}
             </p>
           </div>
         </details>
@@ -58,7 +59,7 @@ export function DeviceDetails({ product }: { product: Product }) {
       </details>
       {band && (
         <p className="q-hint" style={{ padding: "16px 0 0" }}>
-          <Link className="q-link" href="#research">The research behind Brainwear</Link>
+          <Link className="q-link" href="#research">The research behind qBand</Link>
         </p>
       )}
     </div>
@@ -69,7 +70,7 @@ export function DeviceDetails({ product }: { product: Product }) {
 
 const KEYS = [
   { name: "Move", tone: "#a9c29a", line: "Today's movement session: stretches, Water Moves, Pilates or your walk plan." },
-  { name: "Calm", tone: "#a9c1db", line: "A breathing or focus session with Brainwear, such as Focus Garden." },
+  { name: "Calm", tone: "#a9c1db", line: "A breathing or focus session with your qBand, such as Focus Garden." },
   { name: "Rest", tone: "#e6c26f", line: "Wind down with Reading Rhythm, then let the evening slow." },
   { name: "Your quest", tone: "#e8773f", line: "Your plan for today, shaped by how you slept and moved." }
 ];
@@ -95,44 +96,11 @@ function Keys({ product }: { product: Product }) {
   );
 }
 
-/* ---------- The research behind Brainwear ---------- */
-
-const STUDIES = [
-  {
-    place: "France", who: "French Armed Forces Biomedical Research Institute, with Dreem",
-    found: "A dry-sensor headband was compared with a full sleep lab test, polysomnography, in 25 adults. Its sleep staging agreed with the lab 83.5% of the time, close to the 86.4% of trained human scorers.",
-    cite: "Arnal et al., Sleep, 2020", href: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7751170/"
-  },
-  {
-    place: "Canada", who: "University of Victoria",
-    found: "A low-cost consumer headband picked up the same brain responses that lab systems measure during attention tasks.",
-    cite: "Krigolson et al., Frontiers in Neuroscience, 2017", href: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5344886/"
-  },
-  {
-    place: "UK and Ireland", who: "Cumulus Neuroscience, Queen's University Belfast and Trinity College Dublin",
-    found: "89 healthy adults aged 40 to 79 used a dry-sensor headset with tablet games at home for twelve weeks, about four times a week against a goal of five. It is the closest study to how Brainwear and qPad work together.",
-    cite: "McWilliams et al., Frontiers in Psychiatry, 2021", href: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8281974/"
-  },
-  {
-    place: "Denmark", who: "Aarhus University, Center for Ear-EEG",
-    found: "Dry-electrode EEG recorded sleep at home, outside the lab.",
-    cite: "Tabar et al., Frontiers in Neuroscience, 2023", href: "https://www.frontiersin.org/articles/10.3389/fnins.2023.987578/full"
-  },
-  {
-    place: "Australia", who: "Bond University",
-    found: "A small study found that care home residents living with dementia could wear a consumer EEG headband.",
-    cite: "Pu et al., Geriatric Nursing, 2021", href: "https://research.bond.edu.au/en/publications/portable-eeg-monitoring-for-older-adults-with-dementia-and-chroni/"
-  },
-  {
-    place: "Hong Kong", who: "The Hong Kong Polytechnic University",
-    found: "A registered trial is testing headband-guided meditation for pain and stress in people living with dementia.",
-    cite: "ClinicalTrials.gov, NCT06094400", href: "https://clinicaltrials.gov/study/NCT06094400"
-  }
-];
+/* ---------- The research behind qBand (the studies live with the rest of our research, in ResearchCases) ---------- */
 
 const PROMISES: { title: string; points: string[] }[] = [
   {
-    title: "Why Brainwear is different",
+    title: "Why qBand is different",
     points: [
       "Made for older adults from the first sketch, not adapted later: a soft woven band, dry sensors with no gel, and pods shaped to rest gently on the forehead.",
       "Headband and screen are designed as one. qPad pairs once, then a single key starts each session, so there is nothing to set up day to day.",
@@ -159,20 +127,20 @@ const PROMISES: { title: string; points: string[] }[] = [
   {
     title: "Our commitment to you",
     points: [
-      "General wellness, not medical advice. Brainwear does not diagnose or treat any condition.",
+      "General wellness, not medical advice. qBand does not diagnose or treat any condition.",
       "Your readings are yours. You choose what is shared, and family sees only the parts you switch on.",
       "Research only with your consent. If you join a study, you are told what is collected and why, and you can leave at any time."
     ]
   }
 ];
 
-function Research() {
+function Research({ name }: { name: string }) {
   return (
-    <section id="research" className="q-research" aria-labelledby="research-title">
-      <div className="q-research__intro">
-        <h2 id="research-title" className="q-h2">The research behind Brainwear</h2>
+    <section id="research" className="q-evidence" aria-labelledby="research-title">
+      <div className="q-evidence__intro">
+        <h2 id="research-title" className="q-h2">The research behind {name}</h2>
         <p className="q-lead">Teams around the world have shown that a headband can read brain activity outside the lab. We are building on that work for the people it can help most.</p>
-        <p className="q-hint">These studies used other teams&apos; research and consumer headbands. They show what headband EEG can do; they are not tests of Brainwear.</p>
+        <p className="q-hint">These studies used other teams&apos; research and consumer headbands. They show what headband EEG can do; they are not tests of qBand.</p>
         <Link className="q-link" href="/contact">Co-create a study with us</Link>
       </div>
       <div className="q-acc">
@@ -180,7 +148,7 @@ function Research() {
           <summary>Who has studied headband EEG <Plus size={20} aria-hidden="true" /></summary>
           <div className="q-acc__body">
             <ol className="q-studies">
-              {STUDIES.map((s) => (
+              {HEADBAND_STUDIES.map((s) => (
                 <li key={s.cite}>
                   <p className="q-studies__where"><b>{s.place}</b> {s.who}</p>
                   <p>{s.found}</p>
@@ -228,7 +196,7 @@ export default function DeviceStory({ product }: { product: Product }) {
         </section>
       )}
       {isPad(product) && <Keys product={product} />}
-      {isHeadband(product) && <Research />}
+      {isHeadband(product) && <Research name={product.name} />}
     </div>
   );
 }

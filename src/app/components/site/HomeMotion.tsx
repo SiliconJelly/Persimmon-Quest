@@ -1,17 +1,18 @@
 "use client";
 
-import { type MotionStyle, type MotionValue, motion, useMotionTemplate, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { type MotionStyle, type MotionValue, motion, useInView, useMotionTemplate, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
 import AutoVideo from "./AutoVideo";
 
 /* ---------- Hero: a three beat story told by scrolling ----------
-   1. On arrival, only "The fabric of a longer life" weaves in.
-   2. Scrolling weaves in "woven with better insights", one word at a time.
+   The fabric section, where the clothes take up the qBand's story.
+   1. On arrival, only "The future of clothing" weaves in.
+   2. Scrolling weaves in "tailored to your wellbeing", one word at a time.
    3. The film draws back into a framed plate, the title steps back,
       and the four subtitle lines arrive one by one like a sentence being spoken. */
-const LINE_TWO = ["woven", "with", "better", "insights"];
-const STORY = ["We don\u2019t make the fabrics", "We make them sense you", "Your clothes translate your body", "Daily quests keep you moving"];
+const LINE_TWO = ["tailored", "to", "your", "wellbeing"];
+const STORY = ["We are bringing biosensors", "into familiar fabrics", "From your qBand to your wardrobe", "a new way to understand yourself"];
 // Scroll progress windows for each beat (0 to 1 across the hero)
 const WORDS_FROM = 0.06, WORD_STEP = 0.05, WORD_SPAN = 0.09;
 const PLATE_FROM = 0.36, PLATE_TO = 0.56;
@@ -56,7 +57,8 @@ function StoryLine({ text, i, p, still }: { text: string; i: number; p: MotionVa
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 const plateProgress = (v: number) => clamp((v - PLATE_FROM) / (PLATE_TO - PLATE_FROM), 0, 1);
 
-export function Hero() {
+/** later: the film sits further down the page, so its title is a section heading and the weave waits until it is in view. */
+export function Hero({ later = false }: { later?: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -116,15 +118,18 @@ export function Hero() {
   const veil = useTransform(p, [PLATE_FROM, PLATE_TO], [1, 0]);
   // The title steps back to make room for the story.
   const titleScale = useTransform(() => 1 + (endScale.get() - 1) * plateProgress(p.get()));
+  const live = useInView(stickyRef, { once: true, amount: 0.35 });
+  const Title = later ? motion.h2 : motion.h1;
 
   return (
-    <section ref={ref} className={`q-hero ${reduce ? "is-still" : ""}`} aria-labelledby="hero-title">
+    <section ref={ref} className={`q-hero ${reduce ? "is-still" : ""} ${live || !later ? "is-live" : ""}`} aria-labelledby="hero-title">
       <div className="q-hero__sticky" ref={stickyRef}>
         <motion.div className="q-hero__frame" style={reduce ? undefined : { clipPath: clip }}>
           <AutoVideo
             className="q-hero__media q-grade"
-            src="/media/site/film/drape.mp4"
-            poster=""
+            src="/media/film/drape.mp4"
+            phone="/media/film/drape-phone.mp4"
+            poster="/media/film/drape.webp"
             fadeIn
             label="Hero film, fabric drifting in soft light"
             showToggle={false}
@@ -133,12 +138,12 @@ export function Hero() {
           <span className="q-grain" aria-hidden="true" />
         </motion.div>
 
-        <motion.h1 ref={titleRef} id="hero-title" className="q-display-xl q-hero__title" style={reduce ? undefined : { scale: titleScale }}>
-          <span className="q-hero__one"><Weave text="The fabric of a longer life" /></span>{" "}
+        <Title ref={titleRef} id="hero-title" className="q-display-xl q-hero__title" style={reduce ? undefined : { scale: titleScale }}>
+          <span className="q-hero__one"><Weave text="The future of clothing" /></span>{" "}
           <em className="q-hero__two">
             {LINE_TWO.map((w, i) => <Fragment key={w}>{i > 0 && " "}<ScrollWord word={w} i={i} p={p} still={reduce} /></Fragment>)}
           </em>
-        </motion.h1>
+        </Title>
 
         <p ref={storyRef} className="q-hero__story">
           {STORY.map((line, i) => <StoryLine key={line} text={line} i={i} p={p} still={reduce} />)}
@@ -151,8 +156,9 @@ export function Hero() {
 /* ---------- Chronophotography: two frames, still pose then motion trail, each with its own line ---------- */
 const FRAMES = [
   // Both frames are cropped so her head sits at the same point (75% 80%), so the swap reads as one continuous movement.
-  { src: "/media/site/hero/chrono-a.webp", alt: "Woman in her seventies lifting her legs in a Pilates roll, shown as a motion trail", line: ["Every movement", "is ", "noticed."] },
-  { src: "/media/site/hero/chrono-b.webp", alt: "The same woman settling back to rest on the floor", line: ["So every rest", "feels ", "earned."] }
+  // Each line is said plainly, then answered in italic: movement first, then the pause after it.
+  { src: "/media/site/hero/chrono-a.webp", alt: "Woman in her seventies lifting her legs in a Pilates roll, shown as a motion trail", line: ["Your body speaks in movement", "Wear something that listens"] },
+  { src: "/media/site/hero/chrono-b.webp", alt: "The same woman settling back to rest on the floor", line: ["Find your rhythm", "In motion and in rest"] }
 ] as const;
 
 export function Chrono() {
@@ -164,7 +170,7 @@ export function Chrono() {
   useMotionValueEvent(p, "change", (v) => setStage(v > 0.5 ? 1 : 0));
 
   const Caption = ({ line }: { line: readonly string[] }) => (
-    <p className="q-chrono__line">{line[0]}<br />{line[1]}<em>{line[2]}</em></p>
+    <p className="q-chrono__line">{line[0]}<br /><em>{line[1]}</em></p>
   );
 
   if (reduce) {
@@ -200,20 +206,9 @@ export function Chrono() {
 
 /* ---------- Quest Stride drop: wireframe scan resolves into the finished shoe ---------- */
 export function Stride() {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const yearX = useTransform(p, [0, 1], ["6%", "-6%"]);
-
   return (
     <section className="q-stride q-section" aria-labelledby="stride-title">
-      <motion.p className="q-stride__year" aria-hidden="true" style={reduce ? undefined : { x: yearX }}>2080</motion.p>
       <div className="q-shell q-stride__grid">
-        {/* The scan alone: a short clip played slowly forward and back, so the sole turns in one long, unbroken move */}
-        <div ref={ref} className="q-stride__stage">
-          <AutoVideo className="q-stride__scan" src="/media/site/film/scan.mp4" poster="" fadeIn pingPong rate={0.42} label="3D scan of the Quest Stride sole, turning slowly" toggleClassName="q-media-toggle q-stride__toggle" />
-          <span className="q-stride__badge"><i aria-hidden="true" />Smart insole for fatigue analysis</span>
-        </div>
         <div className="q-stride__copy">
           <span className="q-mono q-mono--bronze">Pre-orders open · Footwear</span>
           <h2 id="stride-title" className="q-display">Quest<br />Stride</h2>
@@ -223,12 +218,32 @@ export function Stride() {
             <li><span className="q-mono q-mono--bronze">02</span><div><b>One-pull strap</b><span>No laces. Easy grip tab.</span></div></li>
             <li><span className="q-mono q-mono--bronze">03</span><div><b>Motion core</b><span>Just run. It charges itself on the dock.</span></div></li>
           </ul>
-          <div className="q-hero__actions">
-            <Link className="q-btn q-btn--ink" href="/shop/quest-stride">Pre-order Quest Stride · ₩269,000</Link>
-          </div>
+        </div>
+        {/* The scan alone: a short clip played slowly forward and back, so the sole turns in one long, unbroken move.
+            It comes after the words, with the pre-order right under it. */}
+        <div className="q-stride__stage">
+          <AutoVideo className="q-stride__scan" src="/media/film/stride-scan.mp4" poster="/media/film/stride-scan.webp" fadeIn pingPong rate={0.42} label="3D scan of the Quest Stride sole, turning slowly" showToggle={false} />
+          <span className="q-stride__badge"><i aria-hidden="true" />Smart insole for fatigue analysis</span>
+        </div>
+        <div className="q-hero__actions q-stride__actions">
+          <Link className="q-btn q-btn--ink" href="/shop/quest-stride">Add to bundle</Link>
         </div>
       </div>
     </section>
+  );
+}
+
+/* ---------- Cloth drift: the end of the storefront, a ribbon of silk carrying the eye into the brand film ----------
+   The cloth is feathered on every side (scripts/studio/cloth.py), so it melts into the page instead of sitting in a box. */
+export function ClothDrift() {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const x = useTransform(p, [0, 1], ["-8%", "6%"]);
+  return (
+    <div ref={ref} className="q-drift" aria-hidden="true">
+      <motion.img className="q-drift__cloth" src="/media/site/material/cloth-ribbon.webp" alt="" loading="lazy" width={1800} height={891} style={reduce ? undefined : { x }} />
+    </div>
   );
 }
 
@@ -254,49 +269,52 @@ export function Reveal({ children, delay = 0, className }: { children: React.Rea
 export function Film() {
   const ref = useRef<HTMLElement>(null);
   const reduce = !!useReducedMotion();
-  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  // Landscape: pinned, the window grows to full bleed as you scroll. Portrait: a poster in the flow of the page,
+  // the full 16:9 film between the two lines, opening as it scrolls into view.
+  const { scrollYProgress: pinned } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const { scrollYProgress: passing } = useScroll({ target: ref, offset: ["start end", "center center"] });
+  const [portrait, setPortrait] = useState(false);
   const side = useMotionValue(30);
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    const sync = () => side.set(mq.matches ? 30 : 6);
+    const wide = window.matchMedia("(min-width: 768px)");
+    const tall = window.matchMedia("(max-aspect-ratio: 1/1)");
+    const sync = () => { setPortrait(tall.matches); side.set(wide.matches && !tall.matches ? 30 : 6); };
     sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
+    wide.addEventListener("change", sync);
+    tall.addEventListener("change", sync);
+    return () => { wide.removeEventListener("change", sync); tall.removeEventListener("change", sync); };
   }, [side]);
 
-  const grow = (v: number) => Math.min(1, Math.max(0, (v - 0.08) / 0.5));
-  const insetY = useTransform(() => 27 * (1 - grow(p.get())));
-  const insetX = useTransform(() => side.get() * (1 - grow(p.get())));
-  const radius = useTransform(() => 28 * (1 - grow(p.get())));
+  const grow = () => portrait
+    ? Math.min(1, Math.max(0, (passing.get() - 0.15) / 0.75))
+    : Math.min(1, Math.max(0, (pinned.get() - 0.08) / 0.5));
+  const insetY = useTransform(() => 27 * (1 - grow()));
+  const insetX = useTransform(() => side.get() * (1 - grow()));
+  const radius = useTransform(() => 28 * (1 - grow()));
   const clip = useMotionTemplate`inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${radius}px)`;
-  const leftX = useTransform(p, [0.04, 0.5], ["0%", "-40%"]);
-  const rightX = useTransform(p, [0.04, 0.5], ["0%", "40%"]);
-  const linesO = useTransform(p, [0.25, 0.48], [1, 0]);
-  const capO = useTransform(p, [0.62, 0.78], [0, 1]);
-  const capY = useTransform(p, [0.62, 0.78], [24, 0]);
+  const leftX = useTransform(pinned, [0.04, 0.5], ["0%", "-40%"]);
+  const rightX = useTransform(pinned, [0.04, 0.5], ["0%", "40%"]);
+  const linesO = useTransform(pinned, [0.25, 0.48], [1, 0]);
+  const parting = !reduce && !portrait;
 
   return (
-    <section ref={ref} className={`q-film ${reduce ? "is-still" : ""}`} aria-labelledby="film-title">
+    <section ref={ref} className={`q-film ${reduce ? "is-still" : portrait ? "is-portrait" : ""}`} aria-labelledby="film-title">
       <div className="q-film__sticky">
         <motion.div className="q-film__frame" style={reduce ? undefined : { clipPath: clip }}>
           <AutoVideo
             className="q-film__video q-grade q-grade--soft"
-            src="/media/hero-homepage/hero-video-scroll-effect.mp4"
-            poster=""
+            src="/media/film/choreography.mp4"
+            phone="/media/film/choreography-phone.mp4"
+            poster="/media/film/choreography.webp"
             label="Persimmon Quest film: a dancer in grey activewear moving through a slow balance"
-            toggleClassName="q-media-toggle q-film__toggle"
+            showToggle={false}
           />
-          <div className="q-film__scrim" aria-hidden="true" />
           <span className="q-grain" aria-hidden="true" />
         </motion.div>
         <h2 id="film-title" className="q-film__lines">
-          <motion.span className="q-film__line q-film__line--a" style={reduce ? undefined : ({ x: leftX, "--o": linesO } as unknown as MotionStyle)}>Every age has</motion.span>{" "}
-          <motion.span className="q-film__line q-film__line--b" style={reduce ? undefined : ({ x: rightX, "--o": linesO } as unknown as MotionStyle)}><em>its own choreography.</em></motion.span>
+          <motion.span className="q-film__line q-film__line--a" style={parting ? ({ x: leftX, "--o": linesO } as unknown as MotionStyle) : undefined}>Every age has</motion.span>{" "}
+          <motion.span className="q-film__line q-film__line--b" style={parting ? ({ x: rightX, "--o": linesO } as unknown as MotionStyle) : undefined}><em>its own choreography</em></motion.span>
         </h2>
-        <motion.div className="q-film__caption" style={reduce ? undefined : ({ "--o": capO, y: capY } as unknown as MotionStyle)}>
-          <p>We design for the decades most brands forget.</p>
-          <Link className="q-btn q-btn--light" href="/shop">Shop the collection</Link>
-        </motion.div>
       </div>
     </section>
   );

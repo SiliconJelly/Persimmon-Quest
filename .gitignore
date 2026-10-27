@@ -1,31 +1,28 @@
+# OS and editor files
 .DS_Store
-.env*
-!.env.example
+.claude/
+
+# Dependencies and build output
+node_modules
 .next
 out
-node_modules
-*.log
-*.tsbuildinfo
-.vercel
-coverage
 dist
-.codex-audit
-.superdesign
+coverage
+.vercel
+*.tsbuildinfo
+*.log
 
-# Raw inspiration sources. The graded cuts we use live in public/media/site/film.
-public/media/_inspo/
+# Environment
+.env*
+!.env.example
 
-# Meta TRIBE v2 website assets: downloaded for inspection only, no licence to republish.
-public/media/case-study/tribev2-assets/
-
-# Local-only files
-.claude/
-public/downloads/pinterest-*.html
-
-# Studio pipeline cache (subject masks, fitted plate)
+# Studio pipeline cache (subject masks, fitted plate) and Python caches
 scripts/studio/.cache/
+__pycache__/
 
-# Deep research notes and reports (kept out of the site)
+# Locale placeholders: kept local until geolocation-based localization starts (see docs/localization-plan.md)
+locales/
+
+# Local research notes, never published
 research_notes/
 reports/
-__pycache__/

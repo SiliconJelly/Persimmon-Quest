@@ -8,15 +8,16 @@ import { products, thumbFor, won } from "../../catalog";
 import { useBag } from "./BagContext";
 import Monogram, { EMBLEM } from "./Monogram";
 
+// What there is to buy, in the order people choose it: the bundle, the membership, the clothes and shoes, then prices
 const links = [
-  { label: "New in", href: "/shop" },
-  { label: "Women", href: "/shop?c=women" },
-  { label: "Men", href: "/shop?c=men" },
-  { label: "Footwear", href: "/shop?c=shoes" },
   { label: "Duet", href: "/duet" },
-  { label: "Quest View", href: "/quest-view" }
+  { label: "Quest View", href: "/quest-view" },
+  { label: "Activewear", href: "/shop?c=activewear" },
+  { label: "Footwear", href: "/shop?c=shoes" },
+  { label: "Pricing", href: "/pricing" }
 ];
-const menuLinks = [...links, { label: "Find my plan", href: "/plans" }, { label: "Pricing", href: "/pricing" }, { label: "Research", href: "/research" }, { label: "About", href: "/team" }];
+// Who we are and the science behind it, listed small under the menu
+const moreLinks = [{ label: "Research", href: "/research" }, { label: "Team", href: "/team" }];
 
 // How far the visitor must scroll up, continuously, before the bar comes back.
 const SHOW_AFTER_UP_PX = 72;
@@ -34,14 +35,14 @@ function QuerySync({ onChange }: { onChange: (query: string) => void }) {
 function Strip() {
   const dismiss = () => {
     document.documentElement.dataset.strip = "hidden";
-    try { localStorage.setItem("pq-strip-preorder", "hidden"); } catch { /* storage unavailable */ }
+    try { localStorage.setItem("pq-strip-founding", "hidden"); } catch { /* storage unavailable */ }
   };
   return (
     <div className="q-strip" role="region" aria-label="Announcement">
       <p className="q-strip__text">
         <svg className="q-strip__star" viewBox="42 42 16 16" aria-hidden="true"><path d={EMBLEM.star} fill="currentColor" /></svg>
-        <span>Pre-orders are open<span className="q-strip__lede"> for our first collection</span></span>
-        <Link className="q-strip__chip" href="/shop">Pre-order <span><ArrowRight size={14} aria-hidden="true" /></span></Link>
+        <span>Founding memberships are open<span className="q-strip__lede">. We plan to ship by April 2027.</span></span>
+        <Link className="q-strip__chip" href="/duet">Join <span><ArrowRight size={14} aria-hidden="true" /></span></Link>
       </p>
       <button type="button" className="q-strip__close" onClick={dismiss} aria-label="Dismiss announcement"><X size={18} aria-hidden="true" /></button>
     </div>
@@ -237,11 +238,16 @@ export default function Nav() {
       </header>
       {menuOpen && (
         <div id="q-menu" className="q-menu" style={{ paddingTop: `calc(var(--nav-h) + ${stripOffset}px + 16px)` }}>
-          {menuLinks.map((l, i) => (
+          {links.map((l, i) => (
             <Link key={l.href} href={l.href} aria-current={isActive(l.href) ? "page" : undefined} onClick={() => setMenuOpen(false)}>
               {l.label}<span>{String(i + 1).padStart(2, "0")}</span>
             </Link>
           ))}
+          <div className="q-menu__more">
+            {moreLinks.map((l) => (
+              <Link key={l.href} href={l.href} aria-current={isActive(l.href) ? "page" : undefined} onClick={() => setMenuOpen(false)}>{l.label}</Link>
+            ))}
+          </div>
         </div>
       )}
     </>

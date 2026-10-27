@@ -55,7 +55,7 @@ function Phone({ children, className, label }: { children: React.ReactNode; clas
 
 const devices = [
   { name: "Everyday Polo", img: "/media/shop/everyday-polo/sketch.webp", battery: 92 },
-  { name: "Brainwear", img: "/media/shop/everyday-brainwear/sketch.webp", battery: 85 },
+  { name: "qBand", img: "/media/shop/qband-everyday/sketch.webp", battery: 85 },
   { name: "Quest Stride", img: "/media/shop/quest-stride/sketch.webp", battery: 88 }
 ];
 
@@ -99,7 +99,7 @@ function TodayScreen() {
       </div>
       <div className="qa-glass qa-next">
         <span className="qa-next__icon"><Tablet /></span>
-        <p><b>Balance with Brainwear, 4:00 PM</b>Up next on qPad, 10 minutes</p>
+        <p><b>Balance with your qBand, 4:00 PM</b>Up next on qPad, 10 minutes</p>
       </div>
       <span className="qa-cta">Start today&rsquo;s walk<ChevronRight /></span>
       <TabBar active="home" />
@@ -185,32 +185,50 @@ function FamilyScreen() {
   );
 }
 
-const points = [
-  { title: "Large and simple", line: "Big type that follows your phone's text size, and one tap check ins." },
-  { title: "Everything in one place", line: "Your clothes, Brainwear and qPad share one quest, wherever you are." },
-  { title: "Yours to share", line: "Family sees a weekly note, and only the parts you switch on." }
+// One line per phone, left to right: what Quest View notices, what it suggests, what it shares.
+const BEATS = [
+  { title: "Quest View notices", line: "Your clothes, qBand and qPad report in on their own. You never type a thing." },
+  { title: "Quest View suggests", line: "One gentle quest each morning, shaped by how you slept and moved." },
+  { title: "Quest View shares", line: "Family gets a weekly note, and only the parts you switch on." }
 ];
 
+// The section is a dawn: it opens in the night of the deep-tech story, glows behind the phones,
+// and rises to hanji, so the fabric film that follows begins in the same light.
 export default function AppShowcase() {
   return (
     <section className="q-app" aria-labelledby="app-title">
-      <div className="q-shell q-app__grid">
-        <div className="q-app__copy">
-          <h2 id="app-title" className="q-display">Your quest,<br /><em>on your own phone.</em></h2>
-          <p className="q-lead">Quest View is coming to iPhone and Android. Check today&rsquo;s plan on a walk, see how your body is doing, and send family a gentle weekly note.</p>
-          <ul className="q-app__points">
-            {points.map((p) => (
-              <li key={p.title}><b>{p.title}</b><span>{p.line}</span></li>
-            ))}
-          </ul>
-        </div>
-        <div className="q-app__stage">
-          <Phone className="qa-phone--left" label="Quest View daily rhythm screen: active minutes through the day peaking at 38 minutes, heart rate zone 92 to 118, weekly goal 84 percent."><RhythmScreen /></Phone>
-          <Phone className="qa-phone--right" label="Quest View weekly note for family: walked 5 of 7 days, with switches for exactly what family can see."><FamilyScreen /></Phone>
-          <Phone className="qa-phone--front" label="Quest View home screen: polo, Brainwear and shoes connected, 6,040 steps of 8,000, 41 of 45 active minutes, and today's plan."><TodayScreen /></Phone>
+      <div className="q-shell q-app__head">
+        <h2 id="app-title" className="q-display">Your quest<br /><em>on your own phone</em></h2>
+        <div className="q-app__intro">
+          <p className="q-lead">Quest View keeps track of your day, so you can simply live it.</p>
+          <p className="q-app__soon">Coming to iPhone and Android.</p>
         </div>
       </div>
-      <div className="q-shell"><LaunchSignup /></div>
+
+      <div className="q-app__dawn">
+        <div className="q-shell">
+          <div className="q-app__stage">
+            <Phone className="qa-phone--left" label="Quest View daily rhythm screen: active minutes through the day peaking at 38 minutes, heart rate zone 92 to 118, weekly goal 84 percent."><RhythmScreen /></Phone>
+            <Phone className="qa-phone--right" label="Quest View weekly note for family: walked 5 of 7 days, with switches for exactly what family can see."><FamilyScreen /></Phone>
+            <Phone className="qa-phone--front" label="Quest View home screen: polo, qBand and shoes connected, 6,040 steps of 8,000, 41 of 45 active minutes, and today's plan."><TodayScreen /></Phone>
+          </div>
+          <ol className="q-app__beats">
+            {BEATS.map((b) => (
+              <li key={b.title}><h3>{b.title}</h3><p>{b.line}</p></li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      <div className="q-app__day">
+        <div className="q-shell q-app__daygrid">
+          <div className="q-app__real">
+            <h3 className="q-app__realtitle">Built for real days<br />not more screen time</h3>
+            <p>Big type that follows your phone&rsquo;s text size. One tap to check in. No charts to read, no settings to manage, nothing new to learn.</p>
+          </div>
+          <LaunchSignup />
+        </div>
+      </div>
     </section>
   );
 }

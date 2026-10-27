@@ -90,7 +90,7 @@ export default function BagView() {
           />
           {!setup.premium && (
             <button type="button" className="q-insight__fix" style={{ marginTop: 8 }} onClick={() => add({ kind: "premium" })}>
-              <Plus size={15} aria-hidden="true" /> Quest View Premium · {won(PREMIUM_MONTHLY)}/mo
+              <Plus size={15} aria-hidden="true" /> Quest View Access · {won(PREMIUM_MONTHLY)}/mo
             </button>
           )}
         </div>
@@ -98,7 +98,7 @@ export default function BagView() {
         <div className="q-bag__card">
           <dl className="q-bag__sums">
             <div><dt>Subtotal</dt><dd className="q-tabular">{won(subtotal)}</dd></div>
-            {monthly && <div><dt>Quest View Premium</dt><dd className="q-tabular">{won(PREMIUM_MONTHLY)}/mo</dd></div>}
+            {monthly && <div><dt>Quest View Access</dt><dd className="q-tabular">{won(PREMIUM_MONTHLY)}/mo</dd></div>}
             <div><dt>Delivery and home set up</dt><dd>Included</dd></div>
           </dl>
           <Link className="q-btn q-btn--primary" style={{ width: "100%" }} href="/contact">Reserve your order</Link>
@@ -120,7 +120,7 @@ export default function BagView() {
 
 function LineMedia({ line }: { line: BagLine }) {
   if (line.kind === "duet" || line.kind === "premium") {
-    const b = productBySlug("everyday-brainwear")!, q = productBySlug("qpad-one")!;
+    const b = productBySlug("qband-sage-duo")!, q = productBySlug("qpad-one")!;
     return (
       <div className="q-line__media q-line__media--pair">
         {line.kind === "duet" && <img src={sketchFor(b)} alt="" />}
@@ -141,14 +141,14 @@ function LineText({ line }: { line: BagLine }) {
     return (
       <>
         <p className="q-line__name">Duet bundle</p>
-        <p className="q-hint">Everyday Brainwear, qPad One and 12 months of Quest View Premium · {won(DUET_PRICE)} each</p>
+        <p className="q-hint">Sage Duo, qPad One and 12 months of Quest View · {won(DUET_PRICE)} each</p>
       </>
     );
   }
   if (line.kind === "premium") {
     return (
       <>
-        <p className="q-line__name">Quest View Premium</p>
+        <p className="q-line__name">Quest View Access</p>
         <p className="q-hint">Programs, calm sessions and a weekly family summary on qPad</p>
       </>
     );
